@@ -1,0 +1,907 @@
+﻿@{
+    ViewBag.Title = "TicketRequestForm";
+}
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Ticket Request Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+                                                    <input type="file" hidden name="file" id="file" />
+                                                    <button type="submit" onclick="Attachment()" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Employee</label>
+                                                <div class="form-group">
+                                                    <select id="User" onchange="GetEmployeeDetails(this)" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Ticket Balance: </label>
+                                                    <text>0</text>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Travel Type</label>
+                                                <div class="form-group">
+                                                    <select id="TravelType" class="form-control show-tick">
+                                                        <option value="0">Select Type</option>
+                                                        @foreach (var item in ViewBag.Type)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label>Travel From</label>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <select id="FromCountry" onchange="TravelFromGetCity(this)" class="form-control show-tick">
+                                                            <option value="0">Select Country</option>
+                                                            @foreach (var item in ViewBag.Countries)
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <select id="TravelFromCity" class="col-md-6 form-control show-tick">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <label>Travel To</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <select id="ToCountry" onchange="TravelToGetCity(this)" class="form-control show-tick">
+                                                            <option value="0">Select Country</option>
+                                                            @foreach (var item in ViewBag.Countries)
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <select id="TravelToCity" class="col-md-6 form-control show-tick">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="col-6">
+                                                <label>Date of Travel</label>
+                                                <div class="form-group">
+                                                    <input id="TravelDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Date of Return</label>
+                                                <div class="form-group">
+                                                    <input id="ReturnDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2>Employee Detail Card</h2>
+                                    </div>
+                                    <div class="body text-center">
+                                        <div class="chart easy-pie-chart-1" data-percent="75"> <span><img src="~/Content/assets/images/sm/user.jpg" alt="user" class="rounded-circle" /></span> </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Employee ID: </label>
+                                                <text id="EmpID">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Name: </label>
+                                                <text id="EmpName">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Designation: </label>
+                                                <text id="EmpDesg">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Department: </label>
+                                                <text id="EmpDept">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Nationality</label>
+                                                <text id="EmpNation">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Address: </label>
+                                                <text id="EmpAdd">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Phone: </label>
+                                                <text id="EmpPhone">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Email: </label>
+                                                <text id="EmpEmail">0</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="TicketHistory" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Ticket Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Ticket Balance</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="ApprovalTicketList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Ticket Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Ticket Balance</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditTicketModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="Reqid" />
+                <div class="table-responsive">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Employee</label>
+                        <div class="form-group">
+                            <select id="UserEdit" class="form-control show-tick">
+                                <option value="0">Select Employee</option>
+                                @foreach (var item in ViewBag.User)
+                                {
+                                    if (item.Text == "Self")
+                                    {
+                                        <option selected value="@item.Value">@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Travel Type</label>
+                        <div class="form-group">
+                            <select id="TravelTypeEdit" class="form-control show-tick">
+                                <option value="0">Select Type</option>
+                                @foreach (var item in ViewBag.Type)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Travel From</label>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <select id="FromCountryEdit" onchange="TravelFromGetCityEdit(this)" class="form-control show-tick">
+                                    <option value="0">Select Country</option>
+                                    @foreach (var item in ViewBag.Countries)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-7">
+                                <select id="TravelFromCityEdit" class="col-md-6 form-control show-tick">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Travel To</label>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <select id="ToCountryEdit" onchange="TravelToGetCityEdit(this)" class="form-control show-tick">
+                                    <option value="0">Select Country</option>
+                                    @foreach (var item in ViewBag.Countries)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select id="TravelToCityEdit" class="col-md-6 form-control show-tick">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Date of Travel</label>
+                        <div class="form-group">
+                            <input id="TravelDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Date of Return</label>
+                        <div class="form-group">
+                            <input id="ReturnDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <button onclick="EditSave()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Ticket Type</label>
+                            <div id="TicketTypeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="StatusTicketModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="DetailList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Request Status</th>
+                                <th>Description</th>
+                                <th>Approver</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" name="PrintId" />
+    <input type="submit" class="hidden" hidden id="btnSubmit" value="Export" />
+}
+<script>
+
+    $(document).ready(function () {
+        $("#User").trigger("change");
+        BindDataTable();
+    });
+
+    function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        $("#PrintId").val(id);
+        $("#btnSubmit").click();
+    }
+
+    function GetEmployeeDetails(e) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeDetails",
+            data: { SelectUserId: e.value },
+            success: function (data) {
+                $("#EmpName").text(data.Name);
+                $("#EmpDesg").text(data.Designation);
+                $("#EmpID").text(data.EmpID);
+                $("#EmpNation").text(data.Nationality);
+                $("#EmpDept").text(data.Department);
+                $("#EmpAdd").text(data.Address);
+                $("#EmpPhone").text(data.Phone);
+                $("#EmpEmail").text(data.Email);
+            }
+        });
+    }
+
+    function TravelFromGetCity(e) {
+        var countryId = e.value;
+        $("#TravelFromCity").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelFromCity").html(Cities);
+            }
+        });
+    }
+
+    function TravelToGetCity(e) {
+        var countryId = e.value;
+        $("#TravelToCity").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelToCity").html(Cities);
+            }
+        });
+    }
+
+    function BindDataTable() {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetTicketData",
+            success: function (data) {
+                $("#TicketHistory").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RefNo", "autoWidth": true },
+                        { "data": "TicketType", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "TicketBalance", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="StatusBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>   <button type="button" onclick=Download(' + row.AttachmentGuid + ') class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="EditDataBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#ApprovalTicketList").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RefNo", "autoWidth": true },
+                            { "data": "TicketType", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "TicketBalance", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    var html = '<button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')"  type="button" class="btn btn-sm btn-outline-secondary" title="Approve or Reject"><i class="fa fa-check"></i></button>';
+                                    return html;
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+                    });
+                }
+            }
+        });
+
+    }
+
+    function StatusBinding(id)
+    {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetTicketDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#StatusTicketModal").modal();
+
+                $("#DetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ApprovedBy", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+
+    function Save()
+    {
+        var Emp = $("#User option:selected").val();
+        var Type = $("#TravelType option:selected").val();
+        var Remarks = $("#Remarks").val();
+        var FromCountry = $("#FromCountry option:selected").val();
+        var FromCity = $("#TravelFromCity option:selected").val();
+        var ToCountry = $("#ToCountry option:selected").val();
+        var ToCity = $("#TravelToCity option:selected").val();
+        var TravelDate = $("#TravelDate").val();
+        var ReturnDate = $("#ReturnDate").val();
+        var TicketBalance = "";
+         var data = new FormData();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            data.append("HelpSectionImages", files[0]);
+            data.append("FormName", "TicketRequest");
+           $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+                processData: false,
+                data: data,
+                dataType: 'json',
+                contentType: false,
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveTicket", "Request")',
+            data: { AtchGuid: response, TicketBalance: TicketBalance, Emp: Emp, Type: Type, Remarks: Remarks, FromCountry: FromCountry, FromCity: FromCity, ToCountry: ToCountry, ToCity: ToCity, TravelDate: TravelDate, ReturnDate: ReturnDate },
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+                location.reload();
+
+            },
+            error: function (data)
+            {
+            }
+        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+
+            });
+        }
+        else {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveTicket", "Request")',
+            data: { AtchGuid: '', TicketBalance: TicketBalance, Emp: Emp, Type: Type, Remarks: Remarks, FromCountry: FromCountry, FromCity: FromCity, ToCountry: ToCountry, ToCity: ToCity, TravelDate: TravelDate, ReturnDate: ReturnDate },
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+                location.reload();
+            },
+            error: function (data)
+            {
+            }
+        });
+        }
+        $("#User").val("");
+        $("#TravelType").val("");
+        $("#Remarks").val("");
+        $("#FromCountry").val("");
+        $("#TravelFromCity").val("");
+        $("#ToCountry").val("");
+        $("#TravelToCity").val("");
+        $("#TravelDate").val("");
+        $("#ReturnDate").val("");
+    }
+
+    function EditDataBinding(id)
+    {
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetTicketEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#UserEdit").val(data.EmployeeId);
+                $("#TravelTypeEdit").val(data.TicketType);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#FromCountryEdit").val(data.TravelFromCountry);
+                SelectTravelFromGetCityEdit(data.TravelFromCountry, data.TravelFrom);
+                $("#ToCountryEdit").val(data.TravelToCountry);
+                SelectTravelToGetCityEdit(data.TravelToCountry, data.TravelTo);
+                $("#TravelDateEdit").val(data.DateTravel);
+                $("#ReturnDateEdit").val(data.DateReturn);
+                $("#Reqid").val(id);
+                $("#EditTicketModal").modal();
+            }
+        });
+    }
+
+    function EditSave()
+    {
+       var Emp = $("#UserEdit option:selected").val();
+        var Type = $("#TravelTypeEdit option:selected").val();
+        var Remarks = $("#RemarksEdit").val();
+        var FromCountry = $("#FromCountryEdit option:selected").val();
+        var FromCity = $("#TravelFromCityEdit option:selected").val();
+        var ToCountry = $("#ToCountryEdit option:selected").val();
+        var ToCity = $("#TravelToCityEdit option:selected").val();
+        var TravelDate = $("#TravelDateEdit").val();
+        var ReturnDate = $("#ReturnDateEdit").val();
+        var TicketBalance = "";
+        var Id=$("#Reqid").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveEditTicket", "Request")',
+            data: { Id: Id, Emp: Emp, Type: Type, FromCity: FromCity, ToCity: ToCity, TravelDate: TravelDate, ReturnDate: ReturnDate, TicketBalance: TicketBalance, Remarks: Remarks },
+            success: function (data) {
+                if (data == "") {
+                    $("#EditTicketModal").modal('hide');
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }            },
+            error: function (data)
+            {
+            }
+        });
+    }
+
+    //function ShowDetails(Id)
+    //{
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Request/GetDetails",
+    //        data: {Reqid:Id},
+    //        success: function (data) {
+    //            $("#ShowDetailModal").modal();
+    //                $("#ShowDetail").DataTable({
+    //                    "lengthChange": true,
+    //                    "pageLength": 25,
+    //                    destroy: true,
+    //                    data: data,
+    //                    "lengthChange": false,
+    //                    "filter": false,
+    //                    "columns": [
+    //                        { "data": "RMTYPE", "autoWidth": true },
+    //                        { "data": "From", "autoWidth": true },
+    //                        { "data": "To", "autoWidth": true },
+    //                        { "data": "City", "autoWidth": true },
+    //                        { "data": "ActivityType", "autoWidth": true },
+    //                        { "data": "ActivityId", "autoWidth": true },
+    //                        { "data": "Reciept", "autoWidth": true },
+    //                        { "data": "Currency", "autoWidth": true },
+    //                        { "data": "Amount", "autoWidth": true },
+    //                        { "data": "Remarks", "autoWidth": true },
+    //                    ]
+
+    //                });
+    //            }
+    //        });
+    //}
+
+    function TravelFromGetCityEdit(e) {
+        var countryId = e.value;
+        $("#TravelFromCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelFromCityEdit").html(Cities);
+            }
+        });
+    }
+
+    function TravelToGetCityEdit(e) {
+        var countryId = e.value;
+        $("#TravelToCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelToCityEdit").html(Cities);
+            }
+        });
+    }
+
+    function SelectTravelFromGetCityEdit(e,select) {
+        var countryId = e;
+        $("#TravelFromCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Value == select) {
+                        Cities += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    else {
+                        Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                }
+                $("#TravelFromCityEdit").html(Cities);
+            }
+        });
+    }
+
+    function SelectTravelToGetCityEdit(e,select) {
+        var countryId = e;
+        $("#TravelToCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                 for (var i = 0; i < data.length; i++) {
+                    if (data[i].Value == select) {
+                        Cities += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    else {
+                        Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                }
+                $("#TravelToCityEdit").html(Cities);
+            }
+        });
+    }
+
+    function ShowApprove_RejectModal(id, statusid)
+    {
+        $("#Approve_RejectModal").modal();
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetTicketApproval",
+            data: { Id: id},
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#TicketTypeApproval").html(data.TicketType);
+                $("#RemarkHistory").html(data.History);
+                $("#ReqIdApproval").val(id);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+
+    function Approve_Reject(Type)
+    {
+         $.ajax({
+            type: "Post",
+             url: "/Request/SaveTicketApprove_Reject",
+             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
+             success: function (data) {
+                 $("#Approve_RejectModal").modal('hide');
+                 BindDataTable();
+                 location.reload(true);
+            }
+        });
+    }
+
+</script>

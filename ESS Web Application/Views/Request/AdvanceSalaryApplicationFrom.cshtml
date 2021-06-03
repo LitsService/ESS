@@ -1,0 +1,533 @@
+﻿@{
+    ViewBag.Title = "AdvanceSalary Application Form";
+}
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Advance Salary Application Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card">
+                                    @*<div class="header">
+                                            <h2>Employee Performance</h2>
+                                        </div>*@
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Pay period</label>
+                                                <div class="form-group">
+                                                    <input id="Period" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Employee</label>
+                                                <div class="form-group">
+                                                    <select id="User" onchange="GetEmployeeDetails(this)" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Amount</label>
+                                                <input id="Amount" type="text" class="form-control">
+                                            </div>
+                                            <br />
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2>Employee Detail Card</h2>
+                                    </div>
+                                    <div class="body text-center">
+                                        <div class="chart easy-pie-chart-1" data-percent="75"> <span><img src="~/Content/assets/images/NoImage.jpg" alt="user" class="rounded-circle imgFromScript" /></span> </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Employee ID: </label>
+                                                <text id="EmpID">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Name: </label>
+                                                <text id="EmpName">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Designation: </label>
+                                                <text id="EmpDesg">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Department: </label>
+                                                <text id="EmpDept">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Nationality</label>
+                                                <text id="EmpNation">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Address: </label>
+                                                <text id="EmpAdd">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Phone: </label>
+                                                <text id="EmpPhone">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Email: </label>
+                                                <text id="EmpEmail">0</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="AdvanceSalaryHistory" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Request Date</th>
+                                                        <th>Pay Period</th>
+                                                        <th>Loan Type</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Amount</th>
+                                                        <th>Amount</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="AdvanceSalaryApproval" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Request Date</th>
+                                                        <th>Pay Period</th>
+                                                        <th>Loan Type</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Amount</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditAdvanceSalaryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <input id="Reqid" type="hidden" />
+                    <div class="col-md-6 col-sm-12">
+                        <label>Employee</label>
+                        <div class="form-group">
+                            <select id="UserEdit" onchange="GetEmployeeDetails(this)" class="form-control show-tick">
+                                <option value="0">Select Employee</option>
+                                @foreach (var item in ViewBag.User)
+                                {
+                                    if (item.Text == "Self")
+                                    {
+                                        <option selected value="@item.Value">@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Amount</label>
+                        <input id="AmountEdit" type="text" class="form-control">
+                    </div>
+                    <br />
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <button onclick="SaveEdit()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Amount</label>
+                            <div id="AmountApproval"></div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#User").trigger("change");
+        AdvanceSalaryDataBinding();
+    });
+    function GetEmployeeDetails(e) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeDetails",
+            data: { SelectUserId: e.value },
+            success: function (data) {
+                $("#EmpName").text(data.Name);
+                $("#EmpDesg").text(data.Designation);
+                $("#EmpID").text(data.EmpID);
+                $("#EmpNation").text(data.Nationality);
+                $("#EmpDept").text(data.Department);
+                $("#EmpAdd").text(data.Address);
+                $("#EmpPhone").text(data.Phone);
+                $("#EmpEmail").text(data.Email);
+            }
+        });
+    }
+    function Save() {
+        var EmployeeID = $("#User option:selected").val();
+        var PayPeriod = $("#Period").val();
+        var Remarks = $("#Remarks").val();
+        var Amount = $("#Amount").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveAdvanceSalary",
+            data: { EmployeeID: EmployeeID, PayPeriod: PayPeriod, Remarks: Remarks, Amount: Amount },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                }
+                location.reaload(true);
+                AdvanceSalaryDataBinding();
+                $("#User").val("");
+                $("#Period").val("");
+                $("#Remarks").val("");
+                $("#Amount").val("");
+            }
+        });
+    }
+    function AdvanceSalaryDataBinding() {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAdvanceSalaryData",
+            success: function (data) {
+                $("#AdvanceSalaryHistory").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequqestId", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "PayPeriod", "autoWidth": true },
+                        { "data": "LoanType", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "Amount", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+
+                                return "";
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '';
+                                if (row.IsEditViisible == true) {
+                                    html += ' <button type="button" onclick="ReimbursementEditDataBinding(' + row.Ref + ')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                }
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#AdvanceSalaryApproval").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequqestId", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "PayPeriod", "autoWidth": true },
+                            { "data": "LoanType", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "Amount", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    var html = '<button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button type="button" onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')" class="btn btn-sm btn-outline-secondary" title="Approve/Reject"><i class="fa fa-check"></i></button>';
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+
+                    });
+                }
+                if (data.ProfileImage != null)
+                    $(".imgFromScript").attr("src", data.ProfileImage);
+            }
+        });
+
+    }
+
+    function GetEditData(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAdvanceSalaryEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#UserEdit").val(data.EmployeeId);
+                $("#AmountEdit").val(data.Amount);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#Reqid").val(id);
+                $("#EditAdvanceSalaryModal").modal();
+            }
+        });
+    }
+    function SaveEdit() {
+        var EmployeeID = $("#UserEdit option:selected").val();
+        var Remarks = $("#RemarksEdit").val();
+        var Amount = $("#AmountEdit").val();
+        var Reqid = $("#Reqid").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveEditAdvanceSalary",
+            data: { Reqid: Reqid, EmployeeID: EmployeeID, Remarks: Remarks, Amount: Amount },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                }
+                AdvanceSalaryDataBinding();
+                $("#EditAdvanceSalaryModal").modal('hide');
+
+            }
+        });
+    }
+
+    function ShowApprove_RejectModal(id, statusid) {
+        $("#Approve_RejectModal").modal();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAdvanceSalaryApproval",
+            data: { Id: id },
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#AmountApproval").html(data.Amount);
+                $("#RemarkHistory").html(data.Remarks);
+                $("#ReqIdApproval").val(id);
+                $("#StatusId").val(statusid);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#Approve_RejectModal").modal();
+            }
+        });
+    }
+    function Approve_Reject(Type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveAdvanceSalaryApprove_Reject",
+            data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks: $("#RemarksApproval").val() },
+            success: function (data) {
+                $("#Approve_RejectModal").modal('hide');
+                location.reload(true);
+                AdvanceSalaryDataBinding();
+            }
+        });
+    }
+    function OpenLeaveDeatils(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLeaveDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#LeaveDetailListModal").modal();
+
+                $("#LeaveDetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+</script>

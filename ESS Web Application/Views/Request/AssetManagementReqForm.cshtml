@@ -1,0 +1,637 @@
+﻿
+@{
+    ViewBag.Title = "AssetManagementReqForm";
+}
+<script src="~/Content/assets/vendor/editable-table/mindmup-editabletable.js"></script>
+<script src="~/assets/bundles/mainscripts.bundle.js"></script>
+<script src="~/assets/js/pages/tables/editable-table.js"></script>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Asset Management Request Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    @*<div class="header">
+                                            <h2>Employee Performance</h2>
+                                        </div>*@
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>For Employee</label>
+                                                <div class="form-group">
+                                                    <select id="UserFor" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Requested By</label>
+                                                <div class="form-group">
+                                                    <select id="ReqBy" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Requested Date</label>
+                                                <input id="Date" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                            </div>
+                                            <br />
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row form-group">
+                                                    <div class="col-md-1">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-left:10%;">
+
+                                                        <button type="submit" class="btn btn-primary">Attachments</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <button onclick="AssetDataBinding('')" id="addToTable" class="btn btn-primary m-b-15" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Add row
+                                            </button>
+                                            <div class="table-responsive">
+
+                                                <table id="addrowAsset" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Asset Type</th>
+                                                            <th>Description</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <table id="AssettList" width="100%" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Ref#</th>
+                                                    <th>Request Date</th>
+                                                    <th>Submitted By</th>
+                                                    <th>Remarks</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="ApprovalAssetList" width="100%" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Request Date</th>
+                                                        <th>Submitted By</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditReqModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="ReqId" />
+                <div class="table-responsive">
+                    <div class="col-md-6 col-sm-12">
+                        <label>For Employee</label>
+                        <div class="form-group">
+                            <select id="UserForEdit" class="form-control show-tick">
+                                <option value="0">Select Employee</option>
+                                @foreach (var item in ViewBag.User)
+                                {
+                                    if (item.Text == "Self")
+                                    {
+                                        <option selected value="@item.Value">@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Requested By</label>
+                        <div class="form-group">
+                            <input disabled id="ReqByEdit" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Requested Date</label>
+                        <input id="DateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                    </div>
+                    <br />
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row form-group">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-2" style="margin-left:10%;">
+
+                                <button type="submit" class="btn btn-primary">Attachments</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <button onclick="AssetDataBinding('Edit')" id="addToTable" class="btn btn-primary m-b-15" type="button">
+                        <i class="icon wb-plus" aria-hidden="true"></i> Add row
+                    </button>
+                    <div class="table-responsive">
+
+                        <table id="EditrowAsset" class="table table-bordered table-hover table-striped" cellspacing="0">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Asset Type</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <button onclick="EditSave()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12 col-sm-12">
+                        <label>For Employee</label>
+                        <div class="form-group">
+                            <input disabled id="UserForApproval" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Requested By</label>
+                        <div class="form-group">
+                            <input disabled id="ReqByApprval" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Requested Date</label>
+                        <input id="DateApproval" disabled type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksApproval" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="StatusAssetModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important;">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="DetailList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Request Status</th>
+                                <th>Description</th>
+                                <th>Approver</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        //$("#User").trigger("change");
+        BindDataTable();
+        AssetDataBinding('');
+    });
+    function BindDataTable() {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAssetData",
+            success: function (data) {
+                $("#AssettList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestId", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "SubmittedBy", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="StatusBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>   <button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="AssetEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="AssetEditDataBinding(' + row.RefNo + ',1)" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#ApprovalAssetList").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestId", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "SubmittedBy", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    var html = '<button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')"  type="button" class="btn btn-sm btn-outline-secondary" title="Approve or Reject"><i class="fa fa-check"></i></button>';
+                                    return html;
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+                    });
+                }
+            }
+        });
+
+    }
+    function AssetDataBinding(type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAssetDataBind",
+            success: function (data) {
+                var Type = '<option value="0">Select Asset Type</option>';
+                var Count = 0;
+                if (type == "Edit") {
+                    Count = $('#EditrowAsset tbody tr').length;;
+                }
+                else {
+                    Count = $('#addrowAsset tbody tr').length;;
+                }
+                for (var i = 0; i < data.Type.length; i++) {
+                    Type += '<option value="' + data.Type[i].Value + '">' + data.Type[i].Text + '</option>';
+                }
+                var BindHtml = '';
+                if (type == "Edit") {
+                     BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="TypeEdit_' + Count + '" class="form-control show-tick">' + Type + '</select></td>' +
+                    '<td><input id="DescriptionEdit_' + Count + '" type="text" class="form-control"></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+                    $('#EditrowAsset').append(BindHtml);
+
+                }
+                else {
+                     BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="Type_' + Count + '" class="form-control show-tick">' + Type + '</select></td>' +
+                    '<td><input id="Description_' + Count + '" type="text" class="form-control"></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+                    $('#addrowAsset').append(BindHtml);
+                }
+            }
+        });
+
+    }
+    function deleteRow(e) {
+        $(e).parents("tr").remove();
+    }
+    function StatusBinding(id)
+    {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAssetDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#StatusAssetModal").modal();
+
+                $("#DetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ApprovedBy", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+    function Save()
+    {
+        var ForEmp = $("#UserFor option:selected").val();
+        var Date = $("#Date").val();
+        var Remarks = $("#Remarks").val();
+
+        var TableData;
+        TableData = storeTblValues();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveAssetRequest", "Request")',
+            data: { EmpFor: ForEmp, RequestDate: Date, List: TableData, Remarks: Remarks},
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            },
+            error: function (data)
+            {
+            }
+        });
+    }
+    function storeTblValues() {
+        var TableData = new Array();
+        var count = 0;
+            $('#addrowAsset tbody tr').each(function (row, tr) {
+                TableData[row] = {
+                     "AssetType": $("#Type_"+count).val()
+                    , "Remarks":$("#Description_"+count).val()
+                }
+                count = count + 1;
+            });
+            //TableData.shift();
+            return TableData;
+    }
+    function AssetEditDataBinding(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAssetRequestEditData",
+            data: {Id:id},
+            success: function (data) {
+                 $("#UserForEdit").val(data.EmpFor);
+                $("#DateEdit").val(data.RequestDate);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#ReqByEdit").val(data.EmpBy)
+                $("#ReqId").val(id);
+                $('#EditrowAsset tbody').html("");
+                var Type = '<option value="0">Select Asset Type</option>';
+
+                for (var i = 0; i < data.Selected.length; i++) {
+
+                    for (var j = 0; j < data.dropdowns.length; j++) {
+                        if (data.dropdowns[j].Value == data.Selected[i].Type) {
+                            Type += '<option selected value="' + data.dropdowns[j].Value + '">' + data.dropdowns[j].Text + '</option>';
+                        }
+                        else {
+                            Type += '<option value="' + data.dropdowns[j].Value + '">' + data.dropdowns[j].Text + '</option>';
+                        }
+                    }
+                    var Count = 0;
+                var BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="TypeEdit_' + Count + '" class="form-control show-tick">' + Type + '</select></td>' +
+                    '<td><input id="DescriptionEdit_' + Count + '" value="'+data.Selected[i].Description+'" type="text" class="form-control" ></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+
+                    $('#EditrowAsset').append(BindHtml);
+                    Count = Count + 1;
+                }
+                $("#EditReqModal").modal();
+            }
+        });
+
+    }
+    function EditSave()
+    {
+        var ForEmp = $("#UserForEdit option:selected").val();
+        var Date = $("#DateEdit").val();
+        var Remarks = $("#RemarksEdit").val();
+        var id= $("#ReqId").val();
+        var TableData;
+        TableData = EditstoreTblValues();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("EditSaveAssetRequest", "Request")',
+            data: {Id:id, EmpFor: ForEmp, RequestDate: Date, List: TableData, Remarks: Remarks},
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            },
+            error: function (data)
+            {
+            }
+        });
+    }
+    function EditstoreTblValues() {
+        var TableData = new Array();
+        var count = 0;
+            $('#EditrowAsset tbody tr').each(function (row, tr) {
+                TableData[row] = {
+                     "AssetType": $("#TypeEdit_"+count).val()
+                    , "Remarks":$("#DescriptionEdit_"+count).val()
+                }
+                count = count + 1;
+            });
+            //TableData.shift();
+            return TableData;
+    }
+    function ShowApprove_RejectModal(id, statusid)
+    {
+        $("#Approve_RejectModal").modal();
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetAssetRequestApproval",
+            data: { Id: id},
+            success: function (data) {
+                $("#UserForApproval").val(data.EmpFor);
+                $("#DateApproval").val(data.RequestDate);
+                $("#RemarksApprovl").val(data.Remarks);
+                $("#ReqByApprval").val(data.SubmittedBy)
+                $("#ReqIdApproval").val(id);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+    function Approve_Reject(Type)
+    {
+         $.ajax({
+            type: "Post",
+             url: "/Request/SaveAssetApprove_Reject",
+             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
+             success: function (data) {
+                 $("#Approve_RejectModal").modal('hide');
+                 BindDataTable();
+            }
+        });
+    }
+</script>

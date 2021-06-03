@@ -1,0 +1,806 @@
+﻿
+@{
+    ViewBag.Title = "LateandAbsenceJustApplicationForm";
+}
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Late and Absence Justification Application Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+                                                    <input type="file" hidden name="file" id="file" />
+                                                    <button type="submit" onclick="ShowAttachments('','New')" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-6">
+                                                <label>Date</label>
+                                                <div class="form-group">
+                                                    <input type="text" id="Date" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Category</label>
+                                                <div class="form-group">
+                                                    <select id="Category" onchange="ShowHide(this)" class="form-control show-tick">
+                                                        <option value="0">Select Category</option>
+                                                        <option value="Punch - in/out">Punch - in/out</option>
+                                                        <option value="Late/Early justification">Late/Early justification</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div id="ShowPunch" hidden>
+                                                <div class="col-md-3 col-sm-12">
+                                                    <label>Punch-In</label>
+                                                    <div class="form-group">
+                                                        <input id="PunchIn" type="time" class="form-control" placeholder="09:00" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12">
+                                                    <label>Punch-Out</label>
+                                                    <div class="form-group">
+                                                        <input id="PunchOut" type="time" class="form-control" placeholder="06:00" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="ShowSubCat" hidden>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <label>Sub Category</label>
+                                                    <div class="form-group">
+                                                        <select id="SubCategory" class="form-control show-tick">
+                                                            <option value="Late Arrival">Late Arrival</option>
+                                                            <option value="Early Leave">Early Leave</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Employee</label>
+                                                <div class="form-group">
+                                                    <select id="Employee" class="form-control show-tick">
+                                                        @foreach (var item in ViewBag.Employee)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            @*<button type="submit" class="btn btn-primary">Save</button>*@
+                                            <button type="submit" onclick="Save()" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                    <label>Employee</label>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                    <select id="searchUser" class="form-control show-tick">
+                                                        <option value="">Select Employee</option>
+                                                        @foreach (var item in ViewBag.Employee)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+
+                                                    <button onclick="LateandLeaveApplicationDataBinding()" type="submit" class="btn btn-primary">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="LateandLeaveApplicationHistory" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Category</th>
+                                                        <th>Sub Category</th>
+                                                        <th>Date</th>
+                                                        <th>Approver</th>
+                                                        <th>Request Status</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="LeaveApplicationApproval" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Category</th>
+                                                        <th>Sub Category</th>
+                                                        <th>Requested Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" name="PrintId" />
+    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+}
+<div class="modal fade" id="LateandLeaveDetailListModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="LasteandLeaveDetailList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Request Status</th>
+                                <th>Desription</th>
+                                <th>Approver</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="EditLasteandAbsenceModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 60% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="Reqid" />
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-11">
+                            <div class="card">
+                                <div class="header">
+                                    <div class="col-12">
+                                        <div class="row form-group">
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-2" style="margin-left:10%;">
+
+                                                <button type="submit" class="btn btn-primary">Attachments</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="body">
+                                    <div class="table-responsive">
+                                        <div class="col-6">
+                                            <label>Date</label>
+                                            <div class="form-group">
+                                                <input type="text" id="DateEdit" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <label>Category</label>
+                                            <div class="form-group">
+                                                <select id="CategoryEdit" onchange="ShowHideEdit(this)" class="form-control show-tick">
+                                                    <option value="0">Select Category</option>
+                                                    <option value="Punch - in/out">Punch - in/out</option>
+                                                    <option value="Late/Early justification">Late/Early justification</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="ShowPunchEdit" hidden>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label>Punch-In</label>
+                                                <div class="form-group">
+                                                    <input id="PunchInEdit" type="time" class="form-control" placeholder="09:00" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12">
+                                                <label>Punch-Out</label>
+                                                <div class="form-group">
+                                                    <input id="PunchOutEdit" type="time" class="form-control" placeholder="06:00" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="ShowSubCatEdit" hidden>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Sub Category</label>
+                                                <div class="form-group">
+                                                    <select id="SubCategoryEdit" class="form-control show-tick">
+                                                        <option value="Late Arrival">Late Arrival</option>
+                                                        <option value="Early Leave">Early Leave</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <label>Employee</label>
+                                            <div class="form-group">
+                                                <select id="EmployeeEdit" class="form-control show-tick">
+                                                    @foreach (var item in ViewBag.Employee)
+                                                    {
+                                                        if (item.Text == "Self")
+                                                        {
+                                                            <option selected value="@item.Value">@item.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label>Remarks</label>
+                                            <div class="form-group">
+                                                <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        @*<button type="submit" class="btn btn-primary">Save</button>*@
+                                        <button type="submit" onclick="SaveEdit()" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowDetailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 90% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list" cellspacing="0" id="ShowDetail">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Reimbursment Type</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Location</th>
+                                <th>Activity Type</th>
+                                <th>Activity Id</th>
+                                <th>Reciept Date</th>
+                                <th>Visited Country Currency</th>
+                                <th>Amount as Visited Country</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <br />
+                @*<button type="submit" onclick="EditSave(1)" class="btn btn-primary">Save</button>*@
+                @*<button type="submit" onclick="EditSave(2,true)" class="btn btn-primary">Submit</button>*@
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remark History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowAttachmentsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" style="width: 100% !important;">
+            <div class="modal-body">
+                <input type="file" multiple name="file" id="file" />
+                <div class="table-responsive">
+                    <table id="ShowAttachmentsList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>File</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var formdata = new FormData();
+
+    $(document).ready(function () {
+        LateandLeaveApplicationDataBinding
+        $("#file").on("change", function () {
+            var fileInput = document.getElementById('file');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                var sfilename = fileInput.files[i].name;
+                formdata.append(sfilename, fileInput.files[i]);
+
+            }
+            chkatchtbl();
+            $('#fileInput').val('');
+        });
+
+    });
+
+    function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        $("#PrintId").val(id);
+        $("#btnSubmit").click();
+    }
+
+
+    function LateandLeaveApplicationDataBinding() {
+        var EmpId = $("#searchUser option:selected").val()
+
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLateandAbsenceApplicationData",
+            data: { EmpId: EmpId },
+            success: function (data) {
+                $("#LateandLeaveApplicationHistory").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestID", "autoWidth": true },
+                        { "data": "Category", "autoWidth": true },
+                        { "data": "SubCategory", "autoWidth": true },
+                        { "data": "Date", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+                                return "";
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="OpenLasteandLeaveDeatils(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>   <button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#LeaveApplicationApproval").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestID", "autoWidth": true },
+                            { "data": "Category", "autoWidth": true },
+                            { "data": "SubCategory", "autoWidth": true },
+                            { "data": "Date", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button type="button" onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')" class="btn btn-sm btn-outline-secondary" title="Approve/Reject"><i class="fa fa-check"></i></button>';
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+
+                    });
+                }
+            }
+        });
+
+    }
+    function Save() {
+        var EmployeeID = $("#Employee option:selected").val();
+        var Category = $("#Category option:selected").val();
+        var Date = $("#Date").val();
+        var PunchIn = $("#PunchIn").val();
+        var SubCategory = $("#SubCategory option:selected").val();
+        var PunchOut = $("#PunchOut").val();
+        var Remarks = $("#Remarks").val();
+
+        var data = new FormData();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            //data.append("HelpSectionImages", files[0]);
+            formdata.append("FormName", "LateandAbsenceJustifications");
+            $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+                processData: false,
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+                        $.ajax({
+                            type: "Post",
+                            url: "/Request/SaveLateandLeaveRequest",
+                            data: { AtchGuid: response, EmployeeID: EmployeeID, Category: Category, Date: Date, PunchIn: PunchIn, PunchOut: PunchOut, SubCategory: SubCategory, Remarks: Remarks },
+                            success: function (data) {
+                                if (data != "") {
+                                    alert(data);
+                                }
+                                LateandLeaveApplicationDataBinding();
+                            }
+                        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+
+            });
+        }
+        else {
+
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveLateandLeaveRequest",
+                data: { AtchGuid: '', EmployeeID: EmployeeID, Category: Category, Date: Date, PunchIn: PunchIn, PunchOut: PunchOut, SubCategory: SubCategory, Remarks: Remarks },
+                success: function (data) {
+                    if (data != "") {
+                        alert(data);
+                    }
+                    LateandLeaveApplicationDataBinding();
+                }
+            });
+        }
+    }
+    function OpenLasteandLeaveDeatils(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLateandLeaveDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#LateandLeaveDetailListModal").modal();
+
+                $("#LasteandLeaveDetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Date", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ApprovedBy", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+    function ShowHide(e) {
+        var SelectValue = $("#" + e.id + " option:selected").val()
+        if (SelectValue == "Punch - in/out") {
+            $("#ShowPunch").prop("hidden", false);
+            $("#ShowSubCat").prop("hidden", true);
+        }
+        else if (SelectValue == "Late/Early justification") {
+
+            $("#ShowPunch").prop("hidden", true);
+            $("#ShowSubCat").prop("hidden", false);
+        }
+        else {
+
+            $("#ShowPunch").prop("hidden", true);
+            $("#ShowSubCat").prop("hidden", true);
+        }
+    }
+    function GetEditData(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLateandAbsenceEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#Reqid").val(id);
+                $("#EmployeeEdit").val(data.EmployeeId);
+                $("#CategoryEdit").val(data.Category);
+                $("#CategoryEdit").trigger("change");
+                $("#DateEdit").val(data.Date);
+                $("#PunchInEdit").val(data.PunchIn);
+                $("#SubCategoryEdit").val(data.SubCategory);
+                $("#PunchOutEdit").val(data.PunchOut);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#EditLasteandAbsenceModal").modal();
+            }
+        });
+    }
+    function SaveEdit() {
+        var EmployeeID = $("#EmployeeEdit option:selected").val();
+        var Category = $("#CategoryEdit option:selected").val();
+        var Date = $("#DateEdit").val();
+        var PunchIn = $("#PunchInEdit").val();
+        var SubCategory = $("#SubCategoryEdit option:selected").val();
+        var PunchOut = $("#PunchOutEdit").val();
+        var Remarks = $("#RemarksEdit").val();
+        var Id = $("#Reqid").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/EditSaveLateandLeaveRequest",
+            data: { Id: Id, EmployeeID: EmployeeID, Category: Category, Date: Date, PunchIn: PunchIn, PunchOut: PunchOut, SubCategory: SubCategory, Remarks: Remarks },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                }
+                LateandLeaveApplicationDataBinding();
+            }
+        });
+    }
+    function ShowHideEdit(e) {
+        var SelectValue = $("#" + e.id + " option:selected").val()
+        if (SelectValue == "Punch - in/out") {
+            $("#ShowPunchEdit").prop("hidden", false);
+            $("#ShowSubCatEdit").prop("hidden", true);
+        }
+        else if (SelectValue == "Late/Early justification") {
+
+            $("#ShowPunchEdit").prop("hidden", true);
+            $("#ShowSubCatEdit").prop("hidden", false);
+        }
+        else {
+
+            $("#ShowPunchEdit").prop("hidden", true);
+            $("#ShowSubCatEdit").prop("hidden", true);
+        }
+    }
+    function ShowApprove_RejectModal(id, statusid) {
+        $("#Approve_RejectModal").modal();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLateandAbsenceApproval",
+            data: { Id: id },
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#RemarkHistory").html(data.History);
+                $("#ReqIdApproval").val(id);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+    function Approve_Reject(Type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveLeaveandAbsenceApprove_Reject",
+            data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks: $("#RemarksApproval").val() },
+            success: function (data) {
+                $("#Approve_RejectModal").modal('hide');
+                BindDataTable();
+            }
+        });
+    }
+    function ShowAttachments(DocNumbers, Types) {
+        if (Types == 'Edit') {
+            $("#file").hide();
+        }
+        else {
+            $("#file").show();
+        }
+        $.ajax({
+            type: "Post",
+            url: "/Request/LoadUploadedFiles",
+            data: { DocType: 'LateandAbsenceJustifications', DocNumber: DocNumbers },
+            success: function (data) {
+                $("#ShowAttachmentsList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 10,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Name", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                return html;
+                            }
+                        },
+                    ]
+
+                });
+                $("#ShowAttachmentsModal").modal();
+
+            }
+        });
+
+    }
+
+</script>

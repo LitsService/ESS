@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>HR SELF SERVICES NOTIFICATION</title>
+     <link  href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="font-family: 'Ropa Sans';  font-weight: normal; font-size:14px; text-align: left;">
+                    Dear <%UserFullName%>,
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="font-family: 'Ropa Sans';  font-weight: normal; font-size:14px; text-align: left;">
+                    This is to notify you that there is at least one request pending for your approval.
+                    Please approve the following request:
+
+                    <br />
+                    <br />
+
+                    <table style="border-style: solid; border-width: 1px; width:70%"
+                           cellpadding="0" cellspacing="0">
+                        <tr style="font-family: 'Ropa Sans'; font-weight: normal; font-size:14px; text-align: left;">
+                            <th style="border-right-style: solid; border-bottom-style: solid; border-right-width: 1px; border-bottom-width: 1px; width: 30px; align: center;">
+                                ID
+                            </th>
+                            <th style="border-right-style: solid; border-bottom-style: solid; border-right-width: 1px; border-bottom-width: 1px; width: 90px; align: center;">
+                                Date
+                            </th>
+                            <th style="border-right-style: solid; border-bottom-style: solid; border-right-width: 1px; border-bottom-width: 1px; width: 300px;">
+                                Type
+                            </th>
+                            <th style="border-bottom-style: solid; border-bottom-width: 1px">
+                                Remarks
+                            </th>
+                        </tr>
+                        <tr style="font-family: 'Ropa Sans'; font-weight: normal; font-size:14px; text-align: left;">
+                            <td style="border-right-style: solid; border-right-width: 1px; text-align: center;">
+                                <%ID%>
+                            </td>
+                            <td style="border-right-style: solid; border-right-width: 1px; text-align: center;">
+                                <%Date%>
+                            </td>
+                            <td style="border-right-style: solid; border-right-width: 1px; text-align: center;">
+                                <%Type%>
+                            </td>
+                            <td>
+                                <%Remarks%>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    &nbsp;
+                </td>
+            </tr>
+            <!--<tr>
+                <td style="font-family: 'Ropa Sans'; font-weight: normal; font-size:14px; text-align: left;">
+                    <a href="<%RedirectURL%>" target="_blank">Click here to approve this request.</a>
+                </td>
+
+            </tr>-->
+            <div class="row col-md-12">
+                <div class="col-md-6 style7"><a id="btnApprove" name="btnApprove" href="<%ApproveLink%>">Approve</a></div>
+                <div class="col-md-6 style8"><a id="btnReject" name="btnReject" href="<%RejectLink%>">Reject</a></div>
+                <!--<td width="105px"><a id="btnReverse" name="btnReverse" href="<%ReverseLink%>">Reverse</a></td>
+                <td>&nbsp;</td>-->
+            </div>
+            <tr>
+                <td style="text-align: left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="font-family: 'Ropa Sans';  font-weight: normal; font-size:14px; text-align: left;">
+                    <strong>Note:</strong> This is an auto-generated email, please do not reply.
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="font-family: 'Ropa Sans'; font-weight: normal; font-size:14px; text-align: left;">
+                    Regards,<br />
+                    <span style="font-weight: bold">HR Self Services Administrator</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

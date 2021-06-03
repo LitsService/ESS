@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "LeaveApplicationForm";
+}
+
+
+<style type="text/css">
+    .style1 {
+        width: 600px;
+    }
+
+    #TextArea1 {
+        width: 421px;
+        height: 106px;
+    }
+
+    .style6 {
+        width: 119px;
+        color: #000099;
+    }
+
+    div.centered {
+        text-align: center;
+    }
+
+        div.centered table {
+            margin: 0 auto;
+            text-align: left;
+        }
+
+    .DivDashBoad {
+        display: block;
+        width: 650px;
+        padding: 5px;
+        margin-top: 10px;
+        border: solid 1px #C0C0C0;
+    }
+</style>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Email Action</h2>
+            @*<ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ul>*@
+        </div>
+        @*<div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                <div class="bh_chart hidden-xs">
+                    <div class="float-left m-r-15">
+                        <small>Visitors</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                    </div>
+                    <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Visits</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                    </div>
+                    <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Chats</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                    </div>
+                    <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Email Action Form</h2>
+            </div>
+            <div class="body">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="style1">
+                                                <tr>
+                                                    <td class="style6">
+                                                        Form Type
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="Ftype" value="@ViewBag.formType" disabled="disabled" />
+                                                    </td>
+                                                    @if (ViewBag.formType == "LeaveAppForm")
+                                                    {
+                                                        <td class="style6">
+                                                            Leave Type
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" value="@ViewBag.leaveType" disabled="disabled" />
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <td class="style6">
+                                                        Approval Decision
+                                                    </td>
+                                                    <td>
+                                                        @ViewBag.Type
+                                                    </td>
+                                                    <td class="style6">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td>
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table class="style1">
+                                                <tr>
+                                                    <td class="style6" valign="top">
+                                                        Remarks
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" ID="RemarksApproval" Height="89px" TextMode="MultiLine" Width="455px" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="style6" valign="top">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td>
+                                                        <button onclick="Approve_Reject('approve')" type="button" id="btnApprove" class="btn btn-primary">Approve</button>
+                                                        <button onclick="Approve_Reject('Reject')" type="button" id="btnReject" class="btn btn-primary">Reject</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="style6" valign="top">&nbsp;</td>
+                                                    <td>
+                                                        <label ID="Label1" runat="server" Text="Note: This is temporary login to take action for the selected Document only. To take further action kinldy login to the web site. " Font-Italic="True" Font-Size="Small" ForeColor="Blue"></label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <input type="hidden" ID="hdnGUID" Value="@ViewBag.GUID" />
+                                            <input type="hidden" ID="hdnReqID" Value="@ViewBag.Requestid" />
+                                            <input type="hidden" ID="hdnStatusID" Value="@ViewBag.StatusID" />
+                                            <input type="hidden" ID="hdnCurUserID" Value="@ViewBag.userid" />
+                                            <input type="hidden" ID="hdnType" Value="@ViewBag.Type" />
+                                            <input type="hidden" ID="hdnCompanyId" Value="@ViewBag.CompanyId" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Dashboard", "Home", FormMethod.Get))
+{
+    <input type="submit" class="hidden" hidden id="btnSubmit" />
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (@ViewBag.btnType == '1') {
+            $('#btnApprove').show();
+            $('#btnReject').hide();
+        }
+        else {
+            $('#btnApprove').hide();
+            $('#btnReject').show();
+        }
+    });
+    function Approve_Reject(type) {
+        if (type == "approve")
+            $("#btnApprove").attr("disabled", true);
+        else
+            $("#btnReject").attr("disabled", true);
+        var Ftype = $("#Ftype").val();
+        if (Ftype == "LeaveAppForm") {
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveLeaveApprove_Reject",
+            data: { Type: $("#hdnType").val(), Id: $("#hdnReqID").val(), StatusId: $("#hdnStatusID").val(), Remarks: $("#RemarksApproval").val() },
+            success: function (data) {
+                $("#btnSubmit").click();
+            }
+        });
+        }
+        if (Ftype == "OvertimeForm") {
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveOvertimeApprove_Reject",
+                data: { Type: $("#hdnType").val(), Id: $("#hdnReqID").val(), StatusId: $("#hdnStatusID").val(), Remarks: $("#RemarksApproval").val() },
+                success: function (data) {
+                    $("#btnSubmit").click();
+                }
+            });
+        }
+        if (Ftype == "BankLetterForm") {
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveBankLetterApprove_Reject",
+                data: { Type: $("#hdnType").val(), Id: $("#hdnReqID").val(), StatusId: $("#hdnStatusID").val(), Remarks: $("#RemarksApproval").val() },
+                success: function (data) {
+                    $("#btnSubmit").click();
+                }
+            });
+        }
+
+
+    }
+</script>

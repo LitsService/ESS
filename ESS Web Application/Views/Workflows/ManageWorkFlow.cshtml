@@ -1,0 +1,830 @@
+﻿
+@{
+    ViewBag.Title = "ManageWorkFlow";
+}
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Manage Workflow</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li onclick="BindDataTable()" class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">Workflows</a></li>
+                    <li onclick="WorkFlowMappingDataBinding()" class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">Workflow/User Mappings</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <button onclick="OpenModal(0,'','',false,'')" class="btn btn-primary m-b-15" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Add new record
+                                            </button>
+                                            <div class="table-responsive">
+                                                <table id="WorkFlows" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Description</th>
+                                                            <th>Form Type</th>
+                                                            <th>Is Active</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="row col-12">
+                                            <div class="form-group">
+
+                                                <label>Username/First name/Last name</label>
+                                                <div>
+                                                    <input id="Keyword" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="ml-4">
+                                                    <div>
+                                                        <label>Workflow</label>
+                                                    </div>
+                                                    <select id="WorkflowMasterID" class="form-control show-tick">
+                                                        @foreach (var item in ViewBag.WorkflowsDropDown)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" style="margin-top: 1.8rem!important;">
+
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <button onclick="WorkFlowMappingOpenModal()" class="btn btn-primary m-b-15" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Add new record
+                                            </button>
+                                            <table id="WorkFlowMappingTable" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Username/Name</th>
+                                                        <th>Workflow</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        @*<td></td>*@
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <input type="hidden" id="ID" />
+                        <div class="col-md-1">
+                            <label>Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input id="Name" type="text" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-1">
+                            <label>Description</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="Description" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Form Type</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="FormType" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="fancy-checkbox">
+                            <input id="IsActive" type="checkbox" name="checkbox">
+                            <span style="font-weight:bold">Is Active</span>
+                        </label>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Add_UpdateWorkFlow()" class="btn btn-primary">SAVE CHANGES</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="subworkflowListModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 800px !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="ListID" />
+                <button onclick="OpenSubWorkFlowEditModal(0)" class="btn btn-primary m-b-15" type="button">
+                    <i class="icon wb-plus" aria-hidden="true"></i> Add new record
+                </button>
+                <div @*class="table-responsive"*@>
+                    <table id="WorkFlowsSubList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Approver Name</th>
+                                <th>Approver Level</th>
+                                <th>Approver Grace Days</th>
+                                <th>Proxy Approver Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="subworkflowEditModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <input type="hidden" id="workflowID" />
+                        <input type="hidden" id="subworkflowID" />
+                        <div class="col-md-4">
+                            <label>Master Workflow</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="MasterWorkflow" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Approver Name</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="ApproverName" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Approver Level</label>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="number" id="ApproverLevel" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            <label>Approver Grace Days</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="ApproverGraceDays" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            <label>Proxy Approver Name</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="ProxyApproverName" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Add_UpdateSubWorkFlow()" class="btn btn-primary">SAVE CHANGES</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="WorkFlowDeleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="WorkFlowId" />
+                <div class="text-center">
+                </div>
+                <div class="text-center row mt-20">
+                    <div class="col-sm-6">
+                        <button class="cancel" type="button" data-dismiss="modal">Cancel</button>
+                        @*<button type="button" onclick="MasterDelete()" class="custom-btn confirm-btn"></button>*@
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="confirm" onclick="WorkFlowDeleteConfirm()" type="button" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+
+                            @*<button type="button" data-dismiss="modal" class="custom-btn cancel-btn"></button>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="WorkFlowMappingModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Add</h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Username/Name</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="UserName_EmpId" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Wrokflow</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="WorkFlowsDropDown" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AddWorkFlowMapping()" class="btn btn-primary">SAVE CHANGES</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="SubWorkFlowDeleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="SubWorkFlowId" />
+                <div class="text-center">
+                </div>
+                <div class="text-center row mt-20">
+                    <div class="col-sm-6">
+                        <button class="cancel" type="button" data-dismiss="modal">Cancel</button>
+                        @*<button type="button" onclick="MasterDelete()" class="custom-btn confirm-btn"></button>*@
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="confirm" onclick="SubWorkFlowDeleteConfirm()" type="button" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+
+                            @*<button type="button" data-dismiss="modal" class="custom-btn cancel-btn"></button>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div id="WorkFlowMappingDeleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="WorkFlowMappingId" />
+                <input type="hidden" id="UserID" />
+                <div class="text-center">
+                </div>
+                <div class="text-center row mt-20">
+                    <div class="col-sm-6">
+                        <button class="cancel" type="button" data-dismiss="modal">Cancel</button>
+                        @*<button type="button" onclick="MasterDelete()" class="custom-btn confirm-btn"></button>*@
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="confirm" onclick="WorkFlowMappingDeleteConfirm()" type="button" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+
+                            @*<button type="button" data-dismiss="modal" class="custom-btn cancel-btn"></button>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+            //$('.js-example-data-ajax').select2();
+            @*$(".js-example-basic-single").select2();*@
+            //$(".js-example-tags").select2({
+            //    tags: true
+            //});
+            //$('#WorkFlows').DataTable({
+            //    responsive: true
+            //});
+
+
+            BindDataTable();
+
+    });
+    function BindDataTable() {
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetWorkFlows",
+                //data: { Employee: Employee, RoleId: Rolieid },
+                success: function (data) {
+                    $("#WorkFlows").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "Name", "autoWidth": true },
+                            { "data": "Description", "autoWidth": true },
+                            { "data": "FormType", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    if (row.IsActive == true) {
+                                        return '<i class="icon-check" aria-hidden="true"></i>'
+                                    }
+                                    else {
+                                        return '';//'<i class="fa fa-close" aria-hidden="true"></i>'
+                                    }
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                            {
+                                render: function (data, type, row) {
+                                    return '<button type="button" onclick="OpenSubWorkFlowListModal(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>  <button type="button" onclick="OpenModal(' + row.ID + ',\'' + row.Name + '\',\'' + row.FormTypeId + '\', ' + row.IsActive + ',\''+row.Description+'\')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></button>  <button type="button" onclick="DeleteWorkFlow(' + row.ID + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+
+                        ]
+
+                    });
+                }
+            });
+
+    }
+    function OpenModal(id, Name, TypeId, IsActive,Description)
+    {
+            $("#Name").val("");
+            $("#IsActive").prop("checked", false);
+            $("#Description").val("");
+            $("#FormType").html("");
+            $("#ID").val("");
+            if (id == '0') {
+                $("#defaultModalLabel").html("ADD RECORD");
+                $.ajax({
+                    type: "Post",
+                    url: "/Workflows/GetFormType",
+                    data: { Type: 'New' },
+                    success: function (data) {
+                        var FormType = '';
+                        for (var i = 0; i < data.length; i++) {
+                            FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        $("#FormType").html(FormType);
+                    }
+                });
+                $("#defaultModal").modal();
+
+            }
+            else {
+                $("#defaultModalLabel").html("EDIT RECORD");
+                $("#Description").val(Description);
+                $("#ID").val(id);
+                $.ajax({
+                    type: "Post",
+                    url: "/Workflows/GetFormType",
+                    data: { Type: 'Update' },
+                    success: function (data) {
+                        var FormType = '';
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Value == TypeId) {
+                                FormType += '<option selected="selected" value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            }
+                            else {
+                                FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            }
+                        }
+                        $("#FormType").html(FormType);
+                        $("#Name").val(Name);
+                        $("#IsActive").prop("checked", IsActive);
+                    }
+                });
+                $("#defaultModal").modal();
+
+            }
+        }
+    function Add_UpdateWorkFlow() {
+            var ID = $("#ID").val();
+            var FormType = $("#FormType option:selected").val();
+            var Name = $("#Name").val();
+            var Description = $("#Description").val();
+            var IsActive = $("#IsActive").val();
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/WorkFlowInsertUpdate",
+                data: { Operation: "Insert", FormType: FormType, Name: Name, ID: ID, Description: Description, IsActive: IsActive},
+                success: function (result) {
+                                        $("#defaultModal").modal('hide');
+                    BindDataTable();
+                }
+            });
+
+    }
+    function DeleteWorkFlow(id)
+    {
+        $("#WorkFlowId").val(id);
+            $("#WorkFlowDeleteModal").modal();
+    }
+    function WorkFlowDeleteConfirm() {
+            var WorkFlowId = $("#WorkFlowId").val();
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/DeleteWorkFlow",
+                data: { ID: WorkFlowId },
+                success: function (userid) {
+                    $("#WorkFlowDeleteModal").modal('hide');
+                    BindDataTable();
+                }
+            });
+        }
+    function OpenSubWorkFlowListModal(id)
+    {
+        $("#ListID").val(id);
+        $.ajax({
+            type: "Post",
+            url: "/Workflows/GetWorkFlowSubList",
+            data: { Id: id },
+            success: function (data)
+            {
+                $("#subworkflowListModal").modal();
+
+                $("#WorkFlowsSubList").DataTable({
+            "lengthChange": false,
+            "pageLength": 25,
+            destroy: true,
+            data: data,
+                    "filter": false,
+                    scrollX: false,
+            "columns": [
+                { "data": "ApproverName", "autoWidth": true },
+                { "data": "ApproverLevel", "autoWidth": true },
+                { "data": "ApproverGraceDays", "autoWidth": true },
+                { "data": "ProxyApproverName", "autoWidth": true },
+                {
+                    render: function (data, type, row) {
+                        return '<button type="button" onclick="OpenSubWorkFlowEditModal(' + row.ID + ', ' + row.ApproverId + ','+row.ProxyApproverId+','+row.WorkFlowSubId+',\'' + row.ApproverLevel + '\',\'' + row.ApproverGraceDays + '\')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></button>  <button type="button" onclick="DeleteSubWorkFlow(' + row.WorkFlowSubId + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                    }
+                },
+            ]
+        });
+            }
+
+        });
+        }
+    function OpenSubWorkFlowEditModal(id, ApproverId, ProxyApproverId,WorkFlowSubId,ApproverLevel,GraceDay)
+    {
+        $("#ApproverLevel").val("");
+        $("#ApproverGraceDays").val("");
+        $("#MasterWorkflow").html("");
+        $("#ApproverName").html("");
+        $("#ProxyApproverName").html("");
+        $("#subworkflowID").val("");
+        $("#workflowID").val("");
+        if (id == '0') {
+            $("#subworkflowEditModalLabel").html("ADD RECORD");
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetAllWorkFlows",
+                data: { Type: 'New' },
+                success: function (data) {
+                    var FormType = '';
+                    for (var i = 0; i < data.length; i++) {
+                        FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    $("#MasterWorkflow").html(FormType);
+                }
+            });
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetAllUsers",
+                data: { Type: 'New' },
+                success: function (data) {
+                    var FormType = '';
+                    for (var i = 0; i < data.length; i++) {
+                        FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    $("#ApproverName").html(FormType);
+                    $("#ProxyApproverName").html(FormType);
+                }
+            });
+
+
+            $("#subworkflowEditModal").modal();
+        }
+        else {
+            $("#subworkflowEditModalLabel").html("EDIT RECORD");
+            $("#workflowID").val(id);
+            $("#subworkflowID").val(WorkFlowSubId);
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetAllWorkFlows",
+                data: { Type: 'New' },
+                success: function (data) {
+                    var FormType = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Value == id) {
+                            FormType += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        else {
+                            FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }                    }
+                    $("#MasterWorkflow").html(FormType);
+                }
+            });
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetAllUsers",
+                data: { Type: 'New' },
+                success: function (data) {
+                    var FormType = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Value == ApproverId) {
+                            FormType += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        else {
+                            FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                    }
+                    $("#ApproverName").html(FormType);
+                }
+            });
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/GetAllUsers",
+                data: { Type: 'New' },
+                success: function (data) {
+                    var FormType = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Value == ProxyApproverId) {
+                            FormType += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        else {
+                            FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }                    }
+                    $("#ProxyApproverName").html(FormType);
+                }
+            });
+            $("#ApproverLevel").val(ApproverLevel);
+            $("#ApproverGraceDays").val(GraceDay);
+            $("#subworkflowEditModal").modal();
+
+
+        }
+
+    }
+    function Add_UpdateSubWorkFlow() {
+        var level = $("#ApproverLevel").val();
+        var days = $("#ApproverGraceDays").val();
+        var WorkFlow = $("#MasterWorkflow option:selected").val();
+        var approver = $("#ApproverName option:selected").val();
+        var proxyapprover = $("#ProxyApproverName option:selected").val();
+        var subworkflow=$("#subworkflowID").val();
+        $("#workflowID").val("");
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/SubWorkFlowInsertUpdate",
+                data: { subworkflow: subworkflow, proxyapprover: proxyapprover, approver: approver, WorkFlow: WorkFlow, days: days,level:level},
+                success: function (result) {
+                    $("#subworkflowEditModal").modal('hide');
+                    OpenSubWorkFlowListModal(WorkFlow);
+                }
+            });
+    }
+    function DeleteSubWorkFlow(id)
+    {
+        $("#SubWorkFlowId").val(id);
+            $("#SubWorkFlowDeleteModal").modal();
+    }
+    function SubWorkFlowDeleteConfirm() {
+            var WorkFlowId = $("#SubWorkFlowId").val();
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/DeleteSubWorkFlow",
+                data: { ID: WorkFlowId },
+                success: function (userid) {
+                    $("#SubWorkFlowDeleteModal").modal('hide');
+                    BindDataTable();
+                }
+            });
+    }
+    function WorkFlowMappingDataBinding()
+    {
+          //$('#WorkFlowMappingTable').DataTable({
+          //      responsive: true
+          //  });
+         var Keyword = $("#Keyword").val();
+            var WorkflowMasterID = $("#WorkflowMasterID option:selected").val()
+
+        $.ajax({
+                type: "Post",
+                url: "/Workflows/GetWorkFlowMapping",
+                data: { Keyword: Keyword, WorkflowMasterID: WorkflowMasterID },
+                success: function (data) {
+                    $("#WorkFlowMappingTable").DataTable({
+                       "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "Name", "autoWidth": true },
+                            { "data": "WorkFlow", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    return '<button type="button" onclick="DeleteWorkFlowMapping(' + row.ID + ',\''+row.UserID+'\')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+
+                        ]
+
+                    });
+                }
+            });
+
+    }
+    function WorkFlowMappingOpenModal()
+    {
+        $("#UserName_EmpId").html("");
+        $("#WorkFlowsDropDown").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Workflows/GetUserName_EmpId",
+            success: function (data) {
+                var UserName_EmpId = '';
+                for (var i = 0; i < data.length; i++) {
+                    UserName_EmpId += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#UserName_EmpId").html(UserName_EmpId);
+            }
+        });
+        $.ajax({
+            type: "Post",
+            url: "/Workflows/GetWorkFlowsDropDown",
+            success: function (data) {
+                var WorkFlowsDropDown = '';
+                for (var i = 0; i < data.length; i++) {
+                    WorkFlowsDropDown += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#WorkFlowsDropDown").html(WorkFlowsDropDown);
+            }
+        });
+        $("#WorkFlowMappingModal").modal();
+    }
+    function AddWorkFlowMapping() {
+        var Name = $("#UserName_EmpId option:selected").val();
+        var Workflow = $("#WorkFlowsDropDown option:selected").val();
+        $.ajax({
+            type: "Post",
+            url: "/Workflows/WorkFlowMappingInsert",
+            data: { Name: Name, Workflow: Workflow},
+            success: function (result) {
+                $("#WorkFlowMappingModal").modal('hide');
+                WorkFlowMappingDataBinding();
+
+        }
+
+        });
+    }
+    function DeleteWorkFlowMapping(id,UserID)
+    {
+        $("#WorkFlowMappingId").val(id);
+                $("#UserID").val(UserID);
+
+            $("#WorkFlowMappingDeleteModal").modal();
+    }
+    function WorkFlowMappingDeleteConfirm() {
+        var WorkflowMasterID = $("#WorkFlowMappingId").val();
+              var UserID= $("#UserID").val();
+
+            $.ajax({
+                type: "Post",
+                url: "/Workflows/DeleteWorkFlowMapping",
+                data: { UserID:UserID,WorkflowMasterID: WorkflowMasterID },
+                success: function (userid) {
+                    $("#WorkFlowMappingDeleteModal").modal('hide');
+                    WorkFlowMappingDataBinding();
+                }
+            });
+    }
+</script>

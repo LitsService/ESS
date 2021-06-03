@@ -1,0 +1,607 @@
+﻿
+@{
+    ViewBag.Title = "AllownceRequestForm";
+}
+
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Allownce Request Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+                                                    @*<input type="file" hidden name="file" id="file" />*@
+                                                    <button type="submit" onclick="ShowAttachments('','New')" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-6">
+                                                <label>Date</label>
+                                                <div class="form-group">
+                                                    <input id="Date" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Amount</label>
+                                                <div class="form-group">
+                                                    <input id="Amount" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Allowance Type</label>
+                                                <div class="form-group">
+                                                    <select id="Type" class="form-control show-tick">
+                                                        <option value="">Select AllownceType</option>
+                                                        @foreach (var item in ViewBag.AllownceTypes)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea rows="6" id="Remarks" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="AllowanceRequest" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Allowance Type</th>
+                                                        <th>Amount</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="AllowanceRequestApproval" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Allowance Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Amount</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" name="PrintId" />
+    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+}
+<div class="modal fade" id="EditAllowanceRequestModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 60% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="Reqid" />
+                <input type="hidden" id="DateEdit" />
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-11">
+                            <div class="card">
+                                <div class="header">
+                                    <div class="col-12">
+                                        <div class="row form-group">
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-2" style="margin-left:10%;">
+
+                                                <button type="submit" class="btn btn-primary">Attachments</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="body">
+                                    <div class="row table-responsive">
+                                        <div class="col-6">
+                                            <label>Amount</label>
+                                            <div class="form-group">
+                                                <input id="AmountEdit" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <label>Allowance Type</label>
+                                            <div class="form-group">
+                                                <select id="TypeEdit" class="form-control show-tick">
+                                                    <option value="">Select AllownceType</option>
+                                                    @foreach (var item in ViewBag.AllownceTypes)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Remarks</label>
+                                            <div class="form-group">
+                                                <textarea rows="6" id="RemarksEdit" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button onclick="EditSave()" type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Allowance Type</label>
+                            <div id="AllowanceType"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <div id="AmountApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remark History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowAttachmentsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" style="width: 100% !important;">
+            <div class="modal-body">
+                <input type="file" multiple name="file" id="file" />
+                <div class="table-responsive">
+                    <table id="ShowAttachmentsList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>File</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var formdata = new FormData();
+    $(document).ready(function () {
+        AllowanceRequestDataBinding();
+        $("#file").on("change", function () {
+            var fileInput = document.getElementById('file');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                var sfilename = fileInput.files[i].name;
+                formdata.append(sfilename, fileInput.files[i]);
+
+            }
+            chkatchtbl();
+            $('#fileInput').val('');
+        });
+
+    });
+
+    function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        $("#PrintId").val(id);
+        $("#btnSubmit").click();
+    }
+    function AllowanceRequestDataBinding() {
+
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAllowanceRequestData",
+            success: function (data) {
+                $("#AllowanceRequest").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestLoaclID", "autoWidth": true },
+                        { "data": "Date", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "Type", "autoWidth": true },
+                        { "data": "Amount", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+                                return "";
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RequestId + ')" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RequestId + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#AllowanceRequestApproval").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestLoaclID", "autoWidth": true },
+                            { "data": "Type", "autoWidth": true },
+                            { "data": "Date", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "Amount", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button type="button" onclick="ShowApprove_RejectModal(' + row.RequestId + ',' + row.ReqStatus + ')" class="btn btn-sm btn-outline-secondary" title="Approve/Reject"><i class="fa fa-check"></i></button>';
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+
+                    });
+                }
+            }
+        });
+
+    }
+    function Save() {
+        var Type = $("#Type option:selected").val();
+        var Date = $("#Date").val();
+        var Amount = $("#Amount").val();
+        var Remarks = $("#Remarks").val();
+
+        var data = new FormData();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            // data.append("HelpSectionImages", files[0]);
+            formdata.append("FormName", "AllowanceRequest");
+            $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+                processData: false,
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+                        $.ajax({
+                            type: "Post",
+                            url: "/Request/SaveAllowanceRequest",
+                            data: { AtchGuid: response, Date: Date, Amount: Amount, Type: Type, Remarks: Remarks },
+                            success: function (data) {
+                                if (data != "") {
+                                    alert(data);
+                                }
+                                AllowanceRequestDataBinding();
+                            }
+                        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+
+            });
+        }
+        else {
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveAllowanceRequest",
+                data: { AtchGuid: '', Date: Date, Amount: Amount, Type: Type, Remarks: Remarks },
+                success: function (data) {
+                    if (data != "") {
+                        alert(data);
+                    }
+                    AllowanceRequestDataBinding();
+                }
+            });
+        }
+    }
+    //function OpenLasteandLeaveDeatils(id) {
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Request/GetLateandLeaveDetails",
+    //        data: { Id: id },
+    //        success: function (data) {
+    //            $("#LateandLeaveDetailListModal").modal();
+
+    //            $("#LasteandLeaveDetailList").DataTable({
+    //                "lengthChange": false,
+    //                "pageLength": 25,
+    //                destroy: true,
+    //                data: data,
+    //                "filter": false,
+    //                "columns": [
+    //                    { "data": "Date", "autoWidth": true },
+    //                    { "data": "ReqStatus", "autoWidth": true },
+    //                    { "data": "Description", "autoWidth": true },
+    //                    { "data": "Approver", "autoWidth": true },
+    //                    { "data": "ApprovedBy", "autoWidth": true },
+    //                    { "data": "Remarks", "autoWidth": true },
+    //                ]
+    //            });
+    //        }
+
+    //    });
+    //}
+
+    function GetEditData(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAllowanceRequestEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#Reqid").val(id);
+                $("#AmountEdit").val(data.Amount);
+                $("#TypeEdit").val(data.Type);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#DateEdit").val(data.Date);
+                $("#EditAllowanceRequestModal").modal();
+            }
+        });
+    }
+    function SaveEdit() {
+        var Amount = $("#AmountEdit").val();
+        var Type = $("#TypeEdit option:selected").val();
+        var Remarks = $("#RemarksEdit").val();
+        var Id = $("#Reqid").val();
+        var Date = $("#DateEdit").val();
+
+        $.ajax({
+            type: "Post",
+            url: "/Request/EditSaveAllowanceRequest",
+            data: { Id: Id, Amount: Amount, Type: Type, Remarks: Remarks, Date: Date },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                }
+                AllowanceRequestDataBinding();
+            }
+        });
+    }
+    function ShowApprove_RejectModal(id, statusid) {
+        $("#Approve_RejectModal").modal();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetAllowanceRequestApproval",
+            data: { Id: id },
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#AllowanceType").html(data.Type);
+                $("#AmountApproval").html(data.Amount);
+                $("#RemarkHistory").html(data.History);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#ReqIdApproval").val(id);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+    function Approve_Reject(Type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveAllowanceRequestApprove_Reject",
+            data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks: $("#RemarksApproval").val() },
+            success: function (data) {
+                $("#Approve_RejectModal").modal('hide');
+                BindDataTable();
+            }
+        });
+    }
+    function ShowAttachments(DocNumbers, Types) {
+        if (Types == 'Edit') {
+            $("#file").hide();
+        }
+        else {
+            $("#file").show();
+        }
+        $.ajax({
+            type: "Post",
+            url: "/Request/LoadUploadedFiles",
+            data: { DocType: 'AllowanceRequest', DocNumber: DocNumbers },
+            success: function (data) {
+                $("#ShowAttachmentsList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 10,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Name", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                return html;
+                            }
+                        },
+                    ]
+
+                });
+                $("#ShowAttachmentsModal").modal();
+
+            }
+        });
+
+    }
+
+</script>

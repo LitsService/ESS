@@ -1,0 +1,700 @@
+﻿
+@{
+    ViewBag.Title = "MiscellaneousApplicationForm";
+}
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Miscellaneous Application Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+                                                    @*<input type="file" hidden name="file" id="file" />*@
+                                                    <button type="submit" onclick="ShowAttachments('','New')" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Miscellaneous Type</label>
+                                                <div class="form-group">
+                                                    <select id="MiscellaneousType" class="form-control show-tick">
+                                                        <option>Select Type</option>
+                                                        @foreach (var item in ViewBag.Type)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Preferred Language</label>
+                                                <div class="form-group">
+                                                    <select id="PreferredType" class="form-control show-tick">
+                                                        <option>Select Language</option>
+                                                        @foreach (var item in ViewBag.Language)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <label>No. of Openings</label>
+                                                <div class="form-group">
+                                                    <input id="Opening" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Targeted Salary</label>
+                                                <div class="form-group">
+                                                    <input id="Salary" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Department</label>
+                                                <div class="form-group">
+                                                    <input id="Department" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Report To Position</label>
+                                                <div class="form-group">
+                                                    <input id="Report" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Adderess To</label>
+                                                <div class="form-group">
+                                                    <input id="Address" type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="MiscellaneousList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Miscellaneous Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Language</th>
+                                                        <th>Address To</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="ApprovalMiscellaneousList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Miscellaneous Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Language</th>
+                                                        <th>Address to</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditMiscellaneousModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="Reqid" />
+                <div class="table-responsive">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Miscellaneous Type</label>
+                        <div class="form-group">
+                            <select id="MiscellaneousTypeEdit" class="form-control show-tick">
+                                <option>Select Type</option>
+                                @foreach (var item in ViewBag.Type)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Preferred Language</label>
+                        <div class="form-group">
+                            <select id="PreferredTypeEdit" class="form-control show-tick">
+                                <option>Select Language</option>
+                                @foreach (var item in ViewBag.Language)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Adderess To</label>
+                        <div class="form-group">
+                            <input id="AddressEdit" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <button onclick="EditSave()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Misc. Type</label>
+                            <div id="MTypeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Preferred Language</label>
+                            <div id="LanguageApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>	Addressed To</label>
+                            <div id="AddressApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="StatusMiscellaneousModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important;">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="DetailList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Request Status</th>
+                                <th>Description</th>
+                                <th>Approver</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowAttachmentsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" style="width: 100% !important;">
+            <div class="modal-body">
+                <input type="file" multiple name="file" id="file" />
+                <div class="table-responsive">
+                    <table id="ShowAttachmentsList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>File</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" name="PrintId" />
+    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+}
+<script>
+    var formdata = new FormData();
+
+    $(document).ready(function () {
+        BindDataTable();
+        $("#file").on("change", function () {
+            var fileInput = document.getElementById('file');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                var sfilename = fileInput.files[i].name;
+                formdata.append(sfilename, fileInput.files[i]);
+
+            }
+            chkatchtbl();
+            $('#fileInput').val('');
+        });
+    });
+
+    function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        $("#PrintId").val(id);
+        $("#btnSubmit").click();
+    }
+    function BindDataTable() {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetMiscellaneousData",
+            success: function (data) {
+                $("#MiscellaneousList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestId", "autoWidth": true },
+                        { "data": "MType", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "Language", "autoWidth": true },
+                        { "data": "Address", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="StatusBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>   <button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="EditDataBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#ApprovalMiscellaneousList").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestId", "autoWidth": true },
+                            { "data": "MType", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "Language", "autoWidth": true },
+                            { "data": "Address", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')"  type="button" class="btn btn-sm btn-outline-secondary" title="Approve or Reject"><i class="fa fa-check"></i></button>';
+                                    return html;
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+                    });
+                }
+            }
+        });
+
+    }
+    function Save()
+    {
+        var MiscellaneousType = $("#MiscellaneousType option:selected").val();
+        var PreferredType = $("#PreferredType option:selected").val();
+        var Opening = $("#Opening").val();
+        var Salary = $("#Salary").val();
+        var Department = $("#Department").val();
+        var Report = $("#Report").val();
+        var Address = $("#Address").val();
+        var Remarks = $("#Remarks").val();
+         var data = new FormData();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            //data.append("HelpSectionImages", files[0]);
+            formdata.append("FormName", "MiscellaneousRequest");
+          $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+              processData: false,
+              data: formdata,
+                dataType: 'json',
+                contentType: false,
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("SaveMiscellaneous", "Request")',
+                            data: { AtchGuid: response, MiscellaneousType: MiscellaneousType, PreferredType: PreferredType, Opening: Opening, Salary: Salary, Department: Department, Report: Report, Address: Address, Remarks: Remarks },
+                            success: function (data) {
+                                if (data=="") {
+                                    BindDataTable();
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            },
+                            error: function (data)
+                            {
+                            }
+                        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+            });
+        }
+        else {
+
+            $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("SaveMiscellaneous", "Request")',
+                            data: { AtchGuid: '', MiscellaneousType: MiscellaneousType, PreferredType: PreferredType, Opening: Opening, Salary: Salary, Department: Department, Report: Report, Address: Address, Remarks: Remarks },
+                            success: function (data) {
+                                if (data=="") {
+                                    BindDataTable();
+                                }
+                                else {
+                                    alert(data);
+                                }
+                            },
+                            error: function (data)
+                            {
+                            }
+                        });
+        }
+    }
+    function StatusBinding(id)
+    {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetMiscellaneousDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#StatusMiscellaneousModal").modal();
+
+                $("#DetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ApprovedBy", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+    function EditDataBinding(id)
+    {
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetMiscellaneousEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#MiscellaneousTypeEdit").val(data.MType);
+                $("#PreferredTypeEdit").val(data.PType);
+                $("#AddressEdit").val(data.Address);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#Reqid").val(id);
+                $("#EditMiscellaneousModal").modal();
+            }
+        });
+    }
+    function EditSave()
+    {
+       var MiscellaneousType = $("#MiscellaneousTypeEdit option:selected").val();
+        var PreferredType = $("#PreferredTypeEdit option:selected").val();
+        var Address = $("#AddressEdit").val();
+        var Remarks = $("#RemarksEdit").val();
+        var Id=$("#Reqid").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveEditMiscellaneous", "Request")',
+            data: { Id: Id,MiscellaneousType: MiscellaneousType, PreferredType: PreferredType, Address: Address, Remarks: Remarks,},
+            success: function (data) {
+                if (data == "") {
+                    $("#EditMiscellaneousModal").modal('hide');
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }            },
+            error: function (data)
+            {
+            }
+        });
+    }
+    //function ShowDetails(Id)
+    //{
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Request/GetDetails",
+    //        data: {Reqid:Id},
+    //        success: function (data) {
+    //            $("#ShowDetailModal").modal();
+    //                $("#ShowDetail").DataTable({
+    //                    "lengthChange": true,
+    //                    "pageLength": 25,
+    //                    destroy: true,
+    //                    data: data,
+    //                    "lengthChange": false,
+    //                    "filter": false,
+    //                    "columns": [
+    //                        { "data": "RMTYPE", "autoWidth": true },
+    //                        { "data": "From", "autoWidth": true },
+    //                        { "data": "To", "autoWidth": true },
+    //                        { "data": "City", "autoWidth": true },
+    //                        { "data": "ActivityType", "autoWidth": true },
+    //                        { "data": "ActivityId", "autoWidth": true },
+    //                        { "data": "Reciept", "autoWidth": true },
+    //                        { "data": "Currency", "autoWidth": true },
+    //                        { "data": "Amount", "autoWidth": true },
+    //                        { "data": "Remarks", "autoWidth": true },
+    //                    ]
+
+    //                });
+    //            }
+    //        });
+    //}
+    function ShowApprove_RejectModal(id, statusid)
+    {
+        $("#Approve_RejectModal").modal();
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetMiscellaneousApproval",
+            data: { Id: id},
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#MTypeApproval").html(data.MType);
+                $("#LanguageApproval").html(data.PType);
+                $("#AddressApproval").html(data.Address);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#RemarkHistory").html(data.History);
+
+                $("#ReqIdApproval").val(id);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+    function Approve_Reject(Type)
+    {
+         $.ajax({
+            type: "Post",
+             url: "/Request/SaveMiscellaneousApprove_Reject",
+             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
+             success: function (data) {
+                 $("#Approve_RejectModal").modal('hide');
+                 BindDataTable();
+            }
+        });
+    }
+    function ShowAttachments(DocNumbers, Types) {
+        if (Types == 'Edit') {
+            $("#file").hide();
+        }
+        else {
+            $("#file").show();
+        }
+        $.ajax({
+            type: "Post",
+            url: "/Request/LoadUploadedFiles",
+            data: { DocType: 'MiscellaneousRequest', DocNumber: DocNumbers },
+            success: function (data) {
+                $("#ShowAttachmentsList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 10,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Name", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                return html;
+                            }
+                        },
+                    ]
+
+                });
+                $("#ShowAttachmentsModal").modal();
+
+            }
+        });
+
+    }
+
+</script>

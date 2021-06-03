@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "AllownceRequestForm";
+}
+
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Allownce Request Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+
+                                                    <button type="submit" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-6">
+                                                <label>Date</label>
+                                                <div class="form-group">
+                                                    <input type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Amount</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="To *">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Amount Type</label>
+                                                <div class="form-group">
+                                                    <select class="form-control show-tick">
+                                                        <option>Select Country</option>
+                                                        <option>Core Technolab Pvt.</option>
+                                                        <option>vPro Infoweb LLC.</option>
+                                                        <option>M2 Solution Pvt. Ltd.</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary">Save & Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="table m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Leave Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Approver</th>
+                                                        <th>Request Status</th>
+                                                        <th>Employee ID</th>
+                                                        <th>From</th>
+                                                        <th>To</th>
+                                                        <th>No of Days</th>
+                                                        <th>Leave Balance</th>
+                                                        <th>Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td><span>John</span></td>
+                                                        <td>Sept 13, 2017</td>
+                                                        <td>Yaseen</td>
+                                                        <td>M.Iqbal</td>
+                                                        <td><span class="badge badge-success">Admit</span></td>
+                                                        <td>2</td>
+                                                        <td>Sept 13, 2017</td>
+                                                        <td>Sept 13, 2017</td>
+                                                        <td>2</td>
+                                                        <td>5</td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

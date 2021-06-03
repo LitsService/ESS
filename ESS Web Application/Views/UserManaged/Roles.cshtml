@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Title = "Roles";
+}
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Manage Roles</h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-11">
+                        <div class="card">
+                            <button id="addToTable" onclick="OpenModal('0','','')" class="btn btn-primary m-b-15" type="button">
+                                Add Role
+                            </button>
+                            <div class="table-responsive">
+                                <table id="Roles" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Role ID</th>
+                                            <th>Name/Description</th>
+                                            <th>Is Active</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Dialogs ========= -->
+    <!-- Default Size -->
+    <!-- Add Edit Dialog-->
+    <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <input id="ID" type="hidden">
+                        <div class="col-md-12">
+                            <div class="col-md-1">
+                                <label>Name/Description</label>
+                            </div>
+                            <div class="form-group">
+                                <input id="Name" type="text" class="form-control" placeholder="User Name">
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="fancy-checkbox">
+                                    <input id="IsActive" type="checkbox" name="checkbox">
+                                    <span style="font-weight:bold">Is Active</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="Add_Update()" class="btn btn-primary">SAVE CHANGES</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Dialogs ========= -->
+    <!-- Delete Dialogs -->
+
+    <div id="DeleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        Delete
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="RoleId" />
+                    <input type="hidden" id="Table" />
+                    <div class="text-center">
+                    </div>
+                    <div class="text-center row mt-20">
+                        <div class="col-sm-6">
+                            <button class="cancel" type="button" data-dismiss="modal">Cancel</button>
+                            @*<button type="button" onclick="MasterDelete()" class="custom-btn confirm-btn"></button>*@
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="confirm" onclick="DeleteUserConfirm()" type="button" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+
+                                @*<button type="button" data-dismiss="modal" class="custom-btn cancel-btn"></button>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#Roles').DataTable({
+            responsive: true
+        });
+        BindDataTable();
+    });
+    function BindDataTable() {
+        $.ajax({
+            type: "Post",
+            url: "/UserManaged/GetRoles",
+            success: function (data) {
+                $("#Roles").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "ID", "autoWidth": true },
+                        { "data": "Name", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+                                if (row.IsActive == true) {
+                                    return '<i class="icon-check" aria-hidden="true"></i>'
+                                }
+                                else {
+                                    return '';//'<i class="fa fa-close" aria-hidden="true"></i>'
+                                }
+                                //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+                                return '<button type="button" onclick="OpenModal(' + row.ID + ',\'' + row.Name + '\',' + row.IsActive + ')" class="btn btn-sm btn-outline-secondary" title = "Edit" > <i class="fa fa-edit"></i></button > <button type="button" onclick="DeleteUserOpenModal(' + row.ID + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                                //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+
+                    ]
+
+                });
+            }
+        });
+
+    }
+    function OpenModal(id, name, isactive) {
+        if (id == '0') {
+            $("#defaultModalLabel").html("ADD ROLE");
+            $("#defaultModal").modal();
+            $("#ID").val("");
+            $("#Name").val("");
+            $("#IsActive").prop("checked", false);
+        }
+        else {
+            $("#defaultModalLabel").html("EDIT ROLE");
+            $("#ID").val(id);
+            $("#Name").val(name);
+            $("#IsActive").prop("checked", isactive);
+            $("#defaultModal").modal();
+        }
+    }
+    function Add_Update() {
+        var ID = $("#ID").val();
+        var Name = $("#Name").val();
+        var IsActive = false;
+        if ($("#IsActive").prop("checked") == true) { IsActive = true }
+        $.ajax({
+            type: "Post",
+            url: "/UserManaged/RoleInsertUpdate",
+            data: { Operation: "Insert", ID: ID, Name: Name, IsActive: IsActive },
+            success: function (result) {
+                $("#defaultModal").modal('hide');
+                BindDataTable();
+            }
+        });
+    }
+    function DeleteUserOpenModal(roleid) {
+        $("#RoleId").val(roleid);
+        $("#DeleteModal").modal();
+    }
+    function DeleteUserConfirm() {
+        var roleid = $("#RoleId").val();
+        $.ajax({
+            type: "Post",
+            url: "/UserManaged/DeleteRole",
+            data: { ID: roleid },
+            success: function (data) {
+                //$("#DeleteModal").modal();
+                BindDataTable();
+            }
+        });
+    }
+
+</script>

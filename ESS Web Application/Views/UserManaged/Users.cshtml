@@ -1,0 +1,561 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Manage Users</h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-11">
+                        <div class="card">
+                            <div class="header">
+                                <div class="col-12">
+                                    <div class="row form-group">
+                                        @*<div class="col-md-1">
+                                                <label>Employee</label>
+                                            </div>*@
+                                        <div class="col-md-4">
+                                            <label>Employee</label>
+                                            <input type="text" id="Employee" class="form-control" placeholder="User Name">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Role</label>
+                                            <select id="RoleId" class="form-control show-tick">
+                                                <option value="All">All</option>
+                                                @foreach (var item in ViewBag.Roles)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" style="margin-left:10%;">
+                                            <button onclick="BindDataTable()" type="button" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button id="addToTable" onclick="OpenModal('0')" class="btn btn-primary m-b-15" type="button">
+                                Add User
+                            </button>
+                            <div class="table-responsive">
+                                <table id="Users" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>User ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>User Name</th>
+                                            <th>Image</th>
+                                            <th>Roles</th>
+                                            <th>Company</th>
+                                            <th>Is Active</th>
+                                            <th>Is Admin</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Dialogs ========= -->
+<!-- Default Size -->
+<!-- Add Edit Dialog-->
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <input type="hidden" id="ID" />
+                        <div class="col-md-1">
+                            <label>Company</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="CompanyDropDown" onchange="CompanyOnChange(this)" class="form-control show-tick">
+                                <option value="">Select</option>
+                                @foreach (var item in ViewBag.CompanList)
+                                {
+                                    <option value="@item.CompanyGuid">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="hidden" id="ID" />
+                        <div class="col-md-1">
+                            <label>Employee</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="EmployeeDropDown" class="form-control show-tick">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-1">
+                            <label>UserName</label>
+                        </div>
+                        <div class="form-group">
+                            <input id="Username" type="text" class="form-control" placeholder="User Name">
+
+                        </div>
+                    </div>
+                    <br />
+                    <div id="Add_Password" hidden class="col-md-6">
+
+                        <div class="col-md-1">
+                            <label>Password</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="AddPassword" class="form-control" placeholder="******">
+                        </div>
+                    </div>
+
+                    <div id="Edit_Password" hidden class="col-md-12">
+
+                        <div class="col-md-1">
+                            <label>Password</label>
+                        </div>
+                        <div class="row form-group">
+                            <input type="password" style="margin-left:3%; width:44%" id="UpdatePassword" class="form-control" placeholder="******">
+                            <a href="#" id="ChangePassword" class="col-md-4" onclick="ChangePassword()">Change Password</a>
+                            <a href="#" id="update" class="col-md-2" hidden onclick="UpdatePassword()">Update</a><a href="#" id="cancel" class="col-md-2" hidden onclick="CancelUpdatePassword()">Cancel</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label>Image Upload</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" id="ImgBody">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <select class="form-control js-example-basic-multiple" id="CompaniesSelected" style="width:100%;" multiple="multiple">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+
+                        <div class="col-md-1">
+                            <label>Roles</label>
+                        </div>
+                        <div class="form-group card">
+                            @foreach (var item in ViewBag.Roles)
+                            {
+                                <label class="fancy-checkbox">
+                                    <input type="checkbox" class="rolecheckbox" id="@item.Value" name="@item.Text" @*name="role_checkbox"*@>
+                                    <span>@item.Text</span>
+                                </label>
+                            }
+
+                            @*}*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="fancy-checkbox">
+                                <input id="IsActive" type="checkbox" name="checkbox">
+                                <span style="font-weight:bold">Is Active</span>
+                            </label>
+                            <label class="fancy-checkbox">
+                                <input id="IsAdmin" type="checkbox" name="checkbox">
+                                <span style="font-weight:bold">Is Admin</span>
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Add_Update()" class="btn btn-primary">SAVE CHANGES</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Dialogs ========= -->
+<!-- Delete Dialogs -->
+@*<div id="DeleteModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <input type="hidden" id="UserId" />
+                        <div class="sa-icon sa-error" style="display: none;">
+                            <span class="sa-x-mark">
+                                <span class="sa-line sa-left"></span>
+                                <span class="sa-line sa-right"></span>
+                            </span>
+                        </div>
+                        <div class="sa-icon sa-warning pulseWarning" style="display: block;">
+                            <span class="sa-body pulseWarningIns"></span>
+                            <span class="sa-dot pulseWarningIns"></span>
+                        </div>
+                        <div class="sa-icon sa-info" style="display: none;"></div>
+                        <div class="sa-icon sa-success" style="display: none;">
+                            <span class="sa-line sa-tip"></span>
+                            <span class="sa-line sa-long"></span>
+
+                            <div class="sa-placeholder"></div>
+                            <div class="sa-fix"></div>
+                        </div>
+                        <div class="sa-icon sa-custom" style="display: none;"></div><h2>Are you sure?</h2>
+                        <p style="display: block;">You will not be able to recover this user!</p>
+
+                        <div class="sa-button-container">
+                            <button class="cancel" tabindex="2" style="display: inline-block;">Cancel</button>
+                            <div class="sa-confirm-button-container">
+                                <button class="confirm" onclick="DeleteUserConfirm()" tabindex="1" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div id="DeleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Delete
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="UserId" />
+                <input type="hidden" id="Table" />
+                <div class="text-center">
+                </div>
+                <div class="text-center row mt-20">
+                    <div class="col-sm-6">
+                        <button class="cancel" type="button" data-dismiss="modal">Cancel</button>
+                        @*<button type="button" onclick="MasterDelete()" class="custom-btn confirm-btn"></button>*@
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="confirm" onclick="DeleteUserConfirm()" type="button" style="display: inline-block; background-color: rgb(220, 53, 69); box-shadow: rgba(220, 53, 69, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">Yes, delete it!</button><div class="la-ball-fall">
+
+                            @*<button type="button" data-dismiss="modal" class="custom-btn cancel-btn"></button>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+        $(document).ready(function () {
+            //$('.js-example-data-ajax').select2();
+            @*$(".js-example-basic-single").select2();*@
+            //$(".js-example-tags").select2({
+            //    tags: true
+            //});
+            //$.fn.select2.defaults.set("key", "value")
+
+            //$('.js-example-basic-multiple').select2({
+            //    tags: "true",
+            //    placeholder: "Select",
+            //    searchable: "true"
+            //});
+            //$('.js-example-basic-multiple').select2();
+
+            $('#Users').DataTable({
+                responsive: true
+            });
+            BindDataTable();
+        });
+        function BindDataTable() {
+            var Employee = $("#Employee").val();
+            var Rolieid = $("#RoleId option:selected").val()
+            $.ajax({
+                type: "Post",
+                url: "/UserManaged/GetUsers",
+                data: { Employee: Employee, RoleId: Rolieid },
+                success: function (data) {
+                    $("#Users").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "ID", "autoWidth": true },
+                            { "data": "FirstName", "autoWidth": true },
+                            { "data": "LastName", "autoWidth": true },
+                            { "data": "UserName", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    return '';
+                                }
+                            },
+                            { "data": "Roles", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    if (row.IsActive == true) {
+                                        return '<i class="icon-check" aria-hidden="true"></i>'
+                                    }
+                                    else {
+                                        return '';//'<i class="fa fa-close" aria-hidden="true"></i>'
+                                    }
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                            {
+                                render: function (data, type, row) {
+                                    if (row.IsAdmin == true) {
+                                        return '<i class="icon-check" aria-hidden="true"></i>'
+                                    }
+                                    else {
+                                        return ''//'<i class="fa fa-close" aria-hidden="true"></i>'
+                                    }
+                                }
+                            },
+                            {
+                                render: function (data, type, row) {
+                                    return '<button type="button" onclick="OpenModal(' + row.ID + ',\'' + row.UserName + '\',\'' + row.EmployeeId + '\',\'' + row.Roles + '\',' + row.IsActive + ',' + row.IsAdmin + ',\'' + row.CompanyId +'\')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></button>  <button type="button" onclick="DeleteUserOpenModal(' + row.ID + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+
+                        ]
+
+                    });
+                }
+            });
+
+        }
+    function OpenModal(id, UserName, EmployeeId, Roles, IsActive, IsAdmin, CompanyId) {
+
+        $("#CompaniesSelected").html("");
+                @{
+                    string countrylist = "";
+                    foreach (var item in ViewBag.CompanList)
+                    {
+                        countrylist += "<option value='"+item.CompanyGuid + "'>"+item.Name+"</option>";
+                    }
+                }
+                var CountryL = "@Html.Raw(countrylist)";
+        $("#CompaniesSelected").html(CountryL);
+
+            $('input[type=checkbox]').prop('checked', false);
+            $("#Username").val("");
+            $("#IsActive").prop("checked", false);
+            $("#IsAdmin").prop("checked", false);
+            $("#ID").val("");
+            if (id == '0') {
+                $("#defaultModalLabel").html("ADD USER");
+                $("#EmployeeDropDown").html("");
+                //$("#AddPassword").prop("disabled", true);
+                $("#Add_Password").prop("hidden", false);
+                $("#Edit_Password").prop("hidden", true);
+                $.ajax({
+                    type: "Post",
+                    url: "/UserManaged/GetEmployee",
+                    data: { Type: 'New' },
+                    success: function (data) {
+                        var Employee = '';
+                        for (var i = 0; i < data.length; i++) {
+                            Employee += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        $("#EmployeeDropDown").html(Employee);
+                    }
+                });
+                $("#defaultModal").modal();
+
+            }
+            else {
+                $("#defaultModalLabel").html("EDIT USER");
+                $("#EmployeeDropDown").html("");
+                $("#Add_Password").prop("hidden", true);
+                $("#Edit_Password").prop("hidden", false);
+                $("#UpdatePassword").prop('disabled', true);
+                $("#ID").val(id);
+
+                $.ajax({
+                    type: "Post",
+                    url: "/UserManaged/GetEmployee",
+                    data: { Type: 'Update' },
+                    success: function (data) {
+                        var Employee = '';
+                        if (EmployeeId == 'Admin') {
+                            Employee += '<option selected="selected" value="Admin">Admin-</option>';
+                        }
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Value == EmployeeId) {
+                                Employee += '<option selected="selected" value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            }
+                            else {
+                                Employee += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            }
+                        }
+                        $("#EmployeeDropDown").html(Employee);
+                        $("#Username").val(UserName);
+                        $("#IsActive").prop("checked", IsActive);
+                        $("#IsAdmin").prop("checked", IsAdmin);
+                        $("#CompanyDropDown").val(CompanyId);
+                        var t = Roles.split(",");
+                        for (var i = 0; i < t.length; i++) {
+                            $(":checkbox[name='" + t[i].trim() + "']").prop("checked", true);
+                        }
+                    }
+                });
+                $.ajax({
+                    type: "Post",
+                    url: "/UserManaged/GetUserCompany",
+                    data: { UserId: id },
+                    success: function (data) {
+                        var ItemSelectedList = [];
+                        ItemSelectedList = data;
+                        $("#CompaniesSelected").val(ItemSelectedList);
+                    }
+                });
+                $("#defaultModal").modal();
+
+            }
+        }
+        function Add_Update() {
+            var ID = $("#ID").val();
+            var Employee = $("#EmployeeDropDown option:selected").val();
+            var Username = $("#Username").val();
+            var Password = $("#AddPassword").val();
+            var IsActive = $("#IsActive").is(':checked');
+            var IsAdmin = $("#IsAdmin").is(':checked');
+            var Company = $("#").val();
+            var SelectedRole = storeTblValues();
+            var CompaniesSelectedList = [];
+            $.each($("#CompaniesSelected option:selected"), function () {
+                CompaniesSelectedList.push($(this).val());
+            });
+            $.ajax({
+                type: "Post",
+                url: "/UserManaged/UserInsertUpdate",
+                data: { Operation: "Insert", EmployeeID: Employee, PasswordHash: Password, ID: ID, Username: Username, IsAdmin: IsAdmin, IsActive: IsActive, UserRoleId: SelectedRole.join(","), ImgBody: "", CompaniesSelectedList: CompaniesSelectedList, Company: Company },
+                success: function (result) {
+                    $("#defaultModal").modal('hide');
+                }
+            });
+        }
+        function storeTblValues() {
+            var TableData = new Array();
+            var Count = 0;
+            /*$("input[name='role_checkbox']:checkbox:checked")*/
+            $("input:checkbox[class=rolecheckbox]:checked").map(function () {
+                var t = this.id.split("_");
+                TableData[Count] = t[0];
+                Count = Count + 1;
+            });
+            return TableData;
+        }
+        function DeleteUserOpenModal(userid) {
+            $("#UserId").val(userid);
+            $("#DeleteModal").modal();
+            //DeleteUserConfirm(userid);
+        }
+        function DeleteUserConfirm() {
+            var userid = $("#UserId").val();
+            $.ajax({
+                type: "Post",
+                url: "/UserManaged/DeleteUser",
+                data: { ID: userid },
+                success: function (userid) {
+                    //$("#DeleteModal").modal();
+                    BindDataTable();
+                }
+            });
+        }
+        function ChangePassword() {
+            $("#UpdatePassword").prop('disabled', false);
+            $("#ChangePassword").prop("hidden", true);
+            $("#update").prop("hidden", false);
+            $("#cancel").prop("hidden", false);
+        }
+        function UpdatePassword() {
+            $("#UpdatePassword").prop('disabled', true);
+            $("#ChangePassword").prop("hidden", false);
+            $("#update").prop("hidden", true);
+            $("#cancel").prop("hidden", true);
+            var password = $("#UpdatePassword").val();
+            var userid = $("#ID").val();
+            $.ajax({
+                type: "Post",
+                url: "/UserManaged/UpdateUserPassword",
+                data: { ID: userid, Password: password },
+                success: function (data) {
+                    //$("#DeleteModal").modal();
+                    //BindDataTable();
+                }
+            });
+        }
+        function CancelUpdatePassword() {
+            $("#UpdatePassword").prop('disabled', true);
+            $("#ChangePassword").prop("hidden", false);
+            $("#update").prop("hidden", true);
+            $("#cancel").prop("hidden", true);
+    }
+    function CompanyOnChange(e)
+    {
+        $("#EmployeeDropDown").html("");
+            $.ajax({
+                type: "Post",
+                url: "/UserManaged/GetEmployee",
+                data: { Type: 'New', CompanyId: e.Value },
+                success: function (data) {
+                    var Employee = '';
+                    for (var i = 0; i < data.length; i++) {
+                        Employee += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    $("#EmployeeDropDown").html(Employee);
+                }
+            });
+    }
+</script>

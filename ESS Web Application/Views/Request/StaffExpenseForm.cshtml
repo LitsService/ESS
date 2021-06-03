@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "StaffExpenseForm";
+}
+
+<style>
+    .dataTables_empty {
+        display: none;
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+
+    .dataTables_paginate, .dataTables_length, .dataTables_filter {
+        display: none;
+    }
+</style>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Home/Dashboard"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+        @*<div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                <div class="bh_chart hidden-xs">
+                    <div class="float-left m-r-15">
+                        <small>Visitors</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                    </div>
+                    <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Visits</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                    </div>
+                    <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Chats</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                    </div>
+                    <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Staff Expense Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">Approve Application</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list" cellspacing="0" id="StaffExpenseTable">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref #</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        
+        BindDataTable();
+    });
+
+    
+    function BindDataTable() {
+            $.ajax({
+                type: "Post",
+                url: "/Request/GetStaffExpenseDataBind",
+                success: function (data) {
+                    $("#StaffExpenseTable").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.History,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "Ref", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "EmployeeName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    return "<a href='#' onclick='ShowDetails(" + row.Ref + ")'>Show Detail</a>";
+                                }
+                            },
+
+                            {
+                                render: function (data, type, row) {
+
+                                    //var html = '<button type="button" onclick=Download(' + row.AttachmentGuid + ') class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    //if (row.IsEditViisible == true) {
+                                    //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                    //}
+                                    if (row.isSubmitVisible == true) {
+                                        html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                    }
+                                    if (row.isInProcessVisible == true) {
+                                        html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                    }
+                                    if (row.isRecallVisible == true) {
+                                        html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+',1)" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                    }
+                                    if (row.isCompletedVisible == true) {
+                                        html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                    }
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+
+                        ]
+
+                    });
+                }
+            });
+
+    }
+</script>
+

@@ -1,0 +1,719 @@
+﻿@{
+    ViewBag.Title = "LoanApplicationForm";
+}
+<script src="~/Content/assets/vendor/editable-table/mindmup-editabletable.js"></script>
+<script src="~/assets/bundles/mainscripts.bundle.js"></script>
+<script src="~/assets/js/pages/tables/editable-table.js"></script>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Loan Application Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card">
+                                    @*<div class="header">
+                                            <h2>Employee Performance</h2>
+                                        </div>*@
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Employee</label>
+                                                <div class="form-group">
+                                                    <select id="User" onchange="GetEmployeeDetails(this)" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Loan Type</label>
+                                                <div class="form-group">
+                                                    <select id="LoanType" onchange="GetInstallments(this)" class="form-control show-tick">
+                                                        <option value="0">Select Loan Type</option>
+                                                        @foreach (var item in ViewBag.LoanTypes)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Loan Amount</label>
+                                                <input id="LoanAmount" type="text" class="form-control">
+                                            </div>
+                                            <br />
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>No of installments</label>
+                                                <div class="form-group">
+                                                    <select id="Installments" class="form-control show-tick">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <button onclick="LoanDataBinding('')" id="addToTable" class="btn btn-primary m-b-15" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Add row
+                                            </button>
+                                            <div class="table-responsive">
+
+                                                <table class="table table-bordered table-hover table-striped" cellspacing="0" id="addrowLoan">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Amount</th>
+                                                            <th>Remarks</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2>Employee Detail Card</h2>
+                                    </div>
+                                    <div class="body text-center">
+                                        <div class="chart easy-pie-chart-1" data-percent="75"> <span><img src="~/Content/assets/images/NoImage.jpg" alt="user" class="rounded-circle imgFromScript" /></span> </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Employee ID: </label>
+                                                <text id="EmpID">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Name: </label>
+                                                <text id="EmpName">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Designation: </label>
+                                                <text id="EmpDesg">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Department: </label>
+                                                <text id="EmpDept">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Nationality</label>
+                                                <text id="EmpNation">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Address: </label>
+                                                <text id="EmpAdd">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Phone: </label>
+                                                <text id="EmpPhone">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Email: </label>
+                                                <text id="EmpEmail">0</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="table m-b-0" style="width: 100%;" id="LoanList">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Loan Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Expected Date</th>
+                                                        <th>Amount</th>
+                                                        <th>No of Installments</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="ApprovalLoanList" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Loan Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Expected Date</th>
+                                                        <th>Amount</th>
+                                                        <th>No of Installments</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditReqModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="ReqId" />
+                <div class="table-responsive">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Employee</label>
+                        <div class="form-group">
+                            <select id="UserEdit" class="form-control show-tick">
+                                <option value="0">Select Employee</option>
+                                @foreach (var item in ViewBag.User)
+                                {
+                                    if (item.Text == "Self")
+                                    {
+                                        <option selected value="@item.Value">@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Loan Type</label>
+                        <div class="form-group">
+                            <select id="LoanTypeEdit" onchange="GetEditInstallments(this)" class="form-control show-tick">
+                                <option value="0">Select Loan Type</option>
+                                @foreach (var item in ViewBag.LoanTypes)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Loan Amount</label>
+                        <input id="LoanAmountEdit" type="text" class="form-control">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Loan Start Date</label>
+                        <input id="DateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                    </div>
+                    <br />
+                    <div class="col-md-6 col-sm-12">
+                        <label>No of installments</label>
+                        <div class="form-group">
+                            <select id="InstallmentsEdit" class="form-control show-tick">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Remarks</label>
+                        <input id="RemarksEdit" type="text" class="form-control">
+                    </div>
+                    <br />
+                    <button onclick="EditSave()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Loan Type</label>
+                            <div id="LoanTypeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Expected Date</label>
+                            <div id="DateApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group col-md-6">
+                            <label>Loan Amount</label>
+                            <div id="AmountApproval"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label># of installments</label>
+                            <div id="InstallmentsApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remark History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#User").trigger("change");
+        LoanDataBinding('');
+        BindDataTable();
+    });
+    function GetEmployeeDetails(e) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeDetails",
+            data: { SelectUserId: e.value },
+            success: function (data) {
+                $("#EmpName").text(data.Name);
+                $("#EmpDesg").text(data.Designation);
+                $("#EmpID").text(data.EmpID);
+                $("#EmpNation").text(data.Nationality);
+                $("#EmpDept").text(data.Department);
+                $("#EmpAdd").text(data.Address);
+                $("#EmpPhone").text(data.Phone);
+                $("#EmpEmail").text(data.Email);
+            }
+        });
+    }
+
+    function LoanDataBinding(type) {
+        var Count = $('#addrowLoan tbody tr').length;
+        var BindHtml = '<tr class="gradeA">' +
+            '<td><input id="Date_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control"></td>' +
+            '<td><input id="Amount_' + Count + '" type="text" class="form-control" placeholder="Amount"></td>' +
+            '<td><input id="Remarks_' + Count + '" type="text" class="form-control" placeholder="Remarks"></td>' +
+            '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+            '</tr>';
+        if (type == "Edit") {
+            $('#EditrowLoan').append(BindHtml);
+        }
+        else {
+            $('#addrowLoan').append(BindHtml);
+        }
+    }
+
+    function deleteRow(e) {
+        $(e).parents("tr").remove();
+    }
+
+    function GetInstallments(e) {
+        $("#Installments").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetInstallments",
+            data: { LoanType: e.value },
+            success: function (data) {
+                var installment = '<option value="0">Select Installment</option>';
+                for (var i = 0; i < data.length; i++) {
+                    installment += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#Installments").html(installment);
+            }
+        });
+    }
+
+    function BindDataTable() {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLoanData",
+            success: function (data) {
+                $("#LoanList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestID", "autoWidth": true },
+                        { "data": "LoanType", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "ExpectedDate", "autoWidth": true },
+                        { "data": "Amount", "autoWidth": true },
+                        { "data": "Installments", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                return "<a href='#' onclick='ShowDetails(" + row.Ref + ")'>Show Detail</a>";
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="EditDataBinding(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#ApprovalLoanList").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestID", "autoWidth": true },
+                            { "data": "LoanType", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "ExpectedDate", "autoWidth": true },
+                            { "data": "Amount", "autoWidth": true },
+                            { "data": "Installments", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+                                    var html = '<button type="button" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')"  type="button" class="btn btn-sm btn-outline-secondary" title="Approve or Reject"><i class="fa fa-check"></i></button>';
+                                    return html;
+                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+                    });
+                }
+                if (data.ProfileImage != null)
+                    $(".imgFromScript").attr("src", data.ProfileImage);
+            }
+        });
+
+    }
+
+    function Save()
+    {
+        var Emp = $("#User option:selected").val();
+        var Type = $("#LoanType").val();
+        var Amount = $("#LoanAmount").val();
+        var Installments = $("#Installments").val();
+
+        var TableData;
+        TableData = storeTblValues();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveLoanApplication", "Request")',
+            data: { Emp: Emp, Type: Type, Amount: Amount, Installments: Installments, LModle: TableData },
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            },
+            error: function (data)
+            {
+            }
+        });
+    }
+
+    function storeTblValues() {
+        var TableData = new Array();
+        var count = 0;
+            $('#addrowLoan tbody tr').each(function (row, tr) {
+                TableData[row] = {
+                     "Date": $("#Date_"+count).val()
+                    , "Amount": $("#Amount_"+count).val()
+                    , "Remarks":$("#Remarks_"+count).val()
+                }
+                count = count + 1;
+            });
+            //TableData.shift();
+            return TableData;
+    }
+
+    function EditDataBinding(id)
+    {
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetLoanEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#UserEdit").val(data.Employee);
+                $("#LoanTypeEdit").val(data.Type);
+                GetSelectedEditInstallments(data.Type, data.Installment);
+                $("#LoanAmountEdit").val(data.Amount);
+                $("#InstallmentsEdit").val(data.Installment);
+                $("#DateEdit").val(data.Date);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#ReqId").val(data.Id);
+                $("#EditReqModal").modal();
+            }
+        });
+    }
+
+    function GetEditInstallments(e) {
+        $("#InstallmentsEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetInstallments",
+            data: { LoanType: e.value },
+            success: function (data) {
+                var installment = '<option value="0">Select Installment</option>';
+                for (var i = 0; i < data.length; i++) {
+                    installment += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#InstallmentsEdit").html(installment);
+            }
+        });
+    }
+    function GetSelectedEditInstallments(e,select) {
+        $("#InstallmentsEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetInstallments",
+            data: { LoanType: e },
+            success: function (data) {
+                var installment = '<option value="0">Select Installment</option>';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Value == select) {
+                        installment += '<option selected value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    else {
+                        installment += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                }
+                $("#InstallmentsEdit").html(installment);
+            }
+        });
+    }
+    function EditSave()
+    {
+        var id = $("#ReqId").val();
+        var User=$("#UserEdit").val();
+        var Type=$("#LoanTypeEdit").val();
+        var Amount=$("#LoanAmountEdit").val();
+        var Installment=$("#InstallmentsEdit").val();
+        var Date=$("#DateEdit").val();
+        var Remarks=$("#RemarksEdit").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveEditLoan", "Request")',
+            data: { Id: id, User: User, Type: Type, Amount: Amount, Installment: Installment, Date: Date, Remarks: Remarks },
+            success: function (data) {
+                if (data == "") {
+                    $("#EditReqModal").modal('hide');
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }            },
+            error: function (data)
+            {
+            }
+        });
+    }
+
+    //function ShowDetails(Id)
+    //{
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "/Request/GetDetails",
+    //        data: {Reqid:Id},
+    //        success: function (data) {
+    //            $("#ShowDetailModal").modal();
+    //                $("#ShowDetail").DataTable({
+    //                    "lengthChange": true,
+    //                    "pageLength": 25,
+    //                    destroy: true,
+    //                    data: data,
+    //                    "lengthChange": false,
+    //                    "filter": false,
+    //                    "columns": [
+    //                        { "data": "RMTYPE", "autoWidth": true },
+    //                        { "data": "From", "autoWidth": true },
+    //                        { "data": "To", "autoWidth": true },
+    //                        { "data": "City", "autoWidth": true },
+    //                        { "data": "ActivityType", "autoWidth": true },
+    //                        { "data": "ActivityId", "autoWidth": true },
+    //                        { "data": "Reciept", "autoWidth": true },
+    //                        { "data": "Currency", "autoWidth": true },
+    //                        { "data": "Amount", "autoWidth": true },
+    //                        { "data": "Remarks", "autoWidth": true },
+    //                    ]
+
+    //                });
+    //            }
+    //        });
+    //}
+
+    function ShowApprove_RejectModal(id, statusid)
+    {
+        $("#Approve_RejectModal").modal();
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetLoanApproval",
+            data: { Id: id},
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#LoanTypeApproval").html(data.LoanType);
+                $("#DateApproval").html(data.ExpectedDate);
+                $("#AmountApproval").html(data.Amount);
+                $("#InstallmentsApproval").html(data.Installments);
+                $("#RemarkHistory").html(data.History);
+                $("#ReqIdApproval").val(id);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+
+    function Approve_Reject(Type)
+    {
+         $.ajax({
+            type: "Post",
+             url: "/Request/SaveLoanApprove_Reject",
+             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
+             success: function (data) {
+                 $("#Approve_RejectModal").modal('hide');
+                 BindDataTable();
+            }
+        });
+    }
+
+</script>

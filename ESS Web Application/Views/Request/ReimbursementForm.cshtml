@@ -1,0 +1,889 @@
+﻿
+@{
+    ViewBag.Title = "ReimbursementForm";
+}
+<style>
+    .dataTables_empty {
+        display: none;
+    }
+
+    .dataTables_info {
+        display: none;
+    }
+
+    .dataTables_paginate, .dataTables_length, .dataTables_filter {
+        display: none;
+    }
+</style>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Home/Dashboard"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+        @*<div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                <div class="bh_chart hidden-xs">
+                    <div class="float-left m-r-15">
+                        <small>Visitors</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                    </div>
+                    <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Visits</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                    </div>
+                    <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Chats</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                    </div>
+                    <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Reimbursement Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-11">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="header">
+                                            <div class="col-12">
+                                                <div class="row form-group">
+                                                    <div class="col-md-1">
+                                                        <label>Employee</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <select class="form-control show-tick">
+                                                            <option value="0">Select Employee</option>
+                                                            @foreach (var item in ViewBag.User)
+                                                            {
+                                                                if (item.Text == "Self")
+                                                                {
+                                                                    <option selected value="@item.Value">@item.Text</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2" style="margin-left:10%;">
+                                                        @*<input type="file" hidden name="file" id="file" />*@
+                                                        <button type="submit" onclick="ShowAttachments('','New')" class="btn btn-primary">Attachments</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button onclick="ReimbursementDataBinding('')" id="addToTable" class="btn btn-primary m-b-15" type="button">
+                                            <i class="icon wb-plus" aria-hidden="true"></i> Add row
+                                        </button>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list" cellspacing="0" id="addrowReimbursement">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Reimbursment Type</th>
+                                                        <th>From Date</th>
+                                                        <th>To Date</th>
+                                                        <th>Location</th>
+                                                        <th>Activity Type</th>
+                                                        <th>Activity Id</th>
+                                                        <th>Reciept Date</th>
+                                                        <th>Visited Country Currency</th>
+                                                        <th>Amount as Visited Country</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                        <br>
+                                        @*<button type="submit" onclick="Save(1)" class="btn btn-primary">Save</button>*@
+                                        <button type="submit" onclick="Save(2)" class="btn btn-primary">Submit</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="table m-b-0" style="width: 100%;" id="ReimbursementList">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Reimbursement Type</th>
+                                                        <th>Submitted By</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Request Date</th>
+                                                        <th>TRX ID</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table class="table m-b-0" style="width: 100%;" id="ApprovalReimbursementList">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Reimbursement Type</th>
+                                                        <th>Submitted By</th>
+                                                        <th>Employee ID</th>
+                                                        <th>Request Date</th>
+                                                        <th>TRX ID</th>
+                                                        <th>Company</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" name="PrintId" />
+    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+}
+<div class="modal fade" id="EditReqModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 90% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="ReqId" />
+                <input type="hidden" id="Recall" />
+                <button onclick="ReimbursementDataBinding('Edit')" class="btn btn-primary m-b-15" type="button">
+                    <i class="icon wb-plus" aria-hidden="true"></i> Add new record
+                </button>
+                <div class="table-responsive">
+                    <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list" cellspacing="0" id="EditrowReimbursement">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Reimbursment Type</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Location</th>
+                                <th>Activity Type</th>
+                                <th>Activity Id</th>
+                                <th>Reciept Date</th>
+                                <th>Visited Country Currency</th>
+                                <th>Amount as Visited Country</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <br />
+                @*<button type="submit" onclick="EditSave(1)" class="btn btn-primary">Save</button>*@
+                <button type="submit" onclick="EditSave(2,true)" class="btn btn-primary">Submit</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowDetailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 90% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list" cellspacing="0" id="ShowDetail">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Reimbursment Type</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Location</th>
+                                <th>Activity Type</th>
+                                <th>Activity Id</th>
+                                <th>Reciept Date</th>
+                                <th>Visited Country Currency</th>
+                                <th>Amount as Visited Country</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <br />
+                @*<button type="submit" onclick="EditSave(1)" class="btn btn-primary">Save</button>*@
+                @*<button type="submit" onclick="EditSave(2,true)" class="btn btn-primary">Submit</button>*@
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remark History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowAttachmentsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" style="width: 100% !important;">
+            <div class="modal-body">
+                <input type="file" multiple name="file" id="file" />
+                <div class="table-responsive">
+                    <table id="ShowAttachmentsList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>File</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var formdata = new FormData();
+    $(document).ready(function () {
+        //$("#User").trigger("change");
+        $('#addrowReimbursement').DataTable({
+            "pageLength": 25,
+            "lengthChange": false,
+            "filter": false,
+            responsive: true,
+            paging: false,
+
+        });
+        BindDataTable();
+        ReimbursementDataBinding('');
+        $("#file").on("change", function () {
+            var fileInput = document.getElementById('file');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                var sfilename = fileInput.files[i].name;
+                formdata.append(sfilename, fileInput.files[i]);
+
+            }
+            chkatchtbl();
+            $('#fileInput').val('');
+        });
+    });
+
+     function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        $("#PrintId").val(id);
+        $("#btnSubmit").click();
+    }
+    function BindDataTable() {
+            $.ajax({
+                type: "Post",
+                url: "/Request/GetReimbursementList",
+                success: function (data) {
+                    $("#ReimbursementList").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data.History,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestID", "autoWidth": true },
+                            { "data": "ReimbursementType", "autoWidth": true },
+                            { "data": "SubmittedBy", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "RequestedDate", "autoWidth": true },
+                            { "data": "TrxId", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    return "<a href='#' onclick='ShowDetails(" + row.Ref + ")'>Show Detail</a>";
+                                }
+                            },
+
+                            {
+                                render: function (data, type, row) {
+                                /*onclick=Download(' + row.AttachmentGuid + ')*/
+                                    var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    //if (row.IsEditViisible == true) {
+                                    //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                    //}
+                                    if (row.isSubmitVisible == true) {
+                                        html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                    }
+                                    if (row.isInProcessVisible == true) {
+                                        html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                    }
+                                    if (row.isRecallVisible == true) {
+                                        html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+',1)" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                    }
+                                    if (row.isCompletedVisible == true) {
+                                        html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                    }
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+
+                        ]
+
+                    });
+                    if (data.IsApproval == true) {
+                        $("#Approvalhidden").prop("hidden", false);
+                        $("#ApprovalReimbursementList").DataTable({
+                           "lengthChange": true,
+                            "pageLength": 25,
+                            destroy: true,
+                            data: data.Approval,
+                            "lengthChange": false,
+                            "filter": false,
+                            "columns": [
+                                { "data": "RequestID", "autoWidth": true },
+                                { "data": "ReimbursementType", "autoWidth": true },
+                                { "data": "SubmittedBy", "autoWidth": true },
+                                { "data": "EmployeeId", "autoWidth": true },
+                                { "data": "RequestedDate", "autoWidth": true },
+                                { "data": "TrxId", "autoWidth": true },
+                                { "data": "CompanyName", "autoWidth": true },
+
+                                {
+                                    render: function (data, type, row) {
+                                        return "<a href='#' onclick='ShowDetails(" + row.Ref + ")'>Show Detail</a>";
+                                    }
+                                },
+                                {
+                                    render: function (data, type, row) {
+                                        var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                        html += ' <button onclick="ShowApprove_RejectModal(' + row.Ref + ','+row.ReimbursementStatusID+')"  type="button" class="btn btn-sm btn-outline-secondary" title="Approve or Reject"><i class="fa fa-check"></i></button>';
+                                        return html;
+                                        //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                    }
+                                },
+                        ]
+                    });
+                    }
+                    if (data.ProfileImage != null)
+                        $(".imgFromScript").attr("src", data.ProfileImage);
+                }
+            });
+
+    }
+    function ReimbursementDataBinding(type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetDataBind",
+            success: function (data) {
+                var countries = '<option value="0">Select Country</option>';
+                var reimbursmenttype = '<option value="0">Select Reimbursement Type</option>';
+                var currency = '<option value="0">Select Currency</option>';
+                var activitytype = '<option value="0">Select Activity Type</option>';
+                var Count = 0;
+                 if (type == "Edit") {
+                    Count = $('#EditrowReimbursement tbody tr').length;;
+                }
+                else {
+                    Count = $('#addrowReimbursement tbody tr').length;;
+                }
+                for (var i = 0; i < data.Countries.length; i++) {
+                    countries += '<option value="' + data.Countries[i].Value + '">' + data.Countries[i].Text + '</option>';
+                }
+                for (var i = 0; i < data.ReimbursementType.length; i++) {
+                    reimbursmenttype += '<option value="' + data.ReimbursementType[i].Value + '">' + data.ReimbursementType[i].Text + '</option>';
+                }
+                for (var i = 0; i < data.CurrencyCode.length; i++) {
+                    currency += '<option value="' + data.CurrencyCode[i].Value + '">' + data.CurrencyCode[i].Text + '</option>';
+                }
+                for (var i = 0; i < data.ActivityTypes.length; i++) {
+                    activitytype += '<option value="' + data.ActivityTypes[i].Value + '">' + data.ActivityTypes[i].Text + '</option>';
+                }
+                var BindHtml = '';
+                if (type == "Edit") {
+                    BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="RMtypeEdit_' + Count + '" class="form-control show-tick">' + reimbursmenttype + '</select></td>' +
+                    '<td><input id="FromDateEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From"></td>' +
+                    '<td><input id="ToDateEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To"></td>' +
+                    '<td><select id="CountryEdit_' + Count + '" onchange="GetCity(this)" class="form-control show-tick">' + countries + '</select><select id="City_' + Count + '" class="form-control show-tick"></select></td>' +
+                    '<td><select id="ACtypeEdit_' + Count + '" class="form-control show-tick">' + activitytype + '</select></td>' +
+                    '<td><input id="ACidEdit_' + Count + '" type="text" class="form-control" placeholder="Activity Id"></td>' +
+                    '<td><input id="RecieptEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="ToReciept"></td>' +
+                    '<td><select id="CurrencyEdit_' + Count + '" class="form-control show-tick">' + currency + '</select></td>' +
+                    '<td><input id="AmountEdit_' + Count + '" type="text" class="form-control" placeholder="Amount"></td>' +
+                    '<td><input id="RemarksEdit_' + Count + '" type="text" class="form-control" placeholder="Remarks"></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+                    $('#EditrowReimbursement').append(BindHtml);
+
+                }
+                else {
+                      BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="RMtype_' + Count + '" class="form-control show-tick">' + reimbursmenttype + '</select></td>' +
+                    '<td><input id="FromDate_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From"></td>' +
+                    '<td><input id="ToDate_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To"></td>' +
+                    '<td><select id="Country_' + Count + '" onchange="GetCity(this)" class="form-control show-tick">' + countries + '</select><select id="City_' + Count + '" class="form-control show-tick"></select></td>' +
+                    '<td><select id="ACtype_' + Count + '" class="form-control show-tick">' + activitytype + '</select></td>' +
+                    '<td><input id="ACid_' + Count + '" type="text" class="form-control" placeholder="Activity Id"></td>' +
+                    '<td><input id="Reciept_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="ToReciept"></td>' +
+                    '<td><select id="Currency_' + Count + '" class="form-control show-tick">' + currency + '</select></td>' +
+                    '<td><input id="Amount_' + Count + '" type="text" class="form-control" placeholder="Amount"></td>' +
+                    '<td><input id="Remarks_' + Count + '" type="text" class="form-control" placeholder="Remarks"></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+                    $('#addrowReimbursement').append(BindHtml);
+                }
+            }
+        });
+
+    }
+    function ReimbursementEditDataBinding(id,recall) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEditDataBind",
+            data: { Reqid: id },
+            success: function (data) {
+                $('#EditrowReimbursement tbody').html("");
+                $("#Recall").val(recall);
+                for (var j = 0; j < data.length; j++) {
+                    $("#ReqId").val(data[j].ImbursementId);
+                    var countries = '<option value="0">Select Country</option>';
+                    var reimbursmenttype = '<option value="0">Select Reimbursement Type</option>';
+                    var currency = '<option value="0">Select Currency</option>';
+                    var activitytype = '<option value="0">Select Activity Type</option>';
+                    var Count = $('#EditrowReimbursement tbody tr').length;;
+                    for (var i = 0; i < data[j].dropdowns.Countries.length; i++) {
+                        if (data[j].dropdowns.Countries[i].Value == data[j].Country) {
+                            countries += '<option selected value="' + data[j].dropdowns.Countries[i].Value + '">' + data[j].dropdowns.Countries[i].Text + '</option>';
+                        }
+                        else {
+                            countries += '<option value="' + data[j].dropdowns.Countries[i].Value + '">' + data[j].dropdowns.Countries[i].Text + '</option>';
+                    }
+                }
+                for (var i = 0; i < data[j].dropdowns.ReimbursementType.length; i++) {
+
+                    if (data[j].dropdowns.ReimbursementType[i].Value == data[j].RMTYPE) {
+                            reimbursmenttype += '<option selected value="' + data[j].dropdowns.ReimbursementType[i].Value + '">' + data[j].dropdowns.ReimbursementType[i].Text + '</option>';
+                        }
+                        else {
+                            reimbursmenttype += '<option value="' + data[j].dropdowns.ReimbursementType[i].Value + '">' + data[j].dropdowns.ReimbursementType[i].Text + '</option>';
+                    }                }
+                for (var i = 0; i < data[j].dropdowns.CurrencyCode.length; i++) {
+
+                    if (data[j].dropdowns.CurrencyCode[i].Value == data[j].Currency) {
+                            currency += '<option selected value="' + data[j].dropdowns.CurrencyCode[i].Value + '">' + data[j].dropdowns.CurrencyCode[i].Text + '</option>';
+                        }
+                        else {
+                            currency += '<option value="' + data[j].dropdowns.CurrencyCode[i].Value + '">' + data[j].dropdowns.CurrencyCode[i].Text + '</option>';
+                    }                }
+                for (var i = 0; i < data[j].dropdowns.ActivityTypes.length; i++) {
+                    if (data[j].dropdowns.ActivityTypes[i].Value == data[j].ActivityType) {
+                            activitytype += '<option selected value="' + data[j].dropdowns.ActivityTypes[i].Value + '">' + data[j].dropdowns.ActivityTypes[i].Text + '</option>';
+                        }
+                        else {
+                            activitytype += '<option value="' + data[j].dropdowns.ActivityTypes[i].Value + '">' + data[j].dropdowns.ActivityTypes[i].Text + '</option>';
+                    }
+                }
+                var BindHtml = '<tr class="gradeA">' +
+                    '<td><select id="RMtypeEdit_' + Count + '" class="form-control show-tick">' + reimbursmenttype + '</select></td>' +
+                    '<td><input value="' + data[j].From + '" id="FromDateEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From"></td>' +
+                    '<td><input value="' + data[j].To + '" id="ToDateEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To"></td>' +
+                    '<td><select id="CountryEdit_' + Count + '" onchange="GetEditCity(this)" class="form-control show-tick">' + countries + '</select><select id="CityEdit_' + Count + '" class="form-control show-tick"></select></td>' +
+                    '<td><select id="ACtypeEdit_' + Count + '" class="form-control show-tick">' + activitytype + '</select></td>' +
+                    '<td><input value="' + data[j].ActivityId + '" id="ACidEdit_' + Count + '" type="text" class="form-control" placeholder="Activity Id"></td>' +
+                    '<td><input value="' + data[j].Reciept + '" id="RecieptEdit_' + Count + '" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="ToReciept"></td>' +
+                    '<td><select id="CurrencyEdit_' + Count + '" class="form-control show-tick">' + currency + '</select></td>' +
+                    '<td><input value="' + data[j].Amount + '" id="AmountEdit_' + Count + '" type="text" class="form-control" placeholder="Amount"></td>' +
+                    '<td><input value="' + data[j].Remarks + '" id="RemarksEdit_' + Count + '" type="text" class="form-control" placeholder="Remarks"></td>' +
+                    '<td class="actions"><button onclick="deleteRow(this)" class="btn btn-sm btn-icon btn-pure btn-default on-editing button-discard" data-toggle="tooltip" data-original-title="Discard"><i class="icon-close" aria-hidden="true"></i></a></td>' +
+                    '</tr>';
+                    $('#EditrowReimbursement').append(BindHtml);
+                }
+                                $("#EditReqModal").modal();
+            }
+        });
+
+    }
+    function deleteRow(e) {
+        $(e).parents("tr").remove();
+    }
+    function GetCity(e) {
+        var countryId = e.value;
+        var cid = e.id;
+        var index = cid.split("_");
+        $("#City_" + index[1]).html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#City_" + index[1]).html(Cities);
+            }
+        });
+    }
+    function GetEditCity(e) {
+        var countryId = e.value;
+        var cid = e.id;
+        var index = cid.split("_");
+        $("#CityEdit_" + index[1]).html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#CityEdit_" + index[1]).html(Cities);
+            }
+        });
+    }
+    function Save(type)
+    {
+         var TableData;
+        TableData = storeTblValues();
+       // var data = new FormData();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            //data.append("HelpSectionImages", files[0]);
+            var data = new FormData();
+            data = formdata;
+            formdata.append("FormName", "Reimbursement");
+            $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+                processData: false,
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveReimbursement", "Request")',
+            data: { AtchGuid: response, Type: type, RModle: TableData },
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            },
+            error: function (data)
+            {
+            }
+        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+
+            });
+        }
+        else {
+
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveReimbursement", "Request")',
+            data: {AtchGuid: '', Type:type,RModle: TableData },
+            success: function (data) {
+                if (data=="") {
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }
+
+
+            },
+            error: function (data)
+            {
+            }
+        });
+
+        }
+    }
+    function storeTblValues() {
+        var TableData = new Array();
+        var count = 1;
+            $('#addrowReimbursement tbody tr').each(function (row, tr) {
+                TableData[row] = {
+                    //"itemno": $(tr).find('td:eq(1)').text()
+                     "ReimbursementType": $("#RMtype_"+count+" option:selected").val()
+                    , "From": $("#FromDate_"+count).val()
+                    , "To": $("#ToDate_"+count).val()
+                    , "City": $("#City_"+count+" option:selected").val()
+                    , "ActivityType": $("#ACtype_"+count+" option:selected").val()
+                    , "ActivityId": $("#ACid_"+count).val()
+                    , "Reciept": $("#Reciept_"+count).val()
+                    , "Currency": $("#Currency_"+count+" option:selected").val()
+                    , "Amount": $("#Amount_"+count).val()
+                    , "Remarks":$("#Remarks_"+count).val()
+                }
+                count = count + 1;
+            });
+            //TableData.shift();
+            return TableData;
+    }
+    function EditSave(type,Recall)
+    {
+         var TableData;
+        TableData = editstoreTblValues();
+        var id = $("#ReqId").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveEditReimbursement", "Request")',
+            data: { Type: type, RModle: TableData, Id: id,Recall:Recall },
+            success: function (data) {
+                if (data == "") {
+                    $("#EditReqModal").modal('hide');
+                    BindDataTable();
+                }
+                else {
+                    alert(data);
+                }            },
+            error: function (data)
+            {
+            }
+        });
+    }
+    function editstoreTblValues() {
+        var TableData = new Array();
+        var count = 0;
+            $('#EditrowReimbursement tbody tr').each(function (row, tr) {
+                TableData[row] = {
+                    //"itemno": $(tr).find('td:eq(1)').text()
+                     "ReimbursementType": $("#RMtypeEdit_"+count+" option:selected").val()
+                    , "From": $("#FromDateEdit_"+count).val()
+                    , "To": $("#ToDateEdit_"+count).val()
+                    , "City": $("#CityEdit_"+count+" option:selected").val()
+                    , "ActivityType": $("#ACtypeEdit_"+count+" option:selected").val()
+                    , "ActivityId": $("#ACidEdit_"+count).val()
+                    , "Reciept": $("#RecieptEdit_"+count).val()
+                    , "Currency": $("#CurrencyEdit_"+count+" option:selected").val()
+                    , "Amount": $("#AmountEdit_"+count).val()
+                    , "Remarks":$("#RemarksEdit_"+count).val()
+                }
+                count = count + 1;
+            });
+            //TableData.shift();
+            return TableData;
+    }
+    function ShowDetails(Id)
+    {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetDetails",
+            data: {Reqid:Id},
+            success: function (data) {
+                $("#ShowDetailModal").modal();
+                    $("#ShowDetail").DataTable({
+                        "lengthChange": true,
+                        "pageLength": 25,
+                        destroy: true,
+                        data: data,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RMTYPE", "autoWidth": true },
+                            { "data": "From", "autoWidth": true },
+                            { "data": "To", "autoWidth": true },
+                            { "data": "City", "autoWidth": true },
+                            { "data": "ActivityType", "autoWidth": true },
+                            { "data": "ActivityId", "autoWidth": true },
+                            { "data": "Reciept", "autoWidth": true },
+                            { "data": "Currency", "autoWidth": true },
+                            { "data": "Amount", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                        ]
+
+                    });
+                }
+            });
+    }
+    function ShowApprove_RejectModal(id, statusid)
+    {
+        $("#Approve_RejectModal").modal();
+         $.ajax({
+            type: "Post",
+            url: "/Request/GetApproval",
+            data: { Id: id},
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#RemarkHistory").html(data.History);
+                $("#CompanyName2").html(data.CompanyName);
+
+                $("#ReqIdApproval").val(id);
+                $("#StatusId").val(statusid);
+            }
+        });
+    }
+    function Approve_Reject(Type)
+    {
+         $.ajax({
+            type: "Post",
+             url: "/Request/SaveApprove_Reject",
+             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
+             success: function (data) {
+                 $("#Approve_RejectModal").modal('hide');
+                 BindDataTable();
+            }
+        });
+    }
+    function ShowAttachments(DocNumbers, Types) {
+        if (Types == 'Edit') {
+            $("#file").hide();
+        }
+        else {
+            $("#file").show();
+        }
+        $.ajax({
+            type: "Post",
+            url: "/Request/LoadUploadedFiles",
+            data: { DocType: 'Reimbursement', DocNumber: DocNumbers },
+            success: function (data) {
+                $("#ShowAttachmentsList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 10,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Name", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                return html;
+                            }
+                        },
+                    ]
+
+                });
+                $("#ShowAttachmentsModal").modal();
+
+            }
+        });
+
+    }
+
+</script>
+
+@*<script src="../assets/vendor/editable-table/mindmup-editabletable.js"></script>*@ <!-- Editable Table Plugin Js -->
+@*<script src="assets/bundles/mainscripts.bundle.js"></script>
+    <script src="assets/js/pages/tables/editable-table.js"></script>*@
+

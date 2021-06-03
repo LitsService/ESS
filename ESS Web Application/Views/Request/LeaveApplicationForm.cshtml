@@ -1,0 +1,1267 @@
+﻿@{
+    ViewBag.Title = "LeaveApplicationForm";
+}
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0px;
+    }
+</style>
+<div class="block-header">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Dashboard</h2>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ul>
+        </div>
+        @*<div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                <div class="bh_chart hidden-xs">
+                    <div class="float-left m-r-15">
+                        <small>Visitors</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-user"></i> 1,784</h6>
+                    </div>
+                    <span class="bh_visitors float-right">2,5,1,8,3,6,7,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Visits</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-globe"></i> 325</h6>
+                    </div>
+                    <span class="bh_visits float-right">10,8,9,3,5,8,5</span>
+                </div>
+                <div class="bh_chart hidden-sm">
+                    <div class="float-left m-r-15">
+                        <small>Chats</small>
+                        <h6 class="mb-0 mt-1"><i class="icon-bubbles"></i> 13</h6>
+                    </div>
+                    <span class="bh_chats float-right">1,8,5,6,2,4,3,2</span>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="header">
+                <h2>Leave Application Form</h2>
+            </div>
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#New">New Application</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#History">History</a></li>
+                    <li class="nav-item" hidden id="Approvalhidden"><a class="nav-link" data-toggle="tab" href="#Approval">Approval</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="New">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-4">
+                                                </div>
+                                                <div class="col-md-2" style="margin-left:10%;">
+                                                    @*<input type="file" multiple hidden name="file" id="file" />*@
+                                                    <button type="submit" onclick="ShowAttachments('','New')" class="btn btn-primary">Attachments</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Employee</label>
+                                                <div class="form-group">
+                                                    <select id="User" onchange="GetEmployeeDetails(this)" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Leave Type</label>
+                                                <div class="form-group">
+                                                    <select id="LeaveType" onchange="Hide_Show(this)" class="form-control show-tick">
+                                                        <option>Select Leave Type</option>
+                                                        @foreach (var item in ViewBag.LeaveTypes)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="fancy-checkbox" hidden id="AirTicketShow">
+                                                        <input onchange="AirTicketCheck()" id="AirTicket" type="checkbox" name="checkbox">
+                                                        <span style="font-weight:bold">Air Ticket</span>
+                                                    </label>
+                                                    <label class="fancy-checkbox" hidden id="Accomodation">
+                                                        <input id="Accomodationcheck" type="checkbox" name="checkbox">
+                                                        <span style="font-weight:bold">Accomodation</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="ticketdetails" hidden>
+                                                <div class="col-md-12 col-sm-12">
+                                                    <label>Travel from</label>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-6">
+                                                            <select id="TravelFromCountry" onchange="TravelFromGetCity(this)" class="form-control show-tick">
+                                                                <option>Select Country</option>
+                                                                @foreach (var item in ViewBag.Countries)
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select id="TravelFromCity" class="form-control show-tick">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12">
+                                                    <label>Travel to</label>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-6">
+                                                            <select id="TravelToCountry" onchange="TravelToGetCity(this)" class="form-control show-tick">
+                                                                <option>Select Country</option>
+                                                                @foreach (var item in ViewBag.Countries)
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select id="TravelToCity" class="form-control show-tick">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Date of travel</label>
+                                                    <div class="form-group">
+                                                        <input id="TravelDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From *">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>Date of return</label>
+                                                    <div class="form-group">
+                                                        <input id="ReturnDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Leave Start</label>
+                                                <div class="form-group">
+                                                    <input onchange="DateStartChange(this)" id="StartDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From *">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Report to Work</label>
+                                                <div class="form-group">
+                                                    <input onchange="DateEndChange(this)" id="EndDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>No. of days:	</label>
+                                                    <text id="NoOfDays">0</text>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Total leaves taken: </label>
+                                                    <text id="LavesTaken">0</text>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Leave Balance before Approval: </label>
+                                                    <text id="BalanceLeavesbefore">0</text>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Leave Balance after Approval: </label>
+                                                    <text id="BalanceLeavesafter">0</text>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <div class="form-group">
+                                                    <textarea id="Remarks" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <label>Replacement Employee</label>
+
+                                                <div class="form-group">
+                                                    <select id="ReplacementEmp" class="form-control show-tick">
+                                                        <option>Select Replacement Name</option>
+                                                        @foreach (var item in ViewBag.ReplacementEmployee)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button onclick="Save()" type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5">
+                                <div class="card">
+                                    <div class="header">
+                                        <h2>Employee Detail Card</h2>
+                                    </div>
+                                    <div class="body text-center">
+                                        <div class="chart easy-pie-chart-1" data-percent="75"> <span><img src="~/Content/assets/images/NoImage.jpg" alt="user" class="rounded-circle imgFromScript" /></span> </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Employee ID: </label>
+                                                <text id="EmpID">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Name: </label>
+                                                <text id="EmpName">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Designation: </label>
+                                                <text id="EmpDesg">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Department: </label>
+                                                <text id="EmpDept">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Nationality</label>
+                                                <text id="EmpNation">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Address: </label>
+                                                <text id="EmpAdd">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Phone: </label>
+                                                <text id="EmpPhone">0</text>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Email: </label>
+                                                <text id="EmpEmail">0</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="History">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <div class="col-12">
+                                            <div class="row form-group">
+                                                <div class="col-md-1">
+                                                    <label>Employee</label>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                    <select id="seacrhcUser" class="form-control show-tick">
+                                                        <option value="0">Select Employee</option>
+                                                        @foreach (var item in ViewBag.User)
+                                                        {
+                                                            if (item.Text == "Self")
+                                                            {
+                                                                <option selected value="@item.Value">@item.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+
+                                                    <button onclick="LeaveApplicationDataBinding()" type="submit" class="btn btn-primary">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="LeaveApplicationHistory" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Leave Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Approver</th>
+                                                        <th>Request Status</th>
+                                                        <th>Employee ID</th>
+                                                        <th>From</th>
+                                                        <th>To</th>
+                                                        <th>No of Days</th>
+                                                        <th>Leave Balance</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Approval">
+                        <div class="row clearfix">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="table-responsive">
+                                            <table id="LeaveApplicationApproval" class="table table-bordered table-hover table-striped" cellspacing="0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Ref#</th>
+                                                        <th>Leave Type</th>
+                                                        <th>Request Date</th>
+                                                        <th>Employee</th>
+                                                        <th>Employee ID</th>
+                                                        <th>From</th>
+                                                        <th>To</th>
+                                                        <th>No of Days</th>
+                                                        <th>Leave Balance</th>
+                                                        <th>Company</th>
+                                                        <th>Remarks</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
+{
+    <input type="hidden" id="PrintId" name="DocName" />
+    <input type="submit" class="hidden" hidden id="btnSubmit" />
+}
+<div class="modal fade" id="EditLeaveModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 90% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <input type="hidden" id="Reqid" />
+                <div class="table-responsive">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Employee</label>
+                        <div class="form-group">
+                            <select id="UserEdit" class="form-control show-tick">
+                                <option value="0">Select Employee</option>
+                                @foreach (var item in ViewBag.User)
+                                {
+                                    if (item.Text == "Self")
+                                    {
+                                        <option selected value="@item.Value">@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Leave Type</label>
+                        <div class="form-group">
+                            <select id="LeaveTypeEdit" onchange="Hide_ShowEdit(this)" class="form-control show-tick">
+                                <option>Select Leave Type</option>
+                                @foreach (var item in ViewBag.LeaveTypes)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="fancy-checkbox" hidden id="AirTicketShowEdit">
+                                <input onchange="AirTicketCheckEdit()" id="AirTicketEdit" type="checkbox" name="checkbox">
+                                <span style="font-weight:bold">Air Ticket</span>
+                            </label>
+                            <label class="fancy-checkbox" hidden id="AccomodationEdit">
+                                <input id="AccomodationcheckEdit" type="checkbox" name="checkbox">
+                                <span style="font-weight:bold">Accomodation</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="ticketdetailsEdit" hidden>
+                        <div class="col-md-12 col-sm-12">
+                            <label>Travel from</label>
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <select id="TravelFromCountryEdit" onchange="TravelFromGetCityEdit(this)" class="form-control show-tick">
+                                        <option>Select Country</option>
+                                        @foreach (var item in ViewBag.Countries)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="TravelFromCityEdit" class="form-control show-tick">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <label>Travel to</label>
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <select id="TravelToCountryEdit" onchange="TravelToGetCityEdit(this)" class="form-control show-tick">
+                                        <option>Select Country</option>
+                                        @foreach (var item in ViewBag.Countries)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="TravelToCityEdit" class="form-control show-tick">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Date of travel</label>
+                            <div class="form-group">
+                                <input id="TravelDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From *">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label>Date of return</label>
+                            <div class="form-group">
+                                <input id="ReturnDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Leave Start</label>
+                        <div class="form-group">
+                            <input onchange="DateStartChangeEdit(this)" id="StartDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From *">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>Return to Work</label>
+                        <div class="form-group">
+                            <input onchange="DateEndChangeEdit(this)" id="EndDateEdit" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>No. of days:	</label>
+                            <text id="NoOfDaysEdit">0</text>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Leave Balance: </label>
+                            <text id="BalanceLeavesEdit">0</text>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                        <div class="form-group">
+                            <textarea id="RemarksEdit" rows="6" class="form-control no-resize" placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Replacement Employee</label>
+
+                        <div class="form-group">
+                            <select id="ReplacementEmpEdit" class="form-control show-tick">
+                                <option>Select Replacement Name</option>
+                                @foreach (var item in ViewBag.ReplacementEmployee)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button onclick="SaveEdit()" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="Approve_RejectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="subworkflowEditModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqIdApproval" />
+                    <input type="hidden" id="StatusId" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Employee</label>
+                            <div id="EmployeeApproval"></div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>No of Days</label>
+                        <div id="NoofdaysApproval"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Calendar Days</label>
+                        <div id="CalenderApproval"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Leave Type</label>
+                        <div id="LeaveTypeApproval"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Leave Start</label>
+                        <div id="StartApproval"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Leave End</label>
+                        <div id="EndApproval"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <div id="CompanyName2"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Remarks History</label>
+                            <div id="RemarkHistory"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="RemarksApproval" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Approve_Reject('Approve')" class="btn btn-primary">Approve</button>
+                <button type="button" onclick="Approve_Reject('Reject')" class="btn btn-danger" data-dismiss="modal">Reject</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="LeaveDetailListModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" @*style="width: 120% !important;"*@>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="LeaveDetailList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Request Status</th>
+                                <th>Desription</th>
+                                <th>Approver</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ShowAttachmentsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="max-width: 61% !important">
+        <div class="modal-content" style="width: 100% !important;">
+            <div class="modal-body">
+                <input type="file" multiple name="file" id="file" />
+                <div class="table-responsive">
+                    <table id="ShowAttachmentsList" class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>File</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ResumptionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                @*<form id="Add_UpdateUser" method="post" enctype="multipart/form-data" onsubmit="Add_Update(this)"></form>*@
+                <div class="row clearfix">
+                    <input type="hidden" id="ReqId" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Resumption Date:</label>
+                            <div class="form-group">
+                                <input id="ResumptionDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <input id="ResumeRemarks" type="text" row="4" class="form-control" placeholder="Remarks">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="ResumptionSubmit()" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var formdata = new FormData();
+    $(document).ready(function () {
+        $("#User").trigger("change");
+        LeaveApplicationDataBinding();
+
+        $("#file").on("change", function () {
+            var fileInput = document.getElementById('file');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                var sfilename = fileInput.files[i].name;
+                formdata.append(sfilename, fileInput.files[i]);
+
+            }
+            chkatchtbl();
+            $('#fileInput').val('');
+        });
+    });
+    function Attachment() {
+        $("#file").click();
+    }
+    function Download(id) {
+        if (id == undefined) {
+            alert("No Attachement Found");
+        }
+        else {
+            $("#PrintId").val(id);
+            $("#btnSubmit").click();
+        }
+    }
+    function GetEmployeeDetails(e) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeDetails",
+            data: { SelectUserId: e.value },
+            success: function (data) {
+                $("#EmpName").text(data.Name);
+                $("#EmpDesg").text(data.Designation);
+                $("#EmpID").text(data.EmpID);
+                $("#EmpNation").text(data.Nationality);
+                $("#EmpDept").text(data.Department);
+                $("#EmpAdd").text(data.Address);
+                $("#EmpPhone").text(data.Phone);
+                $("#EmpEmail").text(data.Email);
+            }
+        });
+    }
+    function Hide_Show(e) {
+        var text = $("#" + e.id + "  option:selected").text();
+        if (text == "Business Trip") {
+            $("#AirTicketShow").prop("hidden", false);
+            $("#Accomodation").prop("hidden", false);
+        }
+        else {
+            $("#AirTicketShow").prop("hidden", true);
+            $("#Accomodation").prop("hidden", true);
+
+        }
+
+    }
+    function DateStartChange(e) {
+        var StartDate = e.value;
+        var EmployeeId = $("#User option:selected").val();
+        var LeaveTypeId = $("#LeaveType option:selected").val();
+        var LeaveType = $("#LeaveType option:selected").text();
+        var EndDate = $("#EndDate").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLeavesData",
+            data: { EmployeeId: EmployeeId, LeaveTypeId: LeaveTypeId, StartDate: StartDate, EndDate: EndDate, LeaveType: LeaveType },
+            success: function (data) {
+                DataBind(data)
+            }
+        });
+    }
+    function DateEndChange(e) {
+        var EndDate = e.value;
+        var EmployeeId = $("#User option:selected").val();
+        var LeaveTypeId = $("#LeaveType option:selected").val();
+        var LeaveType = $("#LeaveType option:selected").text();
+        var StartDate = $("#StartDate").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLeavesData",
+            data: { EmployeeId: EmployeeId, LeaveTypeId: LeaveTypeId, StartDate: StartDate, EndDate: EndDate, LeaveType: LeaveType },
+            success: function (data) {
+                DataBind(data)
+            }
+        });
+    }
+    function DataBind(data) {
+        $("#NoOfDays").text(data.NoOfDays);
+        $("#LavesTaken").text(data.TotalLeaves);
+        $("#BalanceLeavesbefore").text(data.Balancebefore);
+        $("#BalanceLeavesafter").text(data.Balanceafter);
+    }
+    function AirTicketCheck() {
+        if ($("#AirTicket").prop("checked") == true) {
+            $("#ticketdetails").prop("hidden", false);
+        }
+        else if ($("#AirTicket").prop("checked") == false) {
+            $("#ticketdetails").prop("hidden", true);
+        }
+    }
+    function TravelFromGetCity(e) {
+        var countryId = e.value;
+        $("#TravelFromCity").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelFromCity").html(Cities);
+            }
+        });
+    }
+    function TravelToGetCity(e) {
+        var countryId = e.value;
+        $("#TravelToCity").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelToCity").html(Cities);
+            }
+        });
+    }
+    function Save() {
+        var EmployeeID = $("#User option:selected").val();
+        var LeaveType = $("#LeaveType option:selected").val();
+        var Remarks = $("#Remarks").val();
+        var Airticket = $("#AirTicket").val();
+        var Accomodation = $("#Accomodationcheck").val();
+        var ReplacementId = $("#ReplacementEmp option:selected").val();
+        var StartDate = $("#StartDate").val();
+        var EndDate = $("#EndDate").val();
+        var LeaveTypeName = $("#LeaveType option:selected").text();
+        var Noofdays = $("#NoOfDays").text();
+        var Leavebalance = $("#BalanceLeavesbefore").text();
+        var TravelTo = $("#TravelToCity option:selected").val();
+        var TravelFrom = $("#TravelFromCity option:selected").val();
+        var DateofTravel = $("#TravelDate").val();
+        var DateofReturn = $("#ReturnDate").val();
+        var files = $("#file").get(0).files;
+        if (files.length > 0) {
+            var data = new FormData();
+            data = formdata;
+            //for (var i = 0; i < files.length; i++) {
+
+            //    data.append(files[i].Name, files[i]);
+            //    //data.append("Guids", AttId);
+            //}
+            formdata.append("FormName", "LeaveRequest");
+
+            $.ajax({
+                url: '/Request/SaveProfileImage',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                async: false,
+                //dataType: 'json',
+                success: function (response) {
+                    if (response != "Error While Saving." || response != 'No File Saved.')
+                        $.ajax({
+                            type: "Post",
+                            url: "/Request/SaveLeaveRequest",
+                            data: { AtchGuid: response, EmployeeID: EmployeeID, LeaveType: LeaveType, Remarks: Remarks, Airticket: Airticket, ReplacementId: ReplacementId, StartDate: StartDate, ReturnToWork: EndDate, LeaveTypeName: LeaveTypeName, Noofdays: Noofdays, Leavebalance: Leavebalance, TravelTo: TravelTo, TravelFrom: TravelFrom, DateofTravel: DateofTravel, DateofReturn: DateofReturn, Accomodation: Accomodation },
+                            success: function (data) {
+                                if (data != "") {
+                                    alert(data);
+                                }
+                                LeaveApplicationDataBinding();
+                                location.reload();
+                                $("#User").val("");
+                                $("#LeaveType").val("");
+                                $("#Remarks").val("");
+                                $("#AirTicket").val("");
+                                $("#ReplacementEmp").val("");
+                                $("#StartDate").val("");
+                                $("#EndDate").val("");
+                                $("#LeaveType").text("");
+                                $("#NoOfDays").text("");
+                                $("#BalanceLeavesbefore").text("");
+                                $("#TravelToCity").val("");
+                                $("#TravelFromCity").val("");
+                                $("#TravelDate").val("");
+                                $("#ReturnDate").val("");
+                            }
+                        });
+                    $("#file").val('');
+                },
+                error: function (er) { }
+
+            });
+
+
+        }
+        else {
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveLeaveRequest",
+                data: { AtchGuid: '', EmployeeID: EmployeeID, LeaveType: LeaveType, Remarks: Remarks, Airticket: Airticket, ReplacementId: ReplacementId, StartDate: StartDate, ReturnToWork: EndDate, LeaveTypeName: LeaveTypeName, Noofdays: Noofdays, Leavebalance: Leavebalance, TravelTo: TravelTo, TravelFrom: TravelFrom, DateofTravel: DateofTravel, DateofReturn: DateofReturn, Accomodation: Accomodation },
+                success: function (data) {
+                    if (data != "") {
+                        alert(data);
+                    }
+                    LeaveApplicationDataBinding();
+                }
+            });
+        }
+    }
+    function LeaveApplicationDataBinding() {
+        //$('#WorkFlowMappingTable').DataTable({
+        //      responsive: true
+        //  });
+        var EmpId = $("#seacrhcUser option:selected").val()
+
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLeaveApplicationData",
+            data: { EmpId: EmpId },
+            success: function (data) {
+                $("#LeaveApplicationHistory").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 10,
+                    "paging": true,
+                    destroy: true,
+                    data: data.History,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestID", "autoWidth": true },
+                        { "data": "LeaveType", "autoWidth": true },
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "EmployeeId", "autoWidth": true },
+                        { "data": "From", "autoWidth": true },
+                        { "data": "To", "autoWidth": true },
+                        { "data": "NoofDays", "autoWidth": true },
+                        { "data": "Leavebalance", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="OpenLeaveDeatils(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>   <button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                //Download(' + row.AttachmentGuid + ')
+                                //if (row.IsEditViisible == true) {
+                                //    html += ' <button type="button" onclick="ReimbursementEditDataBinding('+row.Ref+')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-pencil"></i></button>';
+                                //}
+                                if (row.isSubmitVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Submit Now!"><i class="fa fa-check"></i></button>';
+                                }
+                                if (row.isInProcessVisible == true) {
+                                    html += ' <button type="button"  class="btn btn-sm btn-outline-secondary" title="Request is in Process"><i class="fa fa-cog"></i></button>';
+                                }
+                                if (row.isRecallVisible == true) {
+                                    html += ' <button type="button" onclick="GetEditData(' + row.RefNo + ')" class="btn btn-sm btn-outline-secondary" title="Recall Process"><i class="fa fa-refresh"></i></button>';
+                                }
+                                if (row.isCompletedVisible == true) {
+                                    html += ' <button type="button" class="btn btn-sm btn-outline-secondary" title="Request has been Complete"><i class="fa fa-save"></i></button>';
+                                }
+                                //if (row.isResumeDuty == false) {
+                                //    html += '<button onclick="ShowResumption(' + row.RefNo + ')" type="button" class="btn btn-sm btn-outline-secondary" title="Resume Duty"><i class="fa fa-building"></i></button>';
+                                //}
+                                return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                            }
+                        },
+                    ]
+
+                });
+                if (data.IsApproval == true) {
+                    $("#Approvalhidden").prop("hidden", false);
+                    $("#LeaveApplicationApproval").DataTable({
+                        "lengthChange": false,
+                        "paging": true,
+                        "pageLength": 10,
+                        destroy: true,
+                        data: data.Approval,
+                        "lengthChange": false,
+                        "filter": false,
+                        "columns": [
+                            { "data": "RequestID", "autoWidth": true },
+                            { "data": "LeaveType", "autoWidth": true },
+                            { "data": "RequestDate", "autoWidth": true },
+                            { "data": "Employee", "autoWidth": true },
+                            { "data": "EmployeeId", "autoWidth": true },
+                            { "data": "From", "autoWidth": true },
+                            { "data": "To", "autoWidth": true },
+                            { "data": "NoofDays", "autoWidth": true },
+                            { "data": "Leavebalance", "autoWidth": true },
+                            { "data": "CompanyName", "autoWidth": true },
+                            { "data": "Remarks", "autoWidth": true },
+                            {
+                                render: function (data, type, row) {
+
+                                    var html = '<button type="button" onclick="ShowAttachments(\'' + row.AttachmentGuid + '\',\'Edit\')" class="btn btn-sm btn-outline-secondary" title="Attachement"><i class="fa fa-paperclip"></i></button>';
+                                    html += ' <button type="button" onclick="ShowApprove_RejectModal(' + row.RefNo + ',' + row.ReqStatus + ')" class="btn btn-sm btn-outline-secondary" title="Approve/Reject"><i class="fa fa-check"></i></button>';
+                                    return html;                                    //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
+                                }
+                            },
+                        ]
+
+                    });
+                }
+                if (data.ProfileImage != null)
+                    $(".imgFromScript").attr("src", data.ProfileImage);
+            }
+        });
+
+    }
+    function Hide_ShowEdit(e) {
+        var text = $("#" + e.id + "Edit  option:selected").text();
+        if (text == "Business Trip") {
+            // $("#AirTicketShowEdit").prop("hidden", false);
+        }
+        else {
+            // $("#AirTicketShowEdit").prop("hidden", true);
+
+        }
+
+    }
+    function DateStartChangeEdit(e) {
+        var StartDate = e.value;
+        var EmployeeId = $("#UserEdit option:selected").val();
+        var LeaveTypeId = $("#LeaveTypeEdit option:selected").val();
+        var LeaveType = $("#LeaveTypeEdit option:selected").text();
+        var EndDate = $("#EndDateEdit").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLeavesData",
+            data: { EmployeeId: EmployeeId, LeaveTypeId: LeaveTypeId, StartDate: StartDate, EndDate: EndDate, LeaveType: LeaveType },
+            success: function (data) {
+                DataBindEdit(data)
+            }
+        });
+    }
+    function DateEndChangeEdit(e) {
+        var EndDate = e.value;
+        var EmployeeId = $("#UserEdit option:selected").val();
+        var LeaveTypeId = $("#LeaveTypeEdit option:selected").val();
+        var LeaveType = $("#LeaveTypeEdit option:selected").text();
+        var StartDate = $("#StartDateEdit").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLeavesData",
+            data: { EmployeeId: EmployeeId, LeaveTypeId: LeaveTypeId, StartDate: StartDate, EndDate: EndDate, LeaveType: LeaveType },
+            success: function (data) {
+                DataBindEdit(data)
+            }
+        });
+    }
+    function DataBindEdit(data) {
+        $("#NoOfDaysEdit").text(data.NoOfDays);
+        //$("#BalanceLeavesEdit").text(data.Balanceafter);
+    }
+    function AirTicketCheckEdit() {
+        if ($("#AirTicketEdit").prop("checked") == true) {
+            $("#ticketdetailsEdit").prop("hidden", false);
+        }
+        else if ($("#AirTicketEdit").prop("checked") == false) {
+            $("#ticketdetailsEdit").prop("hidden", true);
+        }
+    }
+    function TravelFromGetCityEdit(e) {
+        var countryId = e.value;
+        $("#TravelFromCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelFromCityEdit").html(Cities);
+            }
+        });
+    }
+    function TravelToGetCityEdit(e) {
+        var countryId = e.value;
+        $("#TravelToCityEdit").html("");
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetCities",
+            data: { CountryId: countryId },
+            success: function (data) {
+                var Cities = '';
+                for (var i = 0; i < data.length; i++) {
+                    Cities += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#TravelToCityEdit").html(Cities);
+            }
+        });
+    }
+    function GetEditData(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetEmployeeLeavesEditData",
+            data: { Id: id },
+            success: function (data) {
+                $("#UserEdit").val(data.EmployeeId);
+                $("#LeaveTypeEdit").val(data.LeaveType);
+                $("#RemarksEdit").val(data.Remarks);
+                $("#AirTicketEdit").val();
+                $("#ReplacementEmpEdit").val(data.ReplacementEmployee);
+                $("#StartDateEdit").val(data.From);
+                $("#EndDateEdit").val(data.To);
+                $("#NoOfDaysEdit").text(data.NoofDays);
+                $("#BalanceLeavesEdit").text();
+                $("#Reqid").val(id);
+                $("#EditLeaveModal").modal();
+            }
+        });
+    }
+    function SaveEdit() {
+        var EmployeeID = $("#UserEdit option:selected").val();
+        var LeaveType = $("#LeaveTypeEdit option:selected").val();
+        var Remarks = $("#RemarksEdit").val(); 
+        var ReplacementId = $("#ReplacementEmpEdit option:selected").val();
+        var StartDate = $("#StartDateEdit").val();
+        var EndDate = $("#EndDateEdit").val();
+        var Noofdays = $("#NoOfDaysEdit").text();
+        var Leavebalance = $("#BalanceLeavesEdit").text();
+        var Reqid = $("#Reqid").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveEditLeaveRequest",
+            data: { Reqid: Reqid, EmployeeID: EmployeeID, LeaveType: LeaveType, Remarks: Remarks, ReplacementId: ReplacementId, StartDate: StartDate, EndDate: EndDate, Noofdays: Noofdays, Leavebalance: Leavebalance },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                }
+                LeaveApplicationDataBinding();
+                $("#EditLeaveModal").modal('hide');
+
+            }
+        });
+    }
+    function ShowApprove_RejectModal(id, statusid) {
+        $("#Approve_RejectModal").modal();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLeaveApproval",
+            data: { Id: id },
+            success: function (data) {
+                $("#EmployeeApproval").html(data.Employee);
+                $("#LeaveTypeApproval").html(data.LeaveType);
+                $("#StartApproval").html(data.From);
+                $("#EndApproval").html(data.To);
+                $("#CalenderApproval").html(data.CalendarDays);
+                $("#NoofdaysApproval").html(data.NoofDays);
+                $("#RemarkHistory").val(data.Remarks);
+                $("#ReqIdApproval").val(id);
+                $("#CompanyName2").html(data.CompanyName);
+                $("#StatusId").val(statusid);
+                $("#Approve_RejectModal").modal();
+            }
+        });
+    }
+    function Approve_Reject(Type) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveLeaveApprove_Reject",
+            data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks: $("#RemarksApproval").val() },
+            success: function (data) {
+                $("#Approve_RejectModal").modal('hide');
+                location.reload(true);
+                LeaveApplicationDataBinding();
+            }
+        });
+    }
+    function OpenLeaveDeatils(id) {
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetLeaveDetails",
+            data: { Id: id },
+            success: function (data) {
+                $("#LeaveDetailListModal").modal();
+
+                $("#LeaveDetailList").DataTable({
+                    "lengthChange": false,
+                    "pageLength": 25,
+                    destroy: true,
+                    data: data,
+                    "filter": false,
+                    "columns": [
+                        { "data": "RequestDate", "autoWidth": true },
+                        { "data": "ReqStatus", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true },
+                        { "data": "Approver", "autoWidth": true },
+                        { "data": "Employee", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                    ]
+                });
+            }
+
+        });
+    }
+    function ShowAttachments(DocNumbers, Types) {
+        if (Types == 'Edit') {
+            $("#file").hide();
+        }
+        else {
+            $("#file").show();
+        }
+        $.ajax({
+            type: "Post",
+            url: "/Request/LoadUploadedFiles",
+            data: { DocType: 'LeaveRequest', DocNumber: DocNumbers },
+            success: function (data) {
+                $("#ShowAttachmentsList").DataTable({
+                    "lengthChange": true,
+                    "pageLength": 10,
+                    destroy: true,
+                    data: data,
+                    "lengthChange": false,
+                    "filter": false,
+                    "columns": [
+                        { "data": "Name", "autoWidth": true },
+                        { "data": "Remarks", "autoWidth": true },
+                        {
+                            render: function (data, type, row) {
+
+                                var html = '<button type="button" onclick="Download(\'' + row.DOCID + '\')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                return html;
+                            }
+                        },
+                    ]
+
+                });
+                $("#ShowAttachmentsModal").modal();
+
+            }
+        });
+
+    }
+    function ShowResumption(id) {
+        $("#ReqId").val(id);
+        $("#ResumptionModal").modal();
+    }
+    function ResumptionSubmit() {
+        var Id = $("#ReqId").val();
+        var Date = $("#ResumptionDate").val();
+        var Remarks = $("#ResumeRemarks").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/SaveResumption",
+            data: { Id: Id, Date: Date, Remarks: Remarks },
+            success: function (data) {
+                alert(data);
+            }
+        });
+
+    }
+</script>
