@@ -177,14 +177,14 @@ namespace ESS_Web_Application.Controllers
         }
         public JsonResult GetEmployeeLeavesData(string EmployeeId, string LeaveTypeId, string StartDate, string EndDate, string LeaveType)
         {
-            string Enddate = string.IsNullOrEmpty(EndDate)?"": DateTime.Parse(EndDate).Date.AddDays(-1).ToString();
+            string Enddate = string.IsNullOrEmpty(EndDate) ? "" : DateTime.Parse(EndDate).Date.AddDays(-1).ToString();
             var data = _requestService.FillCalculatedFields(EmployeeId, LeaveTypeId, StartDate, Enddate, LeaveType);
             return Json(data);
         }
-        public JsonResult SaveLeaveRequest(string AtchGuid, string EmployeeID, string LeaveType, string Remarks, string Airticket, string ReplacementId, string StartDate, string ReturnToWork, string LeaveTypeName, string Noofdays, string Leavebalance, string TravelTo, string TravelFrom, string DateofTravel, string DateofReturn,string Accomodation)
+        public JsonResult SaveLeaveRequest(string AtchGuid, string EmployeeID, string LeaveType, string Remarks, string Airticket, string ReplacementId, string StartDate, string ReturnToWork, string LeaveTypeName, string Noofdays, string Leavebalance, string TravelTo, string TravelFrom, string DateofTravel, string DateofReturn, string Accomodation)
         {
             string Enddate = DateTime.Parse(ReturnToWork).Date.AddDays(-1).ToString();
-            string data = _requestService.SaveLeaveRequest(AtchGuid, Session["UserCompanyID"].ToString(), EmployeeID, LeaveType, Remarks, Airticket, ReplacementId, StartDate, Enddate,ReturnToWork, LeaveTypeName, Session["UserID"].ToString(), Noofdays, Leavebalance, TravelTo, TravelFrom, DateofTravel, DateofReturn, Accomodation);
+            string data = _requestService.SaveLeaveRequest(AtchGuid, Session["UserCompanyID"].ToString(), EmployeeID, LeaveType, Remarks, Airticket, ReplacementId, StartDate, Enddate, ReturnToWork, LeaveTypeName, Session["UserID"].ToString(), Noofdays, Leavebalance, TravelTo, TravelFrom, DateofTravel, DateofReturn, Accomodation);
             return Json(data);
         }
         public JsonResult GetLeaveApplicationData(string EmpId)
@@ -248,6 +248,49 @@ namespace ESS_Web_Application.Controllers
             {
                 return RedirectToAction("Dashboard", "Home");
             }
+        }
+        public JsonResult SaveEmployeeDetail(string AtchGuid, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress)
+        {
+            string ErrorMsg = "";
+            ErrorMsg = _requestService.SaveEmployeeDetail(AtchGuid, Session["UserCompanyID"].ToString(), Session["UserID"].ToString(), EmployeeID, ContactDetail, LastName, MatrialStatus, EmployeeAddress);
+
+            return Json(ErrorMsg);
+        }
+        public JsonResult GetEmployeeDetailData()
+        {
+            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Session["UserCompanyID"].ToString());
+            byte[] bytes = GetImageFromDB(Session["UserID"].ToString());
+            if (bytes.Length > 1)
+            {
+                string Profileimg = "data:image/jpeg;base64," + Convert.ToBase64String(bytes);
+                data.ProfileImage = Profileimg;
+            }
+            return Json(data);
+        }
+        public JsonResult GetEmployeeDetailEditData(string Id)
+        {
+            var data = _requestService.GetEmployeeDetailEditData(Id, Session["UserID"].ToString());
+            return Json(data);
+        }
+        public JsonResult SaveEditEmployeeDetail(string Id, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress)
+        {
+            string ErrorMsg = _requestService.SaveEditEmployeeDetail(2, Id, EmployeeID, ContactDetail, LastName, MatrialStatus, EmployeeAddress, Session["UserID"].ToString());
+            return Json(ErrorMsg);
+        }
+        public JsonResult GetEmployeeDetailApproval(string Id)
+        {
+            var data = _requestService.GetEmployeeDetailApproval(Id);
+            return Json(data);
+        }
+        public JsonResult SaveEmployeeDetailApprove_Reject(string Type, string Id, string StatusId, string Remarks)
+        {
+            var data = _requestService.SaveEmployeeDetailApprove_Reject(Type, Id, StatusId, Session["UserID"].ToString(), Remarks, Session["UserCompanyID"].ToString());
+            return Json(data);
+        }
+        public ActionResult GetEmployeeDetailDetails(string Id)
+        {
+            var data = _requestService.GetEmployeeDetailDetails(Id);
+            return Json(data);
         }
         #region
 

@@ -214,7 +214,16 @@
                 }
             });
         }
-
+        if (Ftype == "EmployeeDetailForm") {
+            $.ajax({
+                type: "Post",
+                url: "/Request/SaveEmployeeDetailApprove_Reject",
+                data: { Type: $("#hdnType").val(), Id: $("#hdnReqID").val(), StatusId: $("#hdnStatusID").val(), Remarks: $("#RemarksApproval").val() },
+                success: function (data) {
+                    $("#btnSubmit").click();
+                }
+            });
+        }
 
     }
 </script>

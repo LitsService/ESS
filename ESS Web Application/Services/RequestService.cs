@@ -499,6 +499,463 @@ namespace ESS_Web_Application.Services
             return leaves;
         }
 
+        #region Employee Detail Update Request Form
+        public EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId)
+        {
+            EmployeeDetailRequestListViewModel list = new EmployeeDetailRequestListViewModel();
+            Hashtable ht = new Hashtable();
+            int FormId = GetFormTypeID("EmployeeDetailForm");
+            ht.Add("@UserID", UserID);
+            ht.Add("@FormTypeID", FormId);
+            ht.Add("@CompanyId", CompanyId);
+            DataTable dt = _requestRepo.Get_All_EmployeeDetail_Requests(ht);
+            List<EmployeeDetailRequestViewModel> History = new List<EmployeeDetailRequestViewModel>();
+            foreach (DataRow item in dt.Rows)
+            {
+                EmployeeDetailRequestViewModel single = new EmployeeDetailRequestViewModel()
+                {
+                    RefNo = item["RequestID"].ToString(),
+                    RequestDate = item["RequestDate"].ToString(),
+                    ReqStatus = item["RequestStatus"].ToString(),
+                    Employee = item["UserFullName"].ToString(),
+                    EmployeeId = item["EMPLOYID"].ToString(),
+                    ContactDetail = item["ContactDetail"].ToString(),
+                    LastName = item["LastName"].ToString(),
+                    EmployeeAddress = item["EmployeeAddress"].ToString(),
+                    MatrialStatus = item["MatrialStatus"].ToString(),
+                    RequestId = item["Id"].ToString(),
+                    IsEditViisible = isEditVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isRecallVisible = isRecallVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isSubmitVisible = isSubmitVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isInProcessVisible = isInProcessVisible(item["Last_Status_ID"].ToString()),
+                    isCompletedVisible = isCompletedVisible(item["Last_Status_ID"].ToString()),
+                    AttachmentGuid = item["AtchGuid"].ToString(),
+
+                };
+                History.Add(single);
+                list.History = History;
+            }
+            ht = new Hashtable();
+            ht.Add("@ApproverUserID", UserID);
+            ht.Add("@CompanyId", CompanyId);
+
+            List<EmployeeDetailRequestViewModel> Approval = new List<EmployeeDetailRequestViewModel>();
+            DataTable dt2 = _requestRepo.Get_EmployeeDetail_Requests_For_Approval(ht);
+            if ((null != dt2) && dt2.Rows.Count > 0)
+                list.IsApproval = true;
+            else
+            {
+                list.IsApproval = false;
+
+            }
+            foreach (DataRow item2 in dt2.Rows)
+            {
+                EmployeeDetailRequestViewModel single2 = new EmployeeDetailRequestViewModel()
+                {
+                    RefNo = item2["RequestID"].ToString(),
+                    RequestDate = item2["RequestDate"].ToString(),
+                    Employee = item2["UserFullName"].ToString(),
+                    EmployeeId = item2["EMPLOYID"].ToString(),
+                    ContactDetail = item2["ContactDetail"].ToString(),
+                    LastName = item2["LastName"].ToString(),
+                    EmployeeAddress = item2["EmployeeAddress"].ToString(),
+                    MatrialStatus = item2["MatrialStatus"].ToString(),
+                    ReqStatus = item2["RequestStatusID"].ToString(),
+                    RequestId = item2["Id"].ToString(),
+                    CompanyName = item2["Name"].ToString(),
+                    AttachmentGuid = item2["AtchGuid"].ToString()
+
+                };
+                Approval.Add(single2);
+            }
+            list.Approval = Approval;
+            return list;
+        }
+        public string SaveEmployeeDetail(string AtchGuid, string CompanyId, string UserId, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress)
+        {
+            string lblStatus = "";
+            int saveStatus = 2;
+            try
+            {
+                Hashtable ht = new Hashtable();
+                int FormId = GetFormTypeID("EmployeeDetailForm");
+                Guid guid = Guid.NewGuid();
+                ht.Add("@FormTypeID", FormId);
+                ht.Add("@EmployeeUserID", UserId);
+                ht.Add("@CompanyId", CompanyId);
+                ht.Add("@RequestID", GenerateID(CompanyId, "tbl_Employee_Request"));
+                ht.Add("@SaveStatus", saveStatus);
+                ht.Add("@AtchGuid", AtchGuid);
+                ht.Add("@ContactDetail", ContactDetail.Trim());
+                ht.Add("@LastName", LastName.Trim());
+                ht.Add("@MatrialStatus", MatrialStatus);
+                ht.Add("@EmployeeAddress", EmployeeAddress.Trim());
+                ht.Add("@EmployeeDetailRequestID", 0);
+                ht.Add("@RequestKey", guid);
+                int ReqID = _requestRepo.Insert_EmployeeDetail_Request(ht);
+
+                if (ReqID > 0)
+                {
+                    lblStatus = "Your request has been saved successfully.";
+                    if (saveStatus == 2)
+                    {
+                        ht = null;
+                        ht = new Hashtable();
+                        ht.Add("@EmployeeDetailRequestID", ReqID);
+
+                        //#region Send Email to Approver
+                        DataTable dt = DBContext.GetDataSet("[sp_User_Get_EmployeeDetail_Request_Info_4_Email]", ht).Tables[0];
+
+                        if ((null != dt) && dt.Rows.Count > 0 && dt.Rows[0]["Email"] != null)
+                        {
+                            string sBody = "";
+                            string htmlEmailFormat = @"~\EmailTemplates\NotifyApproverEmail.htm";
+                            htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
+                            sBody = File.ReadAllText(htmlEmailFormat);
+                            sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
+                            sBody = sBody.Replace("<%ID%>", ReqID.ToString());
+                            sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
+                            sBody = sBody.Replace("<%StartDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["StartDate"]));
+                            sBody = sBody.Replace("<%EndDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["EndDate"]));
+                            sBody = sBody.Replace("<%Type%>", "BankLetterForm");
+                            sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
+
+                            sBody = sBody.Replace("<%EmployeeID%>", dt.Rows[0]["RequesterEmpID"].ToString());
+                            sBody = sBody.Replace("<%EmployeeName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                            string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+                            Uri uri = HttpContext.Current.Request.Url;
+                            var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+                             "&ReqID=" + ReqID + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+                            "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+                            "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                            sBody = sBody.Replace("<%ApproveLink%>", url);
+                            var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+                            "&ReqID=" + ReqID + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+                             "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+                             "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                            sBody = sBody.Replace("<%RejectLink%>", url2);
+                            clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"].ToString(), "A request is pending for your approval.");
+                        }
+                        //#endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lblStatus = ex.Message;
+            }
+            return lblStatus;
+        }
+        public EmployeeDetailRequestViewModel GetEmployeeDetailEditData(string Reqid, string UserId)
+        {
+            Hashtable ht = new Hashtable();
+            ht.Add("@EmployeeDetailRequestID", Reqid);
+
+            var dt = _requestRepo.Get_EmployeeDetail_Request_ByID(ht);
+
+            EmployeeDetailRequestViewModel single = new EmployeeDetailRequestViewModel();
+            foreach (DataRow item in dt.Rows)
+            {
+                single = new EmployeeDetailRequestViewModel()
+                {
+                    ContactDetail = item["ContactDetail"].ToString(),
+                    LastName = item["LastName"].ToString(),
+                    MatrialStatus = item["MatrialStatus"].ToString(),
+                    EmployeeAddress = item["EmployeeAddress"].ToString(),
+                };
+            }
+            return single;
+        }
+        public string SaveEditEmployeeDetail(int saveStatus, string Id,string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress,string UserID)
+        {
+            string lblStatus = "";
+
+            try
+            {
+                Hashtable ht = new Hashtable();
+                ht.Add("@EmployeeDetailRequestID", Id);
+                ht.Add("@ContactDetail", ContactDetail.Trim());
+                ht.Add("@LastName", LastName.Trim());
+                ht.Add("@MatrialStatus", MatrialStatus);
+                ht.Add("@EmployeeAddress", EmployeeAddress.Trim());
+                ht.Add("@isRecalled", true);
+                ht.Add("@SaveStatus", saveStatus);
+                ht.Add("@DBMessage", "");
+                Guid guid = Guid.NewGuid();
+                ht.Add("@RequestKey", "");
+
+                string DBMessage = _requestRepo.Update_EmployeeDetail_Request(ht);
+
+                if (saveStatus == 2)
+                {
+                    ht = null;
+                    ht = new Hashtable();
+                    ht.Add("@EmployeeDetailRequestID", Id);
+                }
+
+                if ((null != DBMessage) && DBMessage.Contains("ERROR:"))
+                {
+                    lblStatus = "Sorry! some error has occurred. Please try again later.";
+                }
+                else
+                {
+                    //ScriptManager.RegisterStartupScript(this, Page.GetType(), "mykey", "CloseAndRebind();", true);
+                    lblStatus = "Your request has been saved successfully.";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblStatus = ex.Message;
+            }
+            return lblStatus;
+        }
+        public EmployeeDetailRequestViewModel GetEmployeeDetailApproval(string Id)
+        {
+            Hashtable ht = new Hashtable();
+            ht.Add("@EmployeeDetailRequestID", Id);
+            DataTable dt = _requestRepo.Get_EmployeeDetail_Request_ByID(ht);
+            EmployeeDetailRequestViewModel single = new EmployeeDetailRequestViewModel();
+            if (dt != null)
+            {
+                single.Employee = (string)dt.Rows[0]["UserFullName"];
+                single.ContactDetail = (string)dt.Rows[0]["ContactDetail"];
+                single.EmployeeAddress = (string)dt.Rows[0]["EmployeeAddress"];
+                single.LastName = (string)dt.Rows[0]["LastName"];
+                single.MatrialStatus = (string)dt.Rows[0]["MatrialStatus"];
+                single.CompanyName = (string)dt.Rows[0]["Name"];
+
+                dt = null;
+                dt = _requestRepo.Get_EmployeeDetail_Request_Remarks_List(ht);
+
+                if ((null != dt) && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        single.History += "<div><strong><span>"
+                                                    + dr["UserFullName"].ToString().Trim() + "</span>"
+                                                    + " said (" + clsCommon.GetPostedFieldText(DateTime.Parse(dr["UpdateDate"].ToString())) + "):</strong><br/><em>"
+                                                    + dr["Remarks"].ToString().Trim() + "</em></div>";
+                    }
+                }
+
+            }
+            return single;
+        }
+        public string SaveEmployeeDetailApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks, string CompanyId)
+        {
+            string ErrorMsg = "";
+            if (Type == "Approve")
+            {
+                try
+                {
+                    //Hashtable htcheck = new Hashtable();
+                    //htcheck.Add("@RequestID", Id);
+                    //htcheck.Add("@StatusID", StatusId);
+                    //int finalApprovercheck = _requestRepo.Get_BankLetter_RequestsApprovers_Count(htcheck);
+                    //Resources d365 = ODATAConnection();
+                    //if (d365 != null && finalApprovercheck == 1)
+                    //{
+                    //    postCheck = InsertRecord(d365, Convert.ToInt32(Request.QueryString["RequestID"]));
+                    //}
+
+                    //if (/*postCheck ||*/ finalApprovercheck == 0)
+                    //{
+                    Hashtable ht = new Hashtable();
+
+                    ht.Add("@EmployeeDetailRequestID", Id);
+                    ht.Add("@EmployeeDetailStatusID", StatusId);
+                    ht.Add("@ApproverUserID", UserId);
+                    ht.Add("@Remarks", Remarks);
+                    ht.Add("@CompanyId", CompanyId);
+                    ht.Add("@DBMessage", "");
+                    Guid guid = Guid.NewGuid();
+                    ht.Add("@RequestKey", guid);
+
+                    string DBMessage = _requestRepo.Approve_EmployeeDetail_Request(ht);
+
+                    ht = null;
+                    ht = new Hashtable();
+                    ht.Add("@RequestID", Id);
+                    ht.Add("@Approver", Convert.ToInt32(UserId));
+                    DataTable dt = _requestRepo.Get_EmployeeDetail_RequestSubmitter_Info_4_Email(ht);
+                    var dt1 = DBContext.ExecuteReaderWithCommand("select MainApproverUserID, WorkflowID from dbo.Get_Next_Approver_Of_EmployeeDetail_Request(" + Id + ")");
+                    int MainApproverUserID = 0;
+                    while (dt1.Read())
+                    {
+                        MainApproverUserID = int.Parse(dt1["MainApproverUserID"].ToString());
+                        //MainApproverUserID = int.Parse(dt1[0].ToString());
+                    }
+                    if ((null != dt) && dt.Rows.Count > 0 && MainApproverUserID != 0)
+                    {
+
+                        string sBody = "";
+                        string htmlEmailFormat = @"~\EmailTemplates\NotifyApproverEmail.htm";
+                        htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
+                        sBody = File.ReadAllText(htmlEmailFormat);
+                        sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
+                        sBody = sBody.Replace("<%ID%>", Id.ToString());
+                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
+                        sBody = sBody.Replace("<%StartDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["StartDate"]));
+                        sBody = sBody.Replace("<%EndDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["EndDate"]));
+                        sBody = sBody.Replace("<%Type%>", "BankLetterForm");
+                        sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
+
+                        sBody = sBody.Replace("<%EmployeeID%>", dt.Rows[0]["RequesterEmpID"].ToString());
+                        sBody = sBody.Replace("<%EmployeeName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                        string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+                        Uri uri = HttpContext.Current.Request.Url;
+                        var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%ApproveLink%>", url);
+                        var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+                        sBody = sBody.Replace("<%RejectLink%>", url2);
+                        ErrorMsg = "";
+                        ErrorMsg = sBody;
+                        // clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
+                    }
+                    else if ((null != dt) && dt.Rows.Count > 0)
+                    {
+                        string sBody = "";
+                        string htmlEmailFormat = @"~\EmailTemplates\NotifyApproverEmail.htm";
+                        htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
+                        sBody = File.ReadAllText(htmlEmailFormat);
+                        sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
+                        sBody = sBody.Replace("<%RequesterFullName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                        sBody = sBody.Replace("<%ApprovalStatus%>", "Approved");
+                        sBody = sBody.Replace("<%ID%>", dt.Rows[0]["ID"].ToString());
+                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
+                        sBody = sBody.Replace("<%Type%>", "BankLetterForm");
+                        sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
+                        string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+                        var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%ApproveLink%>", url);
+                        var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=EmployeeDetailForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%RejectLink%>", url2);
+
+                        clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
+                    }
+
+                    if ((null != DBMessage) && DBMessage.Contains("ERROR:"))
+                    {
+                        ErrorMsg = "Sorry! some error has occurred. Please try again later.";
+                    }
+                    else
+                    {
+                        // ScriptManager.RegisterStartupScript(this, Page.GetType(), "mykey", "CloseAndRebind();", true);
+                        ErrorMsg = "Processed successfully.";
+                    }
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    ErrorMsg = ex.Message;
+
+                }
+
+            }
+            else if (Type == "Reject")
+            {
+                try
+                {
+                    Hashtable ht = new Hashtable();
+
+                    ht.Add("@EmployeeDetailRequestID", Id);
+                    ht.Add("@EmployeeDetailStatusID", StatusId);
+                    ht.Add("@ApproverUserID", UserId);
+                    ht.Add("@Remarks", Remarks);
+                    ht.Add("@DBMessage", "");
+                    Guid guid = Guid.NewGuid();
+                    ht.Add("@@RequestKey", "");
+
+                    string DBMessage = _requestRepo.Reject_EmployeeDetail_Request(ht);
+
+                    ht = null;
+                    ht = new Hashtable();
+                    ht.Add("@RequestID", Id);
+                    ht.Add("@Approver", UserId);
+                    DataTable dt = _requestRepo.Get_EmployeeDetail_RequestSubmitter_Info_4_Email(ht);
+
+                    if ((null != dt) && dt.Rows.Count > 0)
+                    {
+                        string sBody = "";
+                        string htmlEmailFormat = "";// Server.MapPath("~/EmailTemplates/NotifyRequestSubmitter.htm");
+
+                        sBody = File.ReadAllText(htmlEmailFormat);
+                        sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
+                        sBody = sBody.Replace("<%RequesterFullName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                        sBody = sBody.Replace("<%ApprovalStatus%>", "Rejected");
+                        sBody = sBody.Replace("<%ID%>", dt.Rows[0]["ID"].ToString());
+                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
+                        sBody = sBody.Replace("<%Type%>", "BankLetterForm");
+                        sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
+                        //sBody = sBody.Replace("<%RedirectURL%>", Request.Url.AbsoluteUri);
+                        Uri uri = HttpContext.Current.Request.Url;
+                        sBody = sBody.Replace("<%RedirectURL%>", String.Format("{0}{1}{2}/User/Forms/LeaveApplication.aspx", uri.Scheme,
+                                        Uri.SchemeDelimiter, uri.Authority) + "?FormType=1&SelTab=1");
+
+                        //sBody = sBody.Replace("<%RedirectURL%>", "http://" + HttpContext.Current.Request.Url.Host + "/User/Forms/LeaveApplication.aspx?FormType=1&SelTab=1");
+
+                        clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
+                    }
+                    if ((null != DBMessage) && DBMessage.Contains("ERROR:"))
+                    {
+                        ErrorMsg = "Sorry! some error has occurred. Please try again later.";
+                    }
+                    else
+                    {
+                        //ScriptManager.RegisterStartupScript(this, Page.GetType(), "mykey", "CloseAndRebind();", true);
+                        ErrorMsg = "Processed successfully.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorMsg = ex.Message;
+                }
+
+            }
+            return ErrorMsg;
+        }
+        public List<EmployeeDetailRequestViewModel> GetEmployeeDetailDetails(string Id)
+        {
+            List<EmployeeDetailRequestViewModel> lvmm = new List<EmployeeDetailRequestViewModel>();
+            Hashtable ht = new Hashtable();
+            ht.Add("@EmployeeDetailRequestID", Id);
+            DataTable dt = _requestRepo.Get_EmployeeDetail_Request_Statuses(ht);
+
+            foreach (DataRow item in dt.Rows)
+            {
+                EmployeeDetailRequestViewModel lvm = new EmployeeDetailRequestViewModel();
+                lvm.RequestDate = item["ProcessesDate"].ToString();
+                lvm.ReqStatus = item["RequestStatus"].ToString();
+                lvm.Approver = item["MainApproverFullName"].ToString();
+                lvm.ApprovedBy = item["ApprovedByFullName"].ToString();
+                lvm.Description = item["RequestStatusDesc"].ToString();
+                lvmm.Add(lvm);
+            }
+            return lvmm;
+        }
+        #endregion
         //public Resources ODATAConnection()
 
         //{
@@ -1020,13 +1477,13 @@ namespace ESS_Web_Application.Services
             UserDD.NoofDays = dt.Rows[0]["NoOfDays"].ToString();
             return UserDD;
         }
-        public string SaveEditLeaveRequest(string Reqid, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId,string Companyid, string Noofdays, string Leavebalance)
+        public string SaveEditLeaveRequest(string Reqid, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId, string Companyid, string Noofdays, string Leavebalance)
         {
             string msg = "";
             msg = saveEdit(Reqid, 2, EmployeeID, LeaveType, Remarks, ReplacementId, StartDate, EndDate, UserId, Companyid, Noofdays, Leavebalance);
             return msg;
         }
-        private string saveEdit(string Reqid, int saveStatus, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId,string Companyid, string Noofdays, string Leavebalance)
+        private string saveEdit(string Reqid, int saveStatus, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId, string Companyid, string Noofdays, string Leavebalance)
         {
             string lblStatus = "";
 

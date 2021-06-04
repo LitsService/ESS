@@ -45,4 +45,41 @@ namespace ESS_Web_Application.ViewModels
         public List<LeaveApplicationViewModel> History { get; set; }
         public List<LeaveApplicationViewModel> Approval { get; set; }
     }
+
+    public class EmployeeDetailRequestViewModel
+    {
+        public string RefNo { get; set; }
+        public string RequestDate { get; set; }
+        public string Employee { get; set; }
+        public string ReqStatus { get; set; }
+        public string EmployeeId { get; set; }
+        public string ContactDetail { get; set; }
+        public string LastName { get; set; }
+        public string Description { get; set; }
+        public string MatrialStatus { get; set; }
+        public string EmployeeAddress { get; set; }
+        public bool IsEditViisible { get; set; }
+        public bool isSubmitVisible { get; set; }
+        public bool isRecallVisible { get; set; }
+        public bool isCompletedVisible { get; set; }
+        public bool isInProcessVisible { get; set; }
+        public string History { get; set; }
+        public string Approver { get; internal set; }
+        public string ApprovedBy { get; internal set; }
+        public string AttachmentGuid { get; set; }
+        public string RequestId { get; set; }
+        public string CompanyName { get; set; }
+    }
+    public class EmployeeDetailRequestListViewModel
+    {
+        public EmployeeDetailRequestListViewModel()
+        {
+            History = new List<EmployeeDetailRequestViewModel>();
+            Approval = new List<EmployeeDetailRequestViewModel>();
+        }
+        public bool IsApproval { get; set; }
+        public string ProfileImage { get; set; }
+        public List<EmployeeDetailRequestViewModel> History { get; set; }
+        public List<EmployeeDetailRequestViewModel> Approval { get; set; }
+    }
 }
