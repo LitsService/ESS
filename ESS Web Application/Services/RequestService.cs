@@ -1020,13 +1020,13 @@ namespace ESS_Web_Application.Services
             UserDD.NoofDays = dt.Rows[0]["NoOfDays"].ToString();
             return UserDD;
         }
-        public string SaveEditLeaveRequest(string Reqid, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId,string Companyid, string Noofdays, string Leavebalance)
+        public string SaveEditLeaveRequest(string Reqid, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId, string Companyid, string Noofdays, string Leavebalance)
         {
             string msg = "";
             msg = saveEdit(Reqid, 2, EmployeeID, LeaveType, Remarks, ReplacementId, StartDate, EndDate, UserId, Companyid, Noofdays, Leavebalance);
             return msg;
         }
-        private string saveEdit(string Reqid, int saveStatus, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId,string Companyid, string Noofdays, string Leavebalance)
+        private string saveEdit(string Reqid, int saveStatus, string EmployeeID, string LeaveType, string Remarks, string ReplacementId, string StartDate, string EndDate, string UserId, string Companyid, string Noofdays, string Leavebalance)
         {
             string lblStatus = "";
 
@@ -1579,6 +1579,35 @@ namespace ESS_Web_Application.Services
                             //hdnAtchGuid.Value = Guid.NewGuid().ToString();
                         }
                     }
+                    //#regin Send Email Notification to HR
+                    string qry = @"select HrEmployeeId from tbl_WorkFlowMaster where ID=(select uwfm.WorkFlowMasterID from dbo.tbl_User_WorkFlow_Mapping uwfm
+inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
+     where uwfm.UserID =" + UserId +
+      "and wfm.FormTypeID = " + FormId + ")";
+                    string EmployeeId = "";
+                    var a = DBContext.ExecuteReaderWithCommand(qry);
+                    while (a.Read())
+                    {
+                        EmployeeId = a[0].ToString();
+                    }
+                    if (!string.IsNullOrEmpty(EmployeeId))
+                    {
+                        var HREmployee = GetEmployeeDeatils(EmployeeId);
+                        var Employee = GetEmployeeDeatils(UserId);
+                        string sBody = "";
+                        string htmlEmailFormat = HttpContext.Current.Server.MapPath("~/EmailTemplates/NotifyHREmail.htm");
+
+                        sBody = File.ReadAllText(htmlEmailFormat);
+                        sBody = sBody.Replace("<%UserFullName%>", Employee.Name);
+                        sBody = sBody.Replace("<%ID%>", "");
+                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", DateTime.Now));
+                        sBody = sBody.Replace("<%Type%>", "Reimbursement");
+                        sBody = sBody.Replace("<%Remarks%>", "");
+                        //sBody = sBody.Replace("<%RedirectURL%>", "");
+                        clsCommon.SendMail(sBody, HREmployee.Email, ConfigurationManager.AppSettings["EMAIL_ACC"], "A request is Generated for Reimbursement.");
+
+                    }
+                    //#endregion
                 }
                 else
                 {
@@ -1767,7 +1796,37 @@ namespace ESS_Web_Application.Services
                             clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "A request is pending for your approval.");
                             //hdnAtchGuid.Value = Guid.NewGuid().ToString();
                         }
+
                     }
+//                    //#regin Send Email Notification to HR
+//                    string qry = @"select HrEmployeeId from tbl_WorkFlowMaster where ID=(select uwfm.WorkFlowMasterID from dbo.tbl_User_WorkFlow_Mapping uwfm
+//inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
+//     where uwfm.UserID =" + UserId +
+//      "and wfm.FormTypeID = " + FormId + ")";
+//                    string EmployeeId = "";
+//                    var a = DBContext.ExecuteReaderWithCommand(qry);
+//                    while (a.Read())
+//                    {
+//                        EmployeeId = a[0].ToString();
+//                    }
+//                    if (!string.IsNullOrEmpty(EmployeeId))
+//                    {
+//                        var HREmployee = GetEmployeeDeatils(EmployeeId);
+//                        var Employee = GetEmployeeDeatils(UserId);
+//                        string sBody = "";
+//                        string htmlEmailFormat = HttpContext.Current.Server.MapPath("~/EmailTemplates/NotifyHREmail.htm");
+
+//                        sBody = File.ReadAllText(htmlEmailFormat);
+//                        sBody = sBody.Replace("<%UserFullName%>", Employee.Name);
+//                        sBody = sBody.Replace("<%ID%>", "");
+//                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", DateTime.Now));
+//                        sBody = sBody.Replace("<%Type%>", "Reimbursement");
+//                        sBody = sBody.Replace("<%Remarks%>", "");
+//                        //sBody = sBody.Replace("<%RedirectURL%>", "");
+//                        clsCommon.SendMail(sBody, HREmployee.Email, ConfigurationManager.AppSettings["EMAIL_ACC"], "A request is Generated for Reimbursement.");
+
+//                    }
+//                    //#endregion
                 }
                 else
                 {
