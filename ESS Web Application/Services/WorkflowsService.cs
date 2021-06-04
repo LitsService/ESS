@@ -50,7 +50,8 @@ namespace ESS_Web_Application.Services
                     Description = item["Description"].ToString(),
                     FormTypeId = item["FormTypeId"].ToString(),
                     FormType = item["FormType"].ToString(),
-                    IsActive = bool.Parse(item["IsActive"].ToString())
+                    IsActive = bool.Parse(item["IsActive"].ToString()),
+                    HrEmployeeId = item["HrEmployeeId"].ToString()
                 };
                 list.Add(wf);
             }
@@ -72,8 +73,24 @@ namespace ESS_Web_Application.Services
             }
             return DD;
         }
+        public List<DropDownBindViewModel> GetHRDropDown()
+        {
+            List<DropDownBindViewModel> DD = new List<DropDownBindViewModel>();
+            var Wrokflows = _workflowsrepo.HRDropDown();
+            DropDownBindViewModel roleviewmodel = new DropDownBindViewModel();
+            foreach (DataRow item in Wrokflows.Rows)
+            {
+                roleviewmodel = new DropDownBindViewModel()
+                {
+                    Text = item["EmpName"].ToString(),
+                    Value = item["EMPLOYID"].ToString(),
+                };
+                DD.Add(roleviewmodel);
+            }
+            return DD;
+        }
         public string InsertUpdateWorkflow(string Operation, string FormType, string Name, string ID,
-             string Description, string IsActive)
+             string Description, string IsActive,string HrNotification)
         {
             string result = "";
             Hashtable newValues = new Hashtable();
@@ -88,6 +105,7 @@ namespace ESS_Web_Application.Services
             newValues["@FormTypeID"] = FormType;
             newValues["@IsActive"] = IsActive == "on" ? true : false;
             newValues["@DBMessage"] = "";
+            newValues["@HrNotification"] = HrNotification;
 
             try
             {

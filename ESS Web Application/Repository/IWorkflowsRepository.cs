@@ -12,6 +12,7 @@ namespace ESS_Web_Application.Repository
         DataTable GetWorkFlowsDropDown();
         DataTable WorkFlow_GridBinding();
         DataTable FormTypesDDropDown();
+        DataTable HRDropDown();
         string InsertUpdateWorkflow(string operation, Hashtable ht);
         void DeleteWorkFlow(Hashtable ID);
         DataTable GetWorkFlowSubList(Hashtable ht);

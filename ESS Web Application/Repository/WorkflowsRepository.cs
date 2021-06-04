@@ -30,6 +30,10 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_Admin_Get_FormType_4_DDL").Tables[0];
         }
+        public DataTable HRDropDown()
+        {
+            return DBContext.GetDataSet("sp_Admin_Get_HR_DDL").Tables[0];
+        }
         public string InsertUpdateWorkflow(string operation, Hashtable ht)
         {
             string DBMessage = "";

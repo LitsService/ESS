@@ -32,7 +32,7 @@
                                 <div class="card">
                                     <div class="body">
                                         <div class="table-responsive">
-                                            <button onclick="OpenModal(0,'','',false,'')" class="btn btn-primary m-b-15" type="button">
+                                            <button onclick="OpenModal(0,'','',false,'','')" class="btn btn-primary m-b-15" type="button">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Add new record
                                             </button>
                                             <div class="table-responsive">
@@ -135,7 +135,7 @@
                             <label>Name</label>
                         </div>
                         <div class="form-group">
-                            <input id="Name" type="text" class="form-control" >
+                            <input id="Name" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -151,7 +151,7 @@
                             <label>Form Type</label>
                         </div>
                         <div class="form-group">
-                            <select id="FormType" class="form-control">
+                            <select onchange="Hide_Show(this)" id="FormType" class="form-control">
                             </select>
                         </div>
                     </div>
@@ -165,6 +165,23 @@
                     </div>
 
 
+                </div>
+                <div class="col-md-6" id="EmailCheckShow" hidden>
+                    <div class="form-group">
+                        <label class="fancy-checkbox">
+                            <input onchange="EmailCheck()" id="IsEmail" type="checkbox" name="checkbox">
+                            <span style="font-weight:bold">Email Notification</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12" id="HrEmailShow" hidden>
+                    <div class="col-md-6">
+                        <label>HR Email Notification</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="HrEmail" class="form-control">
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -458,7 +475,7 @@
                             },
                             {
                                 render: function (data, type, row) {
-                                    return '<button type="button" onclick="OpenSubWorkFlowListModal(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>  <button type="button" onclick="OpenModal(' + row.ID + ',\'' + row.Name + '\',\'' + row.FormTypeId + '\', ' + row.IsActive + ',\''+row.Description+'\')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></button>  <button type="button" onclick="DeleteWorkFlow(' + row.ID + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
+                                    return '<button type="button" onclick="OpenSubWorkFlowListModal(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Open"><i class="fa fa-list"></i></button>  <button type="button" onclick="OpenModal(' + row.ID + ',\'' + row.Name + '\',\'' + row.FormTypeId + '\', ' + row.IsActive + ',\'' + row.Description + '\',\'' + row.HrEmployeeId +'\')" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></button>  <button type="button" onclick="DeleteWorkFlow(' + row.ID + ')" class="btn btn-sm btn-outline-danger js-sweetalert" title="Delete" data-type="confirm"><i class="fa fa-trash-o"></i></button>';
                                     //< label class="label-100" id = "Cycle_' + row.ScheduleId + '" > ' + row.CycleTime + '</label >
                                 }
                             },
@@ -470,12 +487,13 @@
             });
 
     }
-    function OpenModal(id, Name, TypeId, IsActive,Description)
+    function OpenModal(id, Name, TypeId, IsActive,Description,EmployeeId)
     {
             $("#Name").val("");
             $("#IsActive").prop("checked", false);
             $("#Description").val("");
-            $("#FormType").html("");
+        $("#FormType").html("");
+        $("#HrEmail").html("");
             $("#ID").val("");
             if (id == '0') {
                 $("#defaultModalLabel").html("ADD RECORD");
@@ -489,6 +507,18 @@
                             FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
                         }
                         $("#FormType").html(FormType);
+                    }
+                });
+                $.ajax({
+                    type: "Post",
+                    url: "/Workflows/GetHr",
+                    data: { Type: 'New' },
+                    success: function (data) {
+                        var Hr = '';
+                        for (var i = 0; i < data.length; i++) {
+                            Hr += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                        $("#HrEmail").html(Hr);
                     }
                 });
                 $("#defaultModal").modal();
@@ -508,14 +538,35 @@
 
                             if (data[i].Value == TypeId) {
                                 FormType += '<option selected="selected" value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                               
                             }
                             else {
                                 FormType += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
                             }
                         }
                         $("#FormType").html(FormType);
+                        $("#FormType").trigger("change");
                         $("#Name").val(Name);
                         $("#IsActive").prop("checked", IsActive);
+                    }
+                });
+                $.ajax({
+                    type: "Post",
+                    url: "/Workflows/GetHr",
+                    data: { Type: 'Update' },
+                    success: function (data) {
+                        var Hr = '';
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Value == EmployeeId) {
+                                Hr += '<option selected="selected" value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                                $("#IsEmail").prop("checked", true);
+                            }
+                            else {
+                                Hr += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                            }
+                        }
+                        $("#HrEmail").html(Hr);
                     }
                 });
                 $("#defaultModal").modal();
@@ -527,11 +578,17 @@
             var FormType = $("#FormType option:selected").val();
             var Name = $("#Name").val();
             var Description = $("#Description").val();
-            var IsActive = $("#IsActive").val();
+        var IsActive = $("#IsActive").val();
+        var IsEmail = $("#IsEmail").val();
+        var HrNotification = "";
+        if (IsEmail=="on") {
+            HrNotification = $("#HrEmail option:selected").val();
+        }
+
             $.ajax({
                 type: "Post",
                 url: "/Workflows/WorkFlowInsertUpdate",
-                data: { Operation: "Insert", FormType: FormType, Name: Name, ID: ID, Description: Description, IsActive: IsActive},
+                data: { Operation: "Insert", FormType: FormType, Name: Name, ID: ID, Description: Description, IsActive: IsActive, HrNotification: HrNotification},
                 success: function (result) {
                                         $("#defaultModal").modal('hide');
                     BindDataTable();
@@ -826,5 +883,28 @@
                     WorkFlowMappingDataBinding();
                 }
             });
+    }
+
+    function Hide_Show(e)
+    {
+        var text = $("#" + e.id + "  option:selected").text();
+        if (text == "Reimbursement Form") {
+            $("#EmailCheckShow").prop("hidden", false);
+            $("#IsEmail").trigger("change");
+
+        }
+        else {
+            $("#EmailCheckShow").prop("hidden", true);
+            $("#IsEmail").prop("checked", false);
+        }
+        EmailCheck();
+    }
+    function EmailCheck() {
+        if ($("#IsEmail").prop("checked") == true) {
+            $("#HrEmailShow").prop("hidden", false);
+        }
+        else if ($("#IsEmail").prop("checked") == false) {
+            $("#HrEmailShow").prop("hidden", true);
+        }
     }
 </script>
