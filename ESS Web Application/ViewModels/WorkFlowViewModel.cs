@@ -13,5 +13,6 @@ namespace ESS_Web_Application.ViewModels
         public string FormTypeId { get; set; }
         public string FormType { get; set; }
         public bool IsActive { get; set; }
+        public string HrEmployeeId { get; set; }
     }
 }

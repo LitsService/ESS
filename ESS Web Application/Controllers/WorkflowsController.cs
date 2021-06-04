@@ -47,15 +47,20 @@ namespace ESS_Web_Application.Controllers
             var data = _workflowsService.GeFormTypeDropDown();
             return Json(data);
         }
+        public JsonResult GetHr()
+        {
+            var data = _workflowsService.GetHRDropDown();
+            return Json(data);
+        }
         public JsonResult WorkflowInsertUpdate(string Operation, string FormType, string Name, string ID,
-           string Description, string IsActive)
+           string Description, string IsActive,string HrNotification)
         {
             if (!string.IsNullOrEmpty(ID))
             {
                 Operation = "Update";
             }
             string result = _workflowsService.InsertUpdateWorkflow(Operation, FormType, Name, ID,
-             Description, IsActive);
+             Description, IsActive, HrNotification);
             return Json(result);
         }
 

@@ -12,8 +12,9 @@ namespace ESS_Web_Application.Services
         List<DropDownBindViewModel> GetWorkFlowsDropDown();
         List<WorkFlowViewModel> WorkFlow_GridBinding();
         List<DropDownBindViewModel> GeFormTypeDropDown();
+        List<DropDownBindViewModel> GetHRDropDown();
         string InsertUpdateWorkflow(string Operation, string FormType, string Name, string ID,
-             string Description, string IsActive);
+             string Description, string IsActive,string HrNotification);
         void DeleteWorkFlow(string ID);
         List<WorkFlowSubListViewModel> GetWorkFlowSubList(int ID);
         List<DropDownBindViewModel> GetAllWorkFlows();
