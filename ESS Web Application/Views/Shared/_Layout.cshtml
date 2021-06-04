@@ -260,8 +260,8 @@
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#user_menu">HR</a></li>
                     }
                     @*<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#project_menu">Project</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>*@
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>*@
                 </ul>
 
                 <!-- Tab panes -->
@@ -288,11 +288,11 @@
                                         </ul>
                                     </li>
                                     @*<li>
-                                        <a href="#AdminRequest" class="has-arrow"><i class="icon-question"></i><span>Request</span></a>
-                                        <ul>
-                                           
-                                        </ul>
-                                    </li>*@
+                                            <a href="#AdminRequest" class="has-arrow"><i class="icon-question"></i><span>Request</span></a>
+                                            <ul>
+
+                                            </ul>
+                                        </li>*@
                                 </ul>
                             </nav>
                         </div>
@@ -306,18 +306,22 @@
                                         <a href="#Request" class="has-arrow"><i class="icon-question"></i><span>Request</span></a>
                                         <ul>
                                             <li><a id="LeaveApplicationForm" href="~/Request/LeaveApplicationForm">Leave Application Form</a></li>
-                                            <li><a id="ReimbursementForm"  href="~/Request/ReimbursementForm">Reimbursement Form</a></li>
+                                            <li><a id="ReimbursementForm" href="~/Request/ReimbursementForm">Reimbursement Form</a></li>
                                             <li><a id="AdvanceSalaryApplicationFrom" href="~/Request/AdvanceSalaryApplicationFrom">Advance Salary From</a></li>
                                             <li><a id="LoanApplicationForm" href="~/Request/LoanApplicationForm">Loan Application Form</a></li>
+                                            <li><a id="EmployeeDetailRequestForm" href="~/Request/EmployeeDetailRequestForm">Employee Detail Update Form</a></li>
+
+
+
                                             @*<li><a id="TicketRequestForm" href="~/Request/TicketRequestForm">Ticket Request Form</a></li>
-                                            <li><a id="MiscellaneousApplicationForm" href="~/Request/MiscellaneousApplicationForm">Miscellaneous Form</a></li>
-                                            <li><a id="LateandAbsenceJustApplicationForm" href="~/Request/LateandAbsenceJustApplicationForm">Late and Absence Justification Form</a></li>
-                                            <li><a id="AllownceRequestForm" href="~/Request/AllownceRequestForm">Allownce Request</a></li>
-                                            <li><a id="AssetManagementReqForm" href="~/Request/AssetManagementReqForm">Asset Management</a></li>
-                                            <li><a id="" href="">Overtime Submission Form</a></li>
-                                            <li><a id="" href="">Short Leave Request</a></li>
-                                            <li><a id="StaffExpenseForm" href="~/Request/StaffExpenseForm">Staff Expense Form</a></li>
-                                            <li><a id="" href="">Petty Cash Advance Form</a></li>*@
+                                                <li><a id="MiscellaneousApplicationForm" href="~/Request/MiscellaneousApplicationForm">Miscellaneous Form</a></li>
+                                                <li><a id="LateandAbsenceJustApplicationForm" href="~/Request/LateandAbsenceJustApplicationForm">Late and Absence Justification Form</a></li>
+                                                <li><a id="AllownceRequestForm" href="~/Request/AllownceRequestForm">Allownce Request</a></li>
+                                                <li><a id="AssetManagementReqForm" href="~/Request/AssetManagementReqForm">Asset Management</a></li>
+                                                <li><a id="" href="">Overtime Submission Form</a></li>
+                                                <li><a id="" href="">Short Leave Request</a></li>
+                                                <li><a id="StaffExpenseForm" href="~/Request/StaffExpenseForm">Staff Expense Form</a></li>
+                                                <li><a id="" href="">Petty Cash Advance Form</a></li>*@
                                         </ul>
                                     </li>
                                     <li>
@@ -611,17 +615,16 @@
 
 
         var countries = ["AdvanceSalaryApplicationFrom", "AllownceRequestForm",
-            "AssetManagementReqForm", "EmployeeAttendanceDeatils", "LateandAbsenceJustApplicationForm",
+            "AssetManagementReqForm","EmployeeDetailRequestForm", "EmployeeAttendanceDeatils", "LateandAbsenceJustApplicationForm",
             "LeaveApplicationForm", "LoanApplicationForm", "MiscellaneousApplicationForm",
-            "ReimbursementForm", "StaffExpenseForm", "TicketRequestForm", "Payslip","EmployeeAttendanceDeatils"];
+            "ReimbursementForm", "StaffExpenseForm", "TicketRequestForm", "Payslip", "EmployeeAttendanceDeatils"];
         $("#tag").autocomplete({
             source: countries
         });
-        function SearchForm()
-        {
+        function SearchForm() {
             var val = $("#tag").val();
             var href = $('#' + val).attr('href');
-            window.location.href = href; 
+            window.location.href = href;
             //$("#" + val).click();
         }
     </script>

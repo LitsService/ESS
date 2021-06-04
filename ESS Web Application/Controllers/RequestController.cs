@@ -229,8 +229,29 @@ namespace ESS_Web_Application.Controllers
             return Json(result);
         }
 
-        #endregion
+        #endregion Employee Detail Update Request Form
+        public ActionResult EmployeeDetailRequestForm()
+        {
+            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "LeaveAppForm"))
+            {
+                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "LeaveAppForm", Session["UserCompanyID"].ToString());
+                ViewBag.LeaveTypes = _requestService.GetLeaveTypes();
+                ViewBag.ReplacementEmployee = _requestService.GetReplacementEmployee(Session["UserCompanyID"].ToString());
+                ViewBag.Countries = _requestService.GetCountries();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+        }
+        #region
 
+        #endregion
         #region ProfileUploadImage
         [HttpPost]
         public JsonResult UploadFile()
