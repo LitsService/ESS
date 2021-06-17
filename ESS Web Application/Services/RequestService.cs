@@ -4605,20 +4605,37 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                         ht.Add("@MiscellaneousRequestID", ReqID);
 
                         DataTable dt = _requestRepo.Get_Miscellaneous_Request_Info_4_Email(ht);
-
-                        if ((null != dt) && dt.Rows.Count > 0)
+                        if ((null != dt) && dt.Rows.Count > 0 && dt.Rows[0]["Email"] != null)
                         {
                             string sBody = "";
-                            string htmlEmailFormat = "";// Server.MapPath("~/EmailTemplates/NotifyApproverEmail.htm");
-
+                            string htmlEmailFormat = @"~\EmailTemplates\NotifyApproverEmail.htm";
+                            htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
                             sBody = File.ReadAllText(htmlEmailFormat);
                             sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
                             sBody = sBody.Replace("<%ID%>", ReqID.ToString());
                             sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
                             sBody = sBody.Replace("<%Type%>", dt.Rows[0]["RequestType"].ToString());
                             sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
-                            sBody = sBody.Replace("<%RedirectURL%>", ""/*Request.Url.AbsoluteUri*/);
-                            clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "A request is pending for your approval.");
+
+                            sBody = sBody.Replace("<%EmployeeID%>", dt.Rows[0]["RequesterEmpID"].ToString());
+                            sBody = sBody.Replace("<%EmployeeName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                            string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+
+                            var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+                  "&ReqID=" + ReqID + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+                  "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+                  "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                            sBody = sBody.Replace("<%ApproveLink%>", url);
+                            var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+                  "&ReqID=" + ReqID + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+                  "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+                  "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                            sBody = sBody.Replace("<%RejectLink%>", url2);
+                            clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"].ToString(), "A request is pending for your approval.");
                         }
                     }
 
@@ -4776,12 +4793,52 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                     ht.Add("@RequestID", Id);
                     ht.Add("@Approver", UserId);
                     DataTable dt = _requestRepo.Get_MiscellaneousRequest_RequestSubmitter_Info_4_Email(ht);
+                    var dt1 = DBContext.ExecuteReaderWithCommand("select MainApproverUserID, WorkflowID from dbo.Get_Next_Approver_Of_Miscellaneous_Request(" + Id + ")");
+                    int MainApproverUserID = 0;
+                    while (dt1.Read())
+                    {
+                        MainApproverUserID = int.Parse(dt1["MainApproverUserID"].ToString());
+                    }
+                    if ((null != dt) && dt.Rows.Count > 0 && MainApproverUserID != 0)
+                    {
 
-                    if ((null != dt) && dt.Rows.Count > 0)
+                        string sBody = "";
+                        string htmlEmailFormat = @"~\EmailTemplates\NotifyApproverEmail.htm";
+                        htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
+                        sBody = File.ReadAllText(htmlEmailFormat);
+                        sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
+                        sBody = sBody.Replace("<%ID%>", Id.ToString());
+                        sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
+                        sBody = sBody.Replace("<%StartDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["StartDate"]));
+                        sBody = sBody.Replace("<%EndDate%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["EndDate"]));
+                        sBody = sBody.Replace("<%Type%>", dt.Rows[0]["RequestType"].ToString());
+                        sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
+
+                        sBody = sBody.Replace("<%EmployeeID%>", dt.Rows[0]["RequesterEmpID"].ToString());
+                        sBody = sBody.Replace("<%EmployeeName%>", dt.Rows[0]["RequesterFullName"].ToString());
+                        string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+                        Uri uri = HttpContext.Current.Request.Url;
+                        var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%ApproveLink%>", url);
+                        var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%RejectLink%>", url2);
+                        clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
+                    }
+                    else if ((null != dt) && dt.Rows.Count > 0)
                     {
                         string sBody = "";
-                        string htmlEmailFormat = "";//Server.MapPath("~/EmailTemplates/NotifyRequestSubmitter.htm");
-
+                        string htmlEmailFormat = @"~\EmailTemplates\NotifyRequestSubmitter.htm";
+                        htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
                         sBody = File.ReadAllText(htmlEmailFormat);
                         sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
                         sBody = sBody.Replace("<%RequesterFullName%>", dt.Rows[0]["RequesterFullName"].ToString());
@@ -4790,13 +4847,21 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                         sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
                         sBody = sBody.Replace("<%Type%>", dt.Rows[0]["RequestType"].ToString());
                         sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
-                        //sBody = sBody.Replace("<%RedirectURL%>", Request.Url.AbsoluteUri);
-                        Uri uri = HttpContext.Current.Request.Url;
-                        sBody = sBody.Replace("<%RedirectURL%>", String.Format("{0}{1}{2}/User/Forms/LeaveApplication.aspx", uri.Scheme,
-                                        Uri.SchemeDelimiter, uri.Authority) + "?FormType=1&SelTab=1");
+                        string WebUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+                        var url = WebUrl + "/Account/EmailWFAction?btnApprove=1&type=Approve" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
 
-                        //sBody = sBody.Replace("<%RedirectURL%>", "http://" + HttpContext.Current.Request.Url.Host + "/User/Forms/LeaveApplication.aspx?FormType=1&SelTab=1");
 
+                        sBody = sBody.Replace("<%ApproveLink%>", url);
+                        var url2 = WebUrl + "/Account/EmailWFAction?btnApprove=0&type=Reject" +
+              "&ReqID=" + Id + "&StatusId=" + dt.Rows[0]["RequestStatusId"].ToString() + "&UserId=" + UserId.ToString() +
+              "&CompanyId=" + CompanyId.ToString() + "&username=" + dt.Rows[0]["MainApproverFullName"].ToString() +
+              "&hdnGuid=" + dt.Rows[0]["RequestKey"].ToString() + "&formtype=MiscellaneousForm" + "&leavetype=" + dt.Rows[0]["LeaveType"].ToString();
+
+
+                        sBody = sBody.Replace("<%RejectLink%>", url2);
                         clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
                     }
 
@@ -4841,9 +4906,10 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                     if ((null != dt) && dt.Rows.Count > 0)
                     {
                         string sBody = "";
-                        string htmlEmailFormat = "";// Server.MapPath("~/EmailTemplates/NotifyRequestSubmitter.htm");
-
+                        string htmlEmailFormat = @"~\EmailTemplates\NotifyRequestSubmitter.htm";
+                        htmlEmailFormat = HttpContext.Current.Server.MapPath(htmlEmailFormat);
                         sBody = File.ReadAllText(htmlEmailFormat);
+
                         sBody = sBody.Replace("<%UserFullName%>", dt.Rows[0]["MainApproverFullName"].ToString());
                         sBody = sBody.Replace("<%RequesterFullName%>", dt.Rows[0]["RequesterFullName"].ToString());
                         sBody = sBody.Replace("<%ApprovalStatus%>", "Rejected");
@@ -4851,14 +4917,10 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                         sBody = sBody.Replace("<%Date%>", string.Format("{0:dd/MM/yyyy}", dt.Rows[0]["RequestDate"]));
                         sBody = sBody.Replace("<%Type%>", dt.Rows[0]["RequestType"].ToString());
                         sBody = sBody.Replace("<%Remarks%>", dt.Rows[0]["Remarks"].ToString());
-                        //sBody = sBody.Replace("<%RedirectURL%>", Request.Url.AbsoluteUri);
                         Uri uri = HttpContext.Current.Request.Url;
                         sBody = sBody.Replace("<%RedirectURL%>", String.Format("{0}{1}{2}/User/Forms/LeaveApplication.aspx", uri.Scheme,
-                                        Uri.SchemeDelimiter, uri.Authority) + "?FormType=1&SelTab=1");
-
-                        //sBody = sBody.Replace("<%RedirectURL%>", "http://" + HttpContext.Current.Request.Url.Host + "/User/Forms/LeaveApplication.aspx?FormType=1&SelTab=1");
-
-                        clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Leave Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
+                                        Uri.SchemeDelimiter, uri.Authority) + "?FormType=1&SelTab=1&SelTab=1");
+                        clsCommon.SendMail(sBody, dt.Rows[0]["Email"].ToString(), ConfigurationManager.AppSettings["EMAIL_ACC"], "Miscellaneous Request " + dt.Rows[0]["ApprovalStatus"].ToString() + " By " + dt.Rows[0]["MainApproverFullName"]);
                     }
                     if ((null != DBMessage) && DBMessage.Contains("ERROR:"))
                     {
