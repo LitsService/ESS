@@ -23,6 +23,20 @@ namespace ESS_Web_Application.Repository
         int CheckforDuplicateLeaves(Hashtable ht);
         int InsertUpdateEmployeeImage(Hashtable ht);
         int spUserInsertLeaveRequest(Hashtable ht);
+        #region Employee Detail Update Request Form
+        DataTable Get_All_EmployeeDetail_Requests(Hashtable ht);
+        DataTable Get_EmployeeDetail_Requests_For_Approval(Hashtable ht);
+        int Insert_EmployeeDetail_Request(Hashtable ht);
+        DataTable Get_EmployeeDetail_Request_Info_4_Email(Hashtable ht);
+        DataTable Get_EmployeeDetail_Request_ByID(Hashtable ht);
+        string Update_EmployeeDetail_Request(Hashtable ht);
+        DataTable Get_EmployeeDetail_Request_Remarks_List(Hashtable ht);
+        int Get_EmployeeDetail_RequestsApprovers_Count(Hashtable ht);
+        string Approve_EmployeeDetail_Request(Hashtable ht);
+        DataTable Get_EmployeeDetail_RequestSubmitter_Info_4_Email(Hashtable ht);
+        string Reject_EmployeeDetail_Request(Hashtable ht);
+        DataTable Get_EmployeeDetail_Request_Statuses(Hashtable ht);
+        #endregion
         DataTable GetCountries();
         DataTable GetCities(Hashtable ht);
         DataTable GetLeaveApplicationApprovalData(Hashtable ht);

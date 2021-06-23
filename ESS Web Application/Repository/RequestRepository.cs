@@ -25,6 +25,57 @@ namespace ESS_Web_Application.Repository
         {
             return Convert.ToInt32(DBContext.ExecuteScalar("sp_InsertUpdateEmployeeImage", ht));
         }
+        #region Employee Detail Update Request Form
+        public DataTable Get_All_EmployeeDetail_Requests(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_All_EmployeeDetail_Requests", ht).Tables[0];
+        }
+        public DataTable Get_EmployeeDetail_Requests_For_Approval(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Requests_For_Approval", ht).Tables[0];
+        }
+        public int Insert_EmployeeDetail_Request(Hashtable ht)
+        {
+            return int.Parse(DBContext.ExecuteNonQuery("sp_User_Insert_EmployeeDetail_Request", ht, "@EmployeeDetailRequestID", System.Data.SqlDbType.Int, 0).ToString());
+        }
+        public DataTable Get_EmployeeDetail_Request_Info_4_Email(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Request_Info_4_Email", ht).Tables[0];
+        }
+        public DataTable Get_EmployeeDetail_Request_ByID(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Request_ByID", ht).Tables[0];
+        }
+        public string Update_EmployeeDetail_Request(Hashtable ht)
+        {
+            return DBContext.ExecuteNonQuery("sp_User_Update_EmployeeDetail_Request", ht, "@DBMessage", System.Data.SqlDbType.NVarChar, 255) as string;
+        }
+        public DataTable Get_EmployeeDetail_Request_Remarks_List(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Request_Remarks_List", ht).Tables[0];
+        }
+        public int Get_EmployeeDetail_RequestsApprovers_Count(Hashtable ht)
+        {
+            return int.Parse(DBContext.ExecuteNonQuery("sp_User_Get_EmployeeDetailRequest_RequestsApprovers_Count", ht, "@StatusID", System.Data.SqlDbType.Int, 0).ToString());
+        }
+        public string Approve_EmployeeDetail_Request(Hashtable ht)
+        {
+            return DBContext.ExecuteNonQuery("sp_User_Approve_EmployeeDetail_Request", ht, "@DBMessage", System.Data.SqlDbType.NVarChar, 255) as string;
+        }
+        public DataTable Get_EmployeeDetail_RequestSubmitter_Info_4_Email(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetailRequest_RequestSubmitter_Info_4_Email", ht).Tables[0];
+        }
+        public string Reject_EmployeeDetail_Request(Hashtable ht)
+        {
+            return DBContext.ExecuteNonQuery("sp_User_Reject_EmployeeDetail_Request", ht, "@DBMessage", System.Data.SqlDbType.NVarChar, 255) as string;
+        }
+        public DataTable Get_EmployeeDetail_Request_Statuses(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Request_Statuses", ht).Tables[0];
+        }
+
+        #endregion
         #region LeaveApplication
         public DataTable GetLeaveAppUsers(Hashtable ht)
         {

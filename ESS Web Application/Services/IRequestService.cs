@@ -12,6 +12,15 @@ namespace ESS_Web_Application.Services
         EmployeeDeatilViewModel GetEmployeeDeatils(string UserID);
         List<DropDownBindViewModel> GetLeaveTypes(string UserID);
         List<DropDownBindViewModel> GetReplacementEmployee(string CompanyId);
+        #region Employee Detail Update Request Form
+        EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId);
+        string SaveEmployeeDetail(string AtchGuid, string CompanyId, string UserId, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress);
+        EmployeeDetailRequestViewModel GetEmployeeDetailEditData(string Reqid, string UserId);
+        string SaveEditEmployeeDetail(int saveStatus, string Id, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress, string UserId);
+        EmployeeDetailRequestViewModel GetEmployeeDetailApproval(string Id);
+        string SaveEmployeeDetailApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks, string CompanyId);
+        List<EmployeeDetailRequestViewModel> GetEmployeeDetailDetails(string Id);
+        #endregion
         LeavesModel FillCalculatedFields(string EmployeeId, string LeaveTypeId, string StartDate, string EndDate, string LeaveType);
         string SaveLeaveRequest(string AtchGuid,string CompanyId, string EmployeeID, string LeaveType, string Remarks, string Airticket, string ReplacementId, string StartDate, string EndDate, string ResumetoWork, string LeaveTypeName, string UserId, string Noofdays, string Leavebalance, string TravelTo, string TravelFrom, string DateofTravel, string DateofReturn, string Accomodation);
         LeaveApplicationViewModel GetLeaveApproval(string Id);
@@ -25,7 +34,7 @@ namespace ESS_Web_Application.Services
         string SaveLeaveApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks, string CompanyId);
         string SaveResumptions(string Id, string Date,string Remarks);
 
-
+      
         List<DropDownBindViewModel> GetReimbursementType();
         List<DropDownBindViewModel> GetCurrencyCode();
         List<DropDownBindViewModel> GetActivityTypes();
