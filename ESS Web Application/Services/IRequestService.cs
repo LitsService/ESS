@@ -10,7 +10,7 @@ namespace ESS_Web_Application.Services
     {
         List<DropDownBindViewModel> GetLeaveAppUsers(string UserID, string FormTypeID, string CompanyId);
         EmployeeDeatilViewModel GetEmployeeDeatils(string UserID);
-        List<DropDownBindViewModel> GetLeaveTypes();
+        List<DropDownBindViewModel> GetLeaveTypes(string UserID);
         List<DropDownBindViewModel> GetReplacementEmployee(string CompanyId);
         LeavesModel FillCalculatedFields(string EmployeeId, string LeaveTypeId, string StartDate, string EndDate, string LeaveType);
         string SaveLeaveRequest(string AtchGuid,string CompanyId, string EmployeeID, string LeaveType, string Remarks, string Airticket, string ReplacementId, string StartDate, string EndDate, string ResumetoWork, string LeaveTypeName, string UserId, string Noofdays, string Leavebalance, string TravelTo, string TravelFrom, string DateofTravel, string DateofReturn, string Accomodation);

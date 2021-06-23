@@ -14,7 +14,7 @@ namespace ESS_Web_Application.Repository
 
         DataTable GetLeaveAppUsers(Hashtable ht);
         DataTable GetEmployeeDeatils(Hashtable ht);
-        SqlDataReader GetLeaveTypes();
+        SqlDataReader GetLeaveTypes(string UserID);
         DataTable GetReplacementEmployee(Hashtable ht);
         long GetWorkerIDByUserID(Hashtable ht);
         string GetUserApprovedLeaves(Hashtable ht);

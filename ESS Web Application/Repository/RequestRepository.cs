@@ -34,9 +34,10 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_User_Get_Profile_Info_4_Requests", ht).Tables[0];
         }
-        public SqlDataReader GetLeaveTypes()
+        public SqlDataReader GetLeaveTypes(string UserID)
         {
-            return DBContext.ExecuteReaderWithCommand("Select * from tbl_LeaveType");
+            string qry = "select distinct ltype.LeaveType,ltype.ID from tbl_User u inner join tbl_Employee e on e.EMPLOYID = u.EmployeeID inner join tbl_EmployeeLeaveBalances balance on balance.EmployeeId = e.EMPLOYID inner join tbl_LeaveType ltype on ltype.LeaveType = balance.Type where u.ID = '" + UserID + "'";
+            return DBContext.ExecuteReaderWithCommand(qry);
         }
         public DataTable GetReplacementEmployee(Hashtable ht)
         {

@@ -155,7 +155,7 @@ namespace ESS_Web_Application.Controllers
             if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "LeaveAppForm"))
             {
                 ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "LeaveAppForm", Session["UserCompanyID"].ToString());
-                ViewBag.LeaveTypes = _requestService.GetLeaveTypes();
+                ViewBag.LeaveTypes = _requestService.GetLeaveTypes(Session["UserID"].ToString());
                 ViewBag.ReplacementEmployee = _requestService.GetReplacementEmployee(Session["UserCompanyID"].ToString());
                 ViewBag.Countries = _requestService.GetCountries();
                 return View();
@@ -239,7 +239,7 @@ namespace ESS_Web_Application.Controllers
             if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "LeaveAppForm"))
             {
                 ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "LeaveAppForm", Session["UserCompanyID"].ToString());
-                ViewBag.LeaveTypes = _requestService.GetLeaveTypes();
+                ViewBag.LeaveTypes = _requestService.GetLeaveTypes(Session["UserID"].ToString());
                 ViewBag.ReplacementEmployee = _requestService.GetReplacementEmployee(Session["UserCompanyID"].ToString());
                 ViewBag.Countries = _requestService.GetCountries();
                 return View();
