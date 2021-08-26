@@ -50,6 +50,7 @@ namespace ESS_Web_Application.Services
                 throw new Exception(" sp_InsertUpdateEmployeeImage :::::" + ex.Message);
             }
         }
+
         #region LeaveApplication
         public List<DropDownBindViewModel> GetLeaveAppUsers(string UserID, string FormTypeID, string CompanyId)
         {
@@ -108,10 +109,10 @@ namespace ESS_Web_Application.Services
 
         }
 
-        public List<DropDownBindViewModel> GetLeaveTypes()
+        public List<DropDownBindViewModel> GetLeaveTypes(string UserID)
         {
             List<DropDownBindViewModel> UserDD = new List<DropDownBindViewModel>();
-            var dt = _requestRepo.GetLeaveTypes();
+            var dt = _requestRepo.GetLeaveTypes(UserID);
             while (dt.Read())
             {
                 DropDownBindViewModel User = new DropDownBindViewModel()

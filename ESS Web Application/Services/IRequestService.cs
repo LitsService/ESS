@@ -10,7 +10,7 @@ namespace ESS_Web_Application.Services
     {
         List<DropDownBindViewModel> GetLeaveAppUsers(string UserID, string FormTypeID, string CompanyId);
         EmployeeDeatilViewModel GetEmployeeDeatils(string UserID);
-        List<DropDownBindViewModel> GetLeaveTypes();
+        List<DropDownBindViewModel> GetLeaveTypes(string UserID);
         List<DropDownBindViewModel> GetReplacementEmployee(string CompanyId);
         #region Employee Detail Update Request Form
         EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId);
