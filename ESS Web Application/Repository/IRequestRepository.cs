@@ -11,8 +11,9 @@ namespace ESS_Web_Application.Repository
     public interface IRequestRepository
     {
         int GetFromTypeID(string qry);
-
+        DataTable GetDepartmentTypes(Hashtable ht);
         DataTable GetLeaveAppUsers(Hashtable ht);
+        DataTable GetLeaveAppUsersByDepId(Hashtable ht);
         DataTable GetEmployeeDeatils(Hashtable ht);
         SqlDataReader GetLeaveTypes(string UserID);
         DataTable GetReplacementEmployee(Hashtable ht);
@@ -62,6 +63,7 @@ namespace ESS_Web_Application.Repository
         DataTable GetReimbursementList(Hashtable ht);
         DataTable GetReimbursementListForApproval(Hashtable ht);
         DataTable GetReimbursementRequestDetailReport(Hashtable ht);
+        DataTable GetLeaveRequestDetailReport(Hashtable ht);
         DataTable GetReimbursementRequestDetail(Hashtable ht);
         string EditSaveReimbursementRequest(Hashtable ht);
         DataTable GetReimbursementRequestByID(Hashtable ht);

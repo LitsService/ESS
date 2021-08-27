@@ -20,17 +20,17 @@ namespace ESS_Web_Application.Report {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("ReimbursementDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("LeaveDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class ReimbursementDataSet : global::System.Data.DataSet {
+    public partial class LeaveDataSet : global::System.Data.DataSet {
         
-        private ReimbursementTableDataTable tableReimbursementTable;
+        private LeaveDetailDataTable tableLeaveDetail;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public ReimbursementDataSet() {
+        public LeaveDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace ESS_Web_Application.Report {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected ReimbursementDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected LeaveDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace ESS_Web_Application.Report {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["ReimbursementTable"] != null)) {
-                    base.Tables.Add(new ReimbursementTableDataTable(ds.Tables["ReimbursementTable"]));
+                if ((ds.Tables["LeaveDetail"] != null)) {
+                    base.Tables.Add(new LeaveDetailDataTable(ds.Tables["LeaveDetail"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace ESS_Web_Application.Report {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ReimbursementTableDataTable ReimbursementTable {
+        public LeaveDetailDataTable LeaveDetail {
             get {
-                return this.tableReimbursementTable;
+                return this.tableLeaveDetail;
             }
         }
         
@@ -127,7 +127,7 @@ namespace ESS_Web_Application.Report {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            ReimbursementDataSet cln = ((ReimbursementDataSet)(base.Clone()));
+            LeaveDataSet cln = ((LeaveDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace ESS_Web_Application.Report {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["ReimbursementTable"] != null)) {
-                    base.Tables.Add(new ReimbursementTableDataTable(ds.Tables["ReimbursementTable"]));
+                if ((ds.Tables["LeaveDetail"] != null)) {
+                    base.Tables.Add(new LeaveDetailDataTable(ds.Tables["LeaveDetail"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace ESS_Web_Application.Report {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableReimbursementTable = ((ReimbursementTableDataTable)(base.Tables["ReimbursementTable"]));
+            this.tableLeaveDetail = ((LeaveDetailDataTable)(base.Tables["LeaveDetail"]));
             if ((initTable == true)) {
-                if ((this.tableReimbursementTable != null)) {
-                    this.tableReimbursementTable.InitVars();
+                if ((this.tableLeaveDetail != null)) {
+                    this.tableLeaveDetail.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace ESS_Web_Application.Report {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "ReimbursementDataSet";
+            this.DataSetName = "LeaveDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/ReimbursementDataSet.xsd";
+            this.Namespace = "http://tempuri.org/LeaveDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableReimbursementTable = new ReimbursementTableDataTable();
-            base.Tables.Add(this.tableReimbursementTable);
+            this.tableLeaveDetail = new LeaveDetailDataTable();
+            base.Tables.Add(this.tableLeaveDetail);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializeReimbursementTable() {
+        private bool ShouldSerializeLeaveDetail() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace ESS_Web_Application.Report {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            ReimbursementDataSet ds = new ReimbursementDataSet();
+            LeaveDataSet ds = new LeaveDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,43 +270,35 @@ namespace ESS_Web_Application.Report {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void ReimbursementTableRowChangeEventHandler(object sender, ReimbursementTableRowChangeEvent e);
+        public delegate void LeaveDetailRowChangeEventHandler(object sender, LeaveDetailRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ReimbursementTableDataTable : global::System.Data.TypedTableBase<ReimbursementTableRow> {
+        public partial class LeaveDetailDataTable : global::System.Data.TypedTableBase<LeaveDetailRow> {
             
-            private global::System.Data.DataColumn columnRMTYPE;
+            private global::System.Data.DataColumn columnEmployeeId;
             
-            private global::System.Data.DataColumn columnFrom;
-            
-            private global::System.Data.DataColumn columnTo;
-            
-            private global::System.Data.DataColumn columnCountry;
-            
-            private global::System.Data.DataColumn columnSubmittedBy;
-            
-            private global::System.Data.DataColumn columnActivityType;
-            
-            private global::System.Data.DataColumn columnReciept;
-            
-            private global::System.Data.DataColumn columnCurrency;
-            
-            private global::System.Data.DataColumn columnAmount;
-            
-            private global::System.Data.DataColumn columnRemarks;
+            private global::System.Data.DataColumn columnEmployeeName;
             
             private global::System.Data.DataColumn columnDEPRTMNT;
             
             private global::System.Data.DataColumn columnDESIGNATION;
             
+            private global::System.Data.DataColumn columnLeaveType;
+            
+            private global::System.Data.DataColumn columnTotalLeaves;
+            
+            private global::System.Data.DataColumn columnAvailLeaves;
+            
+            private global::System.Data.DataColumn columnRemainingLeaves;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableDataTable() {
-                this.TableName = "ReimbursementTable";
+            public LeaveDetailDataTable() {
+                this.TableName = "LeaveDetail";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -314,7 +306,7 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal ReimbursementTableDataTable(global::System.Data.DataTable table) {
+            internal LeaveDetailDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -331,88 +323,24 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected ReimbursementTableDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected LeaveDetailDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn RMTYPEColumn {
+            public global::System.Data.DataColumn EmployeeIdColumn {
                 get {
-                    return this.columnRMTYPE;
+                    return this.columnEmployeeId;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn FromColumn {
+            public global::System.Data.DataColumn EmployeeNameColumn {
                 get {
-                    return this.columnFrom;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn ToColumn {
-                get {
-                    return this.columnTo;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn CountryColumn {
-                get {
-                    return this.columnCountry;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn SubmittedByColumn {
-                get {
-                    return this.columnSubmittedBy;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn ActivityTypeColumn {
-                get {
-                    return this.columnActivityType;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn RecieptColumn {
-                get {
-                    return this.columnReciept;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn CurrencyColumn {
-                get {
-                    return this.columnCurrency;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn AmountColumn {
-                get {
-                    return this.columnAmount;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn RemarksColumn {
-                get {
-                    return this.columnRemarks;
+                    return this.columnEmployeeName;
                 }
             }
             
@@ -434,6 +362,38 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn LeaveTypeColumn {
+                get {
+                    return this.columnLeaveType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalLeavesColumn {
+                get {
+                    return this.columnTotalLeaves;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AvailLeavesColumn {
+                get {
+                    return this.columnAvailLeaves;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn RemainingLeavesColumn {
+                get {
+                    return this.columnRemainingLeaves;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -443,56 +403,52 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableRow this[int index] {
+            public LeaveDetailRow this[int index] {
                 get {
-                    return ((ReimbursementTableRow)(this.Rows[index]));
+                    return ((LeaveDetailRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event ReimbursementTableRowChangeEventHandler ReimbursementTableRowChanging;
+            public event LeaveDetailRowChangeEventHandler LeaveDetailRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event ReimbursementTableRowChangeEventHandler ReimbursementTableRowChanged;
+            public event LeaveDetailRowChangeEventHandler LeaveDetailRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event ReimbursementTableRowChangeEventHandler ReimbursementTableRowDeleting;
+            public event LeaveDetailRowChangeEventHandler LeaveDetailRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event ReimbursementTableRowChangeEventHandler ReimbursementTableRowDeleted;
+            public event LeaveDetailRowChangeEventHandler LeaveDetailRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddReimbursementTableRow(ReimbursementTableRow row) {
+            public void AddLeaveDetailRow(LeaveDetailRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableRow AddReimbursementTableRow(string RMTYPE, string From, string To, string Country, string SubmittedBy, string ActivityType, string Reciept, string Currency, string Amount, string Remarks, string DEPRTMNT, string DESIGNATION) {
-                ReimbursementTableRow rowReimbursementTableRow = ((ReimbursementTableRow)(this.NewRow()));
+            public LeaveDetailRow AddLeaveDetailRow(string EmployeeId, string EmployeeName, string DEPRTMNT, string DESIGNATION, string LeaveType, string TotalLeaves, string AvailLeaves, string RemainingLeaves) {
+                LeaveDetailRow rowLeaveDetailRow = ((LeaveDetailRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        RMTYPE,
-                        From,
-                        To,
-                        Country,
-                        SubmittedBy,
-                        ActivityType,
-                        Reciept,
-                        Currency,
-                        Amount,
-                        Remarks,
+                        EmployeeId,
+                        EmployeeName,
                         DEPRTMNT,
-                        DESIGNATION};
-                rowReimbursementTableRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowReimbursementTableRow);
-                return rowReimbursementTableRow;
+                        DESIGNATION,
+                        LeaveType,
+                        TotalLeaves,
+                        AvailLeaves,
+                        RemainingLeaves};
+                rowLeaveDetailRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLeaveDetailRow);
+                return rowLeaveDetailRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ReimbursementTableDataTable cln = ((ReimbursementTableDataTable)(base.Clone()));
+                LeaveDetailDataTable cln = ((LeaveDetailDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -500,79 +456,67 @@ namespace ESS_Web_Application.Report {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ReimbursementTableDataTable();
+                return new LeaveDetailDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
-                this.columnRMTYPE = base.Columns["RMTYPE"];
-                this.columnFrom = base.Columns["From"];
-                this.columnTo = base.Columns["To"];
-                this.columnCountry = base.Columns["Country"];
-                this.columnSubmittedBy = base.Columns["SubmittedBy"];
-                this.columnActivityType = base.Columns["ActivityType"];
-                this.columnReciept = base.Columns["Reciept"];
-                this.columnCurrency = base.Columns["Currency"];
-                this.columnAmount = base.Columns["Amount"];
-                this.columnRemarks = base.Columns["Remarks"];
+                this.columnEmployeeId = base.Columns["EmployeeId"];
+                this.columnEmployeeName = base.Columns["EmployeeName"];
                 this.columnDEPRTMNT = base.Columns["DEPRTMNT"];
                 this.columnDESIGNATION = base.Columns["DESIGNATION"];
+                this.columnLeaveType = base.Columns["LeaveType"];
+                this.columnTotalLeaves = base.Columns["TotalLeaves"];
+                this.columnAvailLeaves = base.Columns["AvailLeaves"];
+                this.columnRemainingLeaves = base.Columns["RemainingLeaves"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
-                this.columnRMTYPE = new global::System.Data.DataColumn("RMTYPE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRMTYPE);
-                this.columnFrom = new global::System.Data.DataColumn("From", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFrom);
-                this.columnTo = new global::System.Data.DataColumn("To", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTo);
-                this.columnCountry = new global::System.Data.DataColumn("Country", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCountry);
-                this.columnSubmittedBy = new global::System.Data.DataColumn("SubmittedBy", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSubmittedBy);
-                this.columnActivityType = new global::System.Data.DataColumn("ActivityType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnActivityType);
-                this.columnReciept = new global::System.Data.DataColumn("Reciept", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnReciept);
-                this.columnCurrency = new global::System.Data.DataColumn("Currency", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCurrency);
-                this.columnAmount = new global::System.Data.DataColumn("Amount", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAmount);
-                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRemarks);
+                this.columnEmployeeId = new global::System.Data.DataColumn("EmployeeId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeId);
+                this.columnEmployeeName = new global::System.Data.DataColumn("EmployeeName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeName);
                 this.columnDEPRTMNT = new global::System.Data.DataColumn("DEPRTMNT", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDEPRTMNT);
                 this.columnDESIGNATION = new global::System.Data.DataColumn("DESIGNATION", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDESIGNATION);
+                this.columnLeaveType = new global::System.Data.DataColumn("LeaveType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLeaveType);
+                this.columnTotalLeaves = new global::System.Data.DataColumn("TotalLeaves", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalLeaves);
+                this.columnAvailLeaves = new global::System.Data.DataColumn("AvailLeaves", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAvailLeaves);
+                this.columnRemainingLeaves = new global::System.Data.DataColumn("RemainingLeaves", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRemainingLeaves);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableRow NewReimbursementTableRow() {
-                return ((ReimbursementTableRow)(this.NewRow()));
+            public LeaveDetailRow NewLeaveDetailRow() {
+                return ((LeaveDetailRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ReimbursementTableRow(builder);
+                return new LeaveDetailRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ReimbursementTableRow);
+                return typeof(LeaveDetailRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ReimbursementTableRowChanged != null)) {
-                    this.ReimbursementTableRowChanged(this, new ReimbursementTableRowChangeEvent(((ReimbursementTableRow)(e.Row)), e.Action));
+                if ((this.LeaveDetailRowChanged != null)) {
+                    this.LeaveDetailRowChanged(this, new LeaveDetailRowChangeEvent(((LeaveDetailRow)(e.Row)), e.Action));
                 }
             }
             
@@ -580,8 +524,8 @@ namespace ESS_Web_Application.Report {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ReimbursementTableRowChanging != null)) {
-                    this.ReimbursementTableRowChanging(this, new ReimbursementTableRowChangeEvent(((ReimbursementTableRow)(e.Row)), e.Action));
+                if ((this.LeaveDetailRowChanging != null)) {
+                    this.LeaveDetailRowChanging(this, new LeaveDetailRowChangeEvent(((LeaveDetailRow)(e.Row)), e.Action));
                 }
             }
             
@@ -589,8 +533,8 @@ namespace ESS_Web_Application.Report {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ReimbursementTableRowDeleted != null)) {
-                    this.ReimbursementTableRowDeleted(this, new ReimbursementTableRowChangeEvent(((ReimbursementTableRow)(e.Row)), e.Action));
+                if ((this.LeaveDetailRowDeleted != null)) {
+                    this.LeaveDetailRowDeleted(this, new LeaveDetailRowChangeEvent(((LeaveDetailRow)(e.Row)), e.Action));
                 }
             }
             
@@ -598,14 +542,14 @@ namespace ESS_Web_Application.Report {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ReimbursementTableRowDeleting != null)) {
-                    this.ReimbursementTableRowDeleting(this, new ReimbursementTableRowChangeEvent(((ReimbursementTableRow)(e.Row)), e.Action));
+                if ((this.LeaveDetailRowDeleting != null)) {
+                    this.LeaveDetailRowDeleting(this, new LeaveDetailRowChangeEvent(((LeaveDetailRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoveReimbursementTableRow(ReimbursementTableRow row) {
+            public void RemoveLeaveDetailRow(LeaveDetailRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -614,7 +558,7 @@ namespace ESS_Web_Application.Report {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                ReimbursementDataSet ds = new ReimbursementDataSet();
+                LeaveDataSet ds = new LeaveDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -632,7 +576,7 @@ namespace ESS_Web_Application.Report {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ReimbursementTableDataTable";
+                attribute2.FixedValue = "LeaveDetailDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -676,174 +620,46 @@ namespace ESS_Web_Application.Report {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class ReimbursementTableRow : global::System.Data.DataRow {
+        public partial class LeaveDetailRow : global::System.Data.DataRow {
             
-            private ReimbursementTableDataTable tableReimbursementTable;
+            private LeaveDetailDataTable tableLeaveDetail;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal ReimbursementTableRow(global::System.Data.DataRowBuilder rb) : 
+            internal LeaveDetailRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableReimbursementTable = ((ReimbursementTableDataTable)(this.Table));
+                this.tableLeaveDetail = ((LeaveDetailDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string RMTYPE {
+            public string EmployeeId {
                 get {
                     try {
-                        return ((string)(this[this.tableReimbursementTable.RMTYPEColumn]));
+                        return ((string)(this[this.tableLeaveDetail.EmployeeIdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RMTYPE\' in table \'ReimbursementTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeId\' in table \'LeaveDetail\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReimbursementTable.RMTYPEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string From {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.FromColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'From\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.FromColumn] = value;
+                    this[this.tableLeaveDetail.EmployeeIdColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string To {
+            public string EmployeeName {
                 get {
                     try {
-                        return ((string)(this[this.tableReimbursementTable.ToColumn]));
+                        return ((string)(this[this.tableLeaveDetail.EmployeeNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'To\' in table \'ReimbursementTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeName\' in table \'LeaveDetail\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReimbursementTable.ToColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Country {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.CountryColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Country\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.CountryColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string SubmittedBy {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.SubmittedByColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SubmittedBy\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.SubmittedByColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string ActivityType {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.ActivityTypeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ActivityType\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.ActivityTypeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Reciept {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.RecieptColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Reciept\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.RecieptColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Currency {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.CurrencyColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Currency\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.CurrencyColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Amount {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.AmountColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Amount\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.AmountColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Remarks {
-                get {
-                    try {
-                        return ((string)(this[this.tableReimbursementTable.RemarksColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Remarks\' in table \'ReimbursementTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReimbursementTable.RemarksColumn] = value;
+                    this[this.tableLeaveDetail.EmployeeNameColumn] = value;
                 }
             }
             
@@ -852,14 +668,14 @@ namespace ESS_Web_Application.Report {
             public string DEPRTMNT {
                 get {
                     try {
-                        return ((string)(this[this.tableReimbursementTable.DEPRTMNTColumn]));
+                        return ((string)(this[this.tableLeaveDetail.DEPRTMNTColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DEPRTMNT\' in table \'ReimbursementTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DEPRTMNT\' in table \'LeaveDetail\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReimbursementTable.DEPRTMNTColumn] = value;
+                    this[this.tableLeaveDetail.DEPRTMNTColumn] = value;
                 }
             }
             
@@ -868,159 +684,175 @@ namespace ESS_Web_Application.Report {
             public string DESIGNATION {
                 get {
                     try {
-                        return ((string)(this[this.tableReimbursementTable.DESIGNATIONColumn]));
+                        return ((string)(this[this.tableLeaveDetail.DESIGNATIONColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DESIGNATION\' in table \'ReimbursementTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DESIGNATION\' in table \'LeaveDetail\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableReimbursementTable.DESIGNATIONColumn] = value;
+                    this[this.tableLeaveDetail.DESIGNATIONColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsRMTYPENull() {
-                return this.IsNull(this.tableReimbursementTable.RMTYPEColumn);
+            public string LeaveType {
+                get {
+                    try {
+                        return ((string)(this[this.tableLeaveDetail.LeaveTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'LeaveType\' in table \'LeaveDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLeaveDetail.LeaveTypeColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetRMTYPENull() {
-                this[this.tableReimbursementTable.RMTYPEColumn] = global::System.Convert.DBNull;
+            public string TotalLeaves {
+                get {
+                    try {
+                        return ((string)(this[this.tableLeaveDetail.TotalLeavesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalLeaves\' in table \'LeaveDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLeaveDetail.TotalLeavesColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsFromNull() {
-                return this.IsNull(this.tableReimbursementTable.FromColumn);
+            public string AvailLeaves {
+                get {
+                    try {
+                        return ((string)(this[this.tableLeaveDetail.AvailLeavesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AvailLeaves\' in table \'LeaveDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLeaveDetail.AvailLeavesColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetFromNull() {
-                this[this.tableReimbursementTable.FromColumn] = global::System.Convert.DBNull;
+            public string RemainingLeaves {
+                get {
+                    try {
+                        return ((string)(this[this.tableLeaveDetail.RemainingLeavesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RemainingLeaves\' in table \'LeaveDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLeaveDetail.RemainingLeavesColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsToNull() {
-                return this.IsNull(this.tableReimbursementTable.ToColumn);
+            public bool IsEmployeeIdNull() {
+                return this.IsNull(this.tableLeaveDetail.EmployeeIdColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetToNull() {
-                this[this.tableReimbursementTable.ToColumn] = global::System.Convert.DBNull;
+            public void SetEmployeeIdNull() {
+                this[this.tableLeaveDetail.EmployeeIdColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsCountryNull() {
-                return this.IsNull(this.tableReimbursementTable.CountryColumn);
+            public bool IsEmployeeNameNull() {
+                return this.IsNull(this.tableLeaveDetail.EmployeeNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetCountryNull() {
-                this[this.tableReimbursementTable.CountryColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsSubmittedByNull() {
-                return this.IsNull(this.tableReimbursementTable.SubmittedByColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetSubmittedByNull() {
-                this[this.tableReimbursementTable.SubmittedByColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsActivityTypeNull() {
-                return this.IsNull(this.tableReimbursementTable.ActivityTypeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetActivityTypeNull() {
-                this[this.tableReimbursementTable.ActivityTypeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsRecieptNull() {
-                return this.IsNull(this.tableReimbursementTable.RecieptColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetRecieptNull() {
-                this[this.tableReimbursementTable.RecieptColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsCurrencyNull() {
-                return this.IsNull(this.tableReimbursementTable.CurrencyColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetCurrencyNull() {
-                this[this.tableReimbursementTable.CurrencyColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsAmountNull() {
-                return this.IsNull(this.tableReimbursementTable.AmountColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetAmountNull() {
-                this[this.tableReimbursementTable.AmountColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsRemarksNull() {
-                return this.IsNull(this.tableReimbursementTable.RemarksColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetRemarksNull() {
-                this[this.tableReimbursementTable.RemarksColumn] = global::System.Convert.DBNull;
+            public void SetEmployeeNameNull() {
+                this[this.tableLeaveDetail.EmployeeNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsDEPRTMNTNull() {
-                return this.IsNull(this.tableReimbursementTable.DEPRTMNTColumn);
+                return this.IsNull(this.tableLeaveDetail.DEPRTMNTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDEPRTMNTNull() {
-                this[this.tableReimbursementTable.DEPRTMNTColumn] = global::System.Convert.DBNull;
+                this[this.tableLeaveDetail.DEPRTMNTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsDESIGNATIONNull() {
-                return this.IsNull(this.tableReimbursementTable.DESIGNATIONColumn);
+                return this.IsNull(this.tableLeaveDetail.DESIGNATIONColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetDESIGNATIONNull() {
-                this[this.tableReimbursementTable.DESIGNATIONColumn] = global::System.Convert.DBNull;
+                this[this.tableLeaveDetail.DESIGNATIONColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsLeaveTypeNull() {
+                return this.IsNull(this.tableLeaveDetail.LeaveTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetLeaveTypeNull() {
+                this[this.tableLeaveDetail.LeaveTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalLeavesNull() {
+                return this.IsNull(this.tableLeaveDetail.TotalLeavesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalLeavesNull() {
+                this[this.tableLeaveDetail.TotalLeavesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAvailLeavesNull() {
+                return this.IsNull(this.tableLeaveDetail.AvailLeavesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAvailLeavesNull() {
+                this[this.tableLeaveDetail.AvailLeavesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsRemainingLeavesNull() {
+                return this.IsNull(this.tableLeaveDetail.RemainingLeavesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetRemainingLeavesNull() {
+                this[this.tableLeaveDetail.RemainingLeavesColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1028,22 +860,22 @@ namespace ESS_Web_Application.Report {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class ReimbursementTableRowChangeEvent : global::System.EventArgs {
+        public class LeaveDetailRowChangeEvent : global::System.EventArgs {
             
-            private ReimbursementTableRow eventRow;
+            private LeaveDetailRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableRowChangeEvent(ReimbursementTableRow row, global::System.Data.DataRowAction action) {
+            public LeaveDetailRowChangeEvent(LeaveDetailRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ReimbursementTableRow Row {
+            public LeaveDetailRow Row {
                 get {
                     return this.eventRow;
                 }

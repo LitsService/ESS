@@ -24,6 +24,18 @@
             <div class="body">
                 <div class="table-responsive">
                     <div class="col-md-6 col-sm-12">
+                        <label>Department</label>
+                        <div class="form-group">
+                            <select id="Department" onchange="DepartmentSelect()" class="form-control show-tick">
+                                <option value="0">Select Department</option>
+                                @foreach (var item in ViewBag.Type)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
                         <label>Employee</label>
                         <div class="form-group">
                             <select id="Emp" class="form-control show-tick">
@@ -56,14 +68,34 @@
 @using (Html.BeginForm("ReimbursementDetailReport", "Request", FormMethod.Post, new { target = "_blank" }))
 {
     <input type="hidden" id="employeeId" name="EmpId" />
+<input type="hidden" id="DepartmentId" name="DepId" />
     <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
 }
 <script>
     function Search() {
         if ($("#Emp").val() != undefined && $("#Emp").val() != null ) {
             $("#employeeId").val($("#Emp").val());
+            $("#DepartmentId").val($("#Department").val());
             $("#btnSubmit").click();
         } else
             alert("No data Found");
+    }
+    function DepartmentSelect() {
+        $("#Emp").val("");
+        var DepId = $("#Department option:selected").val();
+        $.ajax({
+            type: "Post",
+            url: "/Request/GetUserByDepartment",
+            data: { DepId: DepId },
+            success: function (data) {
+                var User = '';
+                for (var i = 0; i < data.length; i++) {
+                    User += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                }
+                $("#Emp").html(User);
+                if (data.length == 0)
+                    $("#Emp").html('<option value="0">Select Employee </option>');
+            }
+        });
     }
 </script>

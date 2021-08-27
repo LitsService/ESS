@@ -21,6 +21,10 @@ namespace ESS_Web_Application.Repository
             }
             return id;
         }
+        public DataTable GetDepartmentTypes(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_GetUserDepartment", ht).Tables[0];
+        }
         public int InsertUpdateEmployeeImage(Hashtable ht)
         {
             return Convert.ToInt32(DBContext.ExecuteScalar("sp_InsertUpdateEmployeeImage", ht));
@@ -81,6 +85,11 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_User_Get_Employees_By_UserID_4_DDL", ht).Tables[0];
         }
+        public DataTable GetLeaveAppUsersByDepId(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_Employees_By_UserID_4_DDLByDepartment", ht).Tables[0];
+        }
+        
         public DataTable GetEmployeeDeatils(Hashtable ht)
         {
             return DBContext.GetDataSet("sp_User_Get_Profile_Info_4_Requests", ht).Tables[0];
@@ -225,7 +234,12 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_User_Get_Reimbursement_Request_Detail_Report", ht).Tables[0];
         }
+        public DataTable GetLeaveRequestDetailReport(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_Reimbursement_Request_Detail_Report", ht).Tables[0];
+        }
         
+
         public string EditSaveReimbursementRequest(Hashtable ht)
         {
             return DBContext.ExecuteNonQuery("sp_User_Update_Reimbursement_Request", ht, "@DBMessage", System.Data.SqlDbType.NVarChar, 255) as string;

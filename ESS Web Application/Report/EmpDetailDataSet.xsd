@@ -12,7 +12,7 @@
   <xs:element name="EmpDetailDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="EmpDetailDataSet" msprop:Generator_UserDSName="EmpDetailDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="EmpDetail" msprop:Generator_TableClassName="EmpDetailDataTable" msprop:Generator_TableVarName="tableEmpDetail" msprop:Generator_RowChangedName="EmpDetailRowChanged" msprop:Generator_TablePropName="EmpDetail" msprop:Generator_RowDeletingName="EmpDetailRowDeleting" msprop:Generator_RowChangingName="EmpDetailRowChanging" msprop:Generator_RowEvHandlerName="EmpDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="EmpDetailRowDeleted" msprop:Generator_RowClassName="EmpDetailRow" msprop:Generator_UserTableName="EmpDetail" msprop:Generator_RowEvArgName="EmpDetailRowChangeEvent">
+        <xs:element name="EmpDetail" msprop:Generator_TableClassName="EmpDetailDataTable" msprop:Generator_TableVarName="tableEmpDetail" msprop:Generator_TablePropName="EmpDetail" msprop:Generator_RowDeletingName="EmpDetailRowDeleting" msprop:Generator_RowChangingName="EmpDetailRowChanging" msprop:Generator_RowEvHandlerName="EmpDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="EmpDetailRowDeleted" msprop:Generator_UserTableName="EmpDetail" msprop:Generator_RowChangedName="EmpDetailRowChanged" msprop:Generator_RowEvArgName="EmpDetailRowChangeEvent" msprop:Generator_RowClassName="EmpDetailRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RefNo" msdata:Caption="Name" msprop:Generator_ColumnVarNameInTable="columnRefNo" msprop:Generator_ColumnPropNameInRow="RefNo" msprop:Generator_ColumnPropNameInTable="RefNoColumn" msprop:Generator_UserColumnName="RefNo" type="xs:string" minOccurs="0" />
@@ -26,6 +26,8 @@
               <xs:element name="RequestId" msprop:Generator_ColumnVarNameInTable="columnRequestId" msprop:Generator_ColumnPropNameInRow="RequestId" msprop:Generator_ColumnPropNameInTable="RequestIdColumn" msprop:Generator_UserColumnName="RequestId" type="xs:string" minOccurs="0" />
               <xs:element name="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" msprop:Generator_UserColumnName="CompanyName" type="xs:string" minOccurs="0" />
               <xs:element name="EmployeeAddress" msprop:Generator_ColumnVarNameInTable="columnEmployeeAddress" msprop:Generator_ColumnPropNameInRow="EmployeeAddress" msprop:Generator_ColumnPropNameInTable="EmployeeAddressColumn" msprop:Generator_UserColumnName="EmployeeAddress" type="xs:string" minOccurs="0" />
+              <xs:element name="DEPRTMNT" msprop:Generator_ColumnVarNameInTable="columnDEPRTMNT" msprop:Generator_ColumnPropNameInRow="DEPRTMNT" msprop:Generator_ColumnPropNameInTable="DEPRTMNTColumn" msprop:Generator_UserColumnName="DEPRTMNT" type="xs:string" minOccurs="0" />
+              <xs:element name="DESIGNATION" msprop:Generator_ColumnVarNameInTable="columnDESIGNATION" msprop:Generator_ColumnPropNameInRow="DESIGNATION" msprop:Generator_ColumnPropNameInTable="DESIGNATIONColumn" msprop:Generator_UserColumnName="DESIGNATION" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

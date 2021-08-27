@@ -59,6 +59,20 @@ namespace ESS_Web_Application.ViewModels
         public string Amount { get; set; }
         public string SubmittedBy { get; set; }
         public string Remarks { get; set; }
+        public string DESIGNATION { get; set; }
+        public string DEPRTMNT { get; set; }
         public ReimbursementDropdownBindingViewModel dropdowns { get; set; }
+    }
+    public class LeaveViewModel
+    {
+        public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public string DEPRTMNT { get; set; }
+        public string DESIGNATION { get; set; }
+        public string LeaveType { get; set; }
+        public string TotalLeaves { get; set; }
+        public string AvailLeaves { get; set; }
+        public string RemainingLeaves { get; set; }
+
     }
 }

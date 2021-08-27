@@ -12,7 +12,7 @@
   <xs:element name="ReimbursementDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ReimbursementDataSet" msprop:Generator_UserDSName="ReimbursementDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="ReimbursementTable" msprop:Generator_TableClassName="ReimbursementTableDataTable" msprop:Generator_TableVarName="tableReimbursementTable" msprop:Generator_TablePropName="ReimbursementTable" msprop:Generator_RowDeletingName="ReimbursementTableRowDeleting" msprop:Generator_RowChangingName="ReimbursementTableRowChanging" msprop:Generator_RowEvHandlerName="ReimbursementTableRowChangeEventHandler" msprop:Generator_RowDeletedName="ReimbursementTableRowDeleted" msprop:Generator_UserTableName="ReimbursementTable" msprop:Generator_RowChangedName="ReimbursementTableRowChanged" msprop:Generator_RowEvArgName="ReimbursementTableRowChangeEvent" msprop:Generator_RowClassName="ReimbursementTableRow">
+        <xs:element name="ReimbursementTable" msprop:Generator_TableClassName="ReimbursementTableDataTable" msprop:Generator_TableVarName="tableReimbursementTable" msprop:Generator_RowChangedName="ReimbursementTableRowChanged" msprop:Generator_TablePropName="ReimbursementTable" msprop:Generator_RowDeletingName="ReimbursementTableRowDeleting" msprop:Generator_RowChangingName="ReimbursementTableRowChanging" msprop:Generator_RowEvHandlerName="ReimbursementTableRowChangeEventHandler" msprop:Generator_RowDeletedName="ReimbursementTableRowDeleted" msprop:Generator_RowClassName="ReimbursementTableRow" msprop:Generator_UserTableName="ReimbursementTable" msprop:Generator_RowEvArgName="ReimbursementTableRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RMTYPE" msprop:Generator_ColumnVarNameInTable="columnRMTYPE" msprop:Generator_ColumnPropNameInRow="RMTYPE" msprop:Generator_ColumnPropNameInTable="RMTYPEColumn" msprop:Generator_UserColumnName="RMTYPE" type="xs:string" minOccurs="0" />
@@ -25,6 +25,8 @@
               <xs:element name="Currency" msprop:Generator_ColumnVarNameInTable="columnCurrency" msprop:Generator_ColumnPropNameInRow="Currency" msprop:Generator_ColumnPropNameInTable="CurrencyColumn" msprop:Generator_UserColumnName="Currency" type="xs:string" minOccurs="0" />
               <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:string" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_UserColumnName="Remarks" type="xs:string" minOccurs="0" />
+              <xs:element name="DEPRTMNT" msprop:Generator_ColumnVarNameInTable="columnDEPRTMNT" msprop:Generator_ColumnPropNameInRow="DEPRTMNT" msprop:Generator_ColumnPropNameInTable="DEPRTMNTColumn" msprop:Generator_UserColumnName="DEPRTMNT" type="xs:string" minOccurs="0" />
+              <xs:element name="DESIGNATION" msprop:Generator_ColumnVarNameInTable="columnDESIGNATION" msprop:Generator_ColumnPropNameInRow="DESIGNATION" msprop:Generator_ColumnPropNameInTable="DESIGNATIONColumn" msprop:Generator_UserColumnName="DESIGNATION" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -295,6 +295,8 @@ namespace ESS_Web_Application.Report {
             
             private global::System.Data.DataColumn columnWorkingHours;
             
+            private global::System.Data.DataColumn columnDESIGNATION;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public Table1DataTable() {
@@ -394,6 +396,14 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DESIGNATIONColumn {
+                get {
+                    return this.columnDESIGNATION;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -429,7 +439,7 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public Table1Row AddTable1Row(string UserId, string EmployeeId, string Name, string Department, string Date, string CheckIn, string CheckOut, string WorkingHours) {
+            public Table1Row AddTable1Row(string UserId, string EmployeeId, string Name, string Department, string Date, string CheckIn, string CheckOut, string WorkingHours, string DESIGNATION) {
                 Table1Row rowTable1Row = ((Table1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         UserId,
@@ -439,7 +449,8 @@ namespace ESS_Web_Application.Report {
                         Date,
                         CheckIn,
                         CheckOut,
-                        WorkingHours};
+                        WorkingHours,
+                        DESIGNATION};
                 rowTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTable1Row);
                 return rowTable1Row;
@@ -470,6 +481,7 @@ namespace ESS_Web_Application.Report {
                 this.columnCheckIn = base.Columns["CheckIn"];
                 this.columnCheckOut = base.Columns["CheckOut"];
                 this.columnWorkingHours = base.Columns["WorkingHours"];
+                this.columnDESIGNATION = base.Columns["DESIGNATION"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -491,6 +503,8 @@ namespace ESS_Web_Application.Report {
                 base.Columns.Add(this.columnCheckOut);
                 this.columnWorkingHours = new global::System.Data.DataColumn("WorkingHours", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWorkingHours);
+                this.columnDESIGNATION = new global::System.Data.DataColumn("DESIGNATION", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESIGNATION);
                 this.columnUserId.Caption = "Name";
                 this.columnEmployeeId.Caption = "Address1";
                 this.columnName.Caption = "Address2";
@@ -769,6 +783,22 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DESIGNATION {
+                get {
+                    try {
+                        return ((string)(this[this.tableTable1.DESIGNATIONColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DESIGNATION\' in table \'Table1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTable1.DESIGNATIONColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsUserIdNull() {
                 return this.IsNull(this.tableTable1.UserIdColumn);
             }
@@ -861,6 +891,18 @@ namespace ESS_Web_Application.Report {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetWorkingHoursNull() {
                 this[this.tableTable1.WorkingHoursColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDESIGNATIONNull() {
+                return this.IsNull(this.tableTable1.DESIGNATIONColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDESIGNATIONNull() {
+                this[this.tableTable1.DESIGNATIONColumn] = global::System.Convert.DBNull;
             }
         }
         

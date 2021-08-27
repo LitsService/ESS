@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "EmployeeAttendanceDetail";
+    ViewBag.Title = "LeaveDetail";
 }
 
 <div class="block-header">
@@ -19,7 +19,7 @@
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="header">
-                <h2>Employee Attendance Details</h2>
+                <h2>Leave Detail</h2>
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -54,47 +54,31 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-md-6 col-sm-12">
-                        <label>Start Date</label>
-                        <input id="StartDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="From *">
-                    </div>
-                    <br />
-                    <div class="col-md-6 col-sm-12">
-                        <label>End Date</label>
-                        <input id="EndDate" type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="To *">
-                    </div>
                     <br />
                     <div class="col-12">
                         <button onclick="Search()" type="submit" class="btn btn-primary">Generate Report</button>
                     </div>
                     <br />
-
                 </div>
 
             </div>
         </div>
     </div>
 </div>
-@using (Html.BeginForm("EmployeeAttendanceReport", "Request", FormMethod.Post, new { target = "_blank" }))
+@using (Html.BeginForm("LeaveDetailReport", "Request", FormMethod.Post, new { target = "_blank" }))
 {
-    <input type="hidden" id="employeeId" name="EmpId" />
-    <input type="hidden" id="txtStartsate" name="StartDate" />
-    <input type="hidden" id="txtEndDate" name="EndDate" />
     <input type="hidden" id="DepartmentId" name="DepId" />
+    <input type="hidden" id="employeeId" name="EmpId" />
     <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
 }
 <script>
     function Search() {
-        if ($("#Emp").val() != undefined && $("#Emp").val() != null && $("#StartDate").val() != undefined && $("#StartDate").val() != null && $("#EndDate").val() != undefined && $("#EndDate").val() != null) {
+        if ($("#Emp").val() != undefined && $("#Emp").val() != null) {
             $("#employeeId").val($("#Emp").val());
-            $("#txtStartsate").val($("#StartDate").val());
-            $("#txtEndDate").val($("#EndDate").val());
             $("#DepartmentId").val($("#Department").val());
             $("#btnSubmit").click();
         } else
             alert("No data Found");
-
     }
     function DepartmentSelect() {
         $("#Emp").val("");
@@ -114,5 +98,4 @@
             }
         });
     }
-
 </script>

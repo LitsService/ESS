@@ -69,6 +69,8 @@ namespace ESS_Web_Application.ViewModels
         public string AttachmentGuid { get; set; }
         public string RequestId { get; set; }
         public string CompanyName { get; set; }
+        public string DEPRTMNT { get; set; }
+        public string DESIGNATION { get; set; }
     }
     public class EmployeeDetailRequestListViewModel
     {

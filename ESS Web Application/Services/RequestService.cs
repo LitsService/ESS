@@ -50,7 +50,26 @@ namespace ESS_Web_Application.Services
                 throw new Exception(" sp_InsertUpdateEmployeeImage :::::" + ex.Message);
             }
         }
+        public List<DropDownBindViewModel> GetDepartmentTypes(string UserID)
+        {
+        
+            List<DropDownBindViewModel> UserDD = new List<DropDownBindViewModel>();
+            Hashtable ht = new Hashtable();
+            ht.Add("@UserID", int.Parse(UserID));
+            //ht.Add("@CompanyId", CompanyId);
+            var dt = _requestRepo.GetDepartmentTypes(ht);
 
+            foreach (DataRow item in dt.Rows)
+            {
+                DropDownBindViewModel User = new DropDownBindViewModel()
+                {
+                    Text = item["DEPRTMNT"].ToString(),
+                    Value = item["DEPRTMNT"].ToString(),
+                };
+                UserDD.Add(User);
+            }
+            return UserDD;
+        }
         #region LeaveApplication
         public List<DropDownBindViewModel> GetLeaveAppUsers(string UserID, string FormTypeID, string CompanyId)
         {
@@ -72,7 +91,28 @@ namespace ESS_Web_Application.Services
             }
             return UserDD;
         }
+        public List<DropDownBindViewModel> GetLeaveAppUsersbyDepId(string UserID, string DepId, string CompanyId)
+        {
 
+            List<DropDownBindViewModel> UserDD = new List<DropDownBindViewModel>();
+            Hashtable ht = new Hashtable();
+            ht.Add("@UserID", int.Parse(UserID));
+            ht.Add("@DepID", DepId);
+            ht.Add("@CompanyId", CompanyId);
+            var dt = _requestRepo.GetLeaveAppUsersByDepId(ht);
+            foreach (DataRow item in dt.Rows)
+            {
+                DropDownBindViewModel User = new DropDownBindViewModel()
+                {
+                    Text = item["EmployeeFullNameWithID"].ToString(),
+                    Value = item["UserID"].ToString(),
+                };
+                UserDD.Add(User);
+            }
+            return UserDD;
+        }
+
+        
         public EmployeeDeatilViewModel GetEmployeeDeatils(string UserID)
         {
             Hashtable ht1 = new Hashtable();
@@ -520,6 +560,8 @@ namespace ESS_Web_Application.Services
                     ReqStatus = item["RequestStatus"].ToString(),
                     Employee = item["UserFullName"].ToString(),
                     EmployeeId = item["EMPLOYID"].ToString(),
+                    DEPRTMNT = item["DEPRTMNT"].ToString(),
+                    DESIGNATION = item["DESIGNATION"].ToString(),
                     ContactDetail = item["ContactDetail"].ToString(),
                     LastName = item["LastName"].ToString(),
                     EmployeeAddress = item["EmployeeAddress"].ToString(),
@@ -2394,12 +2436,43 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                     Amount = item["VisitedAmount"].ToString(),
                     Remarks = item["Remarks"].ToString(),
                     SubmittedBy = item["Username"].ToString(),
+                    DEPRTMNT = item["DEPRTMNT"].ToString(),
+                    DESIGNATION = item["DESIGNATION"].ToString(),
                 };
                 list.Add(single);
             }
             return list;
         }
-        
+        public List<LeaveViewModel> GetLeaveDetailReport(string Empid, string UserId)
+        {
+            Hashtable ht = new Hashtable();
+            //ht.Add("@ReimbustRequestID", Reqid);
+
+            var dt = _requestRepo.GetLeaveRequestDetailReport(ht);
+
+            List<LeaveViewModel> list = new List<LeaveViewModel>();
+            //foreach (DataRow item in dt.Rows)
+            //{
+
+            //    LeaveViewModel single = new LeaveViewModel()
+            //    {
+            //        RMTYPE = item["ReimbursementName"].ToString(),
+            //        From = item["FromDate"].ToString(),
+            //        To = item["ToDate"].ToString(),
+            //        Country = item["Location"].ToString(),
+            //        ActivityType = item["ActivityName"].ToString(),
+            //        Reciept = item["ReceiptDate"].ToString(),
+            //        Currency = item["VisitedCurr"].ToString(),
+            //        Amount = item["VisitedAmount"].ToString(),
+            //        Remarks = item["Remarks"].ToString(),
+            //        SubmittedBy = item["Username"].ToString(),
+            //        DEPRTMNT = item["DEPRTMNT"].ToString(),
+            //        DESIGNATION = item["DESIGNATION"].ToString(),
+            //    };
+            //    list.Add(single);
+            //}
+            return list;
+        }
         public string GetApproval(string Id)
         {
             string History = "";
@@ -5707,6 +5780,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                     CheckOut = item["CheckOut"].ToString(),
                     Date = item["Date"].ToString(),
                     Department = item["Department"].ToString(),
+                    DESIGNATION=item["DESIGNATION"].ToString(),
                     EmployeeId = item["EMPLOYID"].ToString(),
                     Name = item["Name"].ToString(),
                     WorkingHours = item["WorkingTime"].ToString(),

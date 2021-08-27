@@ -8,7 +8,9 @@ namespace ESS_Web_Application.Services
 {
     public interface IRequestService
     {
+        List<DropDownBindViewModel> GetDepartmentTypes(string UserID);
         List<DropDownBindViewModel> GetLeaveAppUsers(string UserID, string FormTypeID, string CompanyId);
+        List<DropDownBindViewModel> GetLeaveAppUsersbyDepId(string UserID, string DepId, string CompanyId);
         EmployeeDeatilViewModel GetEmployeeDeatils(string UserID);
         List<DropDownBindViewModel> GetLeaveTypes(string UserID);
         List<DropDownBindViewModel> GetReplacementEmployee(string CompanyId);
@@ -44,6 +46,8 @@ namespace ESS_Web_Application.Services
         string EditSaveReimbursement(string Type, List<ReimbursementSaveViewModel> RModle, string UserId, string Id, bool Recall);
         List<ReimbursementEditViewModel> GetDetails(string Reqid, string UserId);
         List<ReimbursementEditViewModel> GetDetailReport(string Empid, string UserId);
+        List<LeaveViewModel> GetLeaveDetailReport(string Empid, string UserId);
+        
         string GetApproval(string Id);
         string SaveApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks,string CompanyId);
 

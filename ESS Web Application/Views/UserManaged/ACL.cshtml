@@ -50,6 +50,7 @@
                                                         for (int i = 0; i < RolesCount; i++)
                                                         {
                                                             var roleid = int.Parse(ViewBag.Roles[i].Value);
+                                                            var id = "Access_" + item.UserActionID + "_" + roleid;
                                                             <td>
                                                                 <label class="fancy-checkbox">
                                                                     @if (item.Allow[roleid] == true)
@@ -62,7 +63,7 @@
                                                                     }
                                                                     <span style="font-weight:bold">Allow</span>
                                                                 </label>
-                                                                <select id="Access_@roleid" class="form-control show-tick" onchange="SaveACL(@item.UserActionID,@roleid,this)">
+                                                                <select id="@id" class="form-control show-tick" onchange="SaveACL(@item.UserActionID,@roleid,this)">
                                                                     @if (@item.DataAccessID[roleid] == 1)
                                                                     {
                                                                         <option selected value="1">Own data</option>
@@ -113,10 +114,11 @@
         var ActionId = UserActionID;
         var RoleId = roleid;
         var Allow = false;
-        var Access = $("#Access_" + RoleId + " option:selected").val();
+        var Access = $("#Access_" + ActionId + "_" + RoleId + " option:selected").val();
         if (e.checked) {
             Allow = true;
         }
+        
         $.ajax({
             type: "Post",
             url: "/UserManaged/ACLInsertUpdate",

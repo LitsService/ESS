@@ -65,6 +65,7 @@ namespace ESS_Web_Application.ViewModels
         public string EmployeeId { get; set; }
         public string Name { get; set; }
         public string Department { get; set; }
+        public string DESIGNATION { get; set; }
         public string Date { get; set; }
         public string CheckIn { get; set; }
         public string CheckOut { get; set; }

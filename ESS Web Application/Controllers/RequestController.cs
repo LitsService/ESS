@@ -979,31 +979,13 @@ namespace ESS_Web_Application.Controllers
 
         #endregion
 
-        #region EmployeeAttendanceDeatils
-        public ActionResult EmployeeAttendanceDetail()
-        {
-            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
-            {
-                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Dashboard", "Home");
-            }
-        }
+        #region EmployeeAttendanceDeatils        
         public JsonResult GetAttendance(string StartDate, string EndDate, string Emp)
         {
             var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
             return Json(data);
         }
-
         #endregion
-
         #region StaffExpenseRequest
         public ActionResult StaffExpenseForm()
         {
@@ -1027,14 +1009,36 @@ namespace ESS_Web_Application.Controllers
             return Json("");
         }
         #endregion
+        public JsonResult GetUserByDepartment(string DepId)
+        {
+            var data = _requestService.GetLeaveAppUsersbyDepId(Session["UserID"].ToString(), DepId, Session["UserCompanyID"].ToString());
+            return Json(data);
+        }
         #region Rdlc Report
-
+        public ActionResult EmployeeAttendanceDetail()
+        {
+            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
+            {
+                ViewBag.Type = _requestService.GetDepartmentTypes(Session["UserID"].ToString());
+                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+        }
         public ActionResult EmployeeAttendanceReport(FormCollection form)
         {
             ESS_Web_Application.Report.DataSet1 ds = new ESS_Web_Application.Report.DataSet1();
             string StartDate = form["StartDate"].ToString();
             string EndDate = form["EndDate"].ToString();
             string Emp = form["EmpId"].ToString();
+            string Depid = form["DepId"].ToString();
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.SizeToReportContent = true;
@@ -1054,8 +1058,6 @@ namespace ESS_Web_Application.Controllers
 
             return View();
         }
-
-
         public ActionResult EmployeeDetail()
         {
             if (string.IsNullOrEmpty(Session["UserName"].ToString()))
@@ -1064,6 +1066,7 @@ namespace ESS_Web_Application.Controllers
             }
             if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
             {
+                ViewBag.Type = _requestService.GetDepartmentTypes(Session["UserID"].ToString());
                 ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
                 return View();
             }
@@ -1071,12 +1074,12 @@ namespace ESS_Web_Application.Controllers
             {
                 return RedirectToAction("Dashboard", "Home");
             }
-        }
-
+        }       
         public ActionResult EmployeeDetailReport(FormCollection form)
         {
             ESS_Web_Application.Report.EmpDetailDataSet empds = new ESS_Web_Application.Report.EmpDetailDataSet();
             string Emp = form["EmpId"].ToString();
+            string Depid = form["DepId"].ToString();
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.SizeToReportContent = true;
@@ -1096,7 +1099,6 @@ namespace ESS_Web_Application.Controllers
 
             return View();
         }
-
         public ActionResult ReimbursementDetail()
         {
             if (string.IsNullOrEmpty(Session["UserName"].ToString()))
@@ -1105,6 +1107,7 @@ namespace ESS_Web_Application.Controllers
             }
             if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
             {
+                ViewBag.Type = _requestService.GetDepartmentTypes(Session["UserID"].ToString());
                 ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
                 return View();
             }
@@ -1113,11 +1116,11 @@ namespace ESS_Web_Application.Controllers
                 return RedirectToAction("Dashboard", "Home");
             }
         }
-
         public ActionResult ReimbursementDetailReport(FormCollection form)
         {
             ESS_Web_Application.Report.ReimbursementDataSet Reimds = new ESS_Web_Application.Report.ReimbursementDataSet();
             string EmpId = form["EmpId"].ToString();
+            string Depid = form["DepId"].ToString();
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.SizeToReportContent = true;
@@ -1131,7 +1134,41 @@ namespace ESS_Web_Application.Controllers
             ViewBag.ReportViewer = reportViewer;
             return View();
         }
-
+        public ActionResult LeaveDetail()
+        {
+            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
+            {
+                ViewBag.Type = _requestService.GetDepartmentTypes(Session["UserID"].ToString());
+                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+        }
+        public ActionResult LeaveDetailReport(FormCollection form)
+        {
+            ESS_Web_Application.Report.LeaveDataSet Reimds = new ESS_Web_Application.Report.LeaveDataSet();
+            string EmpId = form["EmpId"].ToString();
+            string Depid = form["DepId"].ToString();
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(900);
+            reportViewer.Height = Unit.Percentage(900);
+            var data = _requestService.GetLeaveDetailReport(EmpId, Session["UserID"].ToString());
+            var dt = new DataTable();
+            dt = ToDataTable(data);
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report\LeaveDetailReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
+            ViewBag.ReportViewer = reportViewer;
+            return View();
+        }
         #endregion
 
 

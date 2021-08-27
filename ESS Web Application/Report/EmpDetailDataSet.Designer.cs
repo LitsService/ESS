@@ -301,6 +301,10 @@ namespace ESS_Web_Application.Report {
             
             private global::System.Data.DataColumn columnEmployeeAddress;
             
+            private global::System.Data.DataColumn columnDEPRTMNT;
+            
+            private global::System.Data.DataColumn columnDESIGNATION;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public EmpDetailDataTable() {
@@ -424,6 +428,22 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DEPRTMNTColumn {
+                get {
+                    return this.columnDEPRTMNT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DESIGNATIONColumn {
+                get {
+                    return this.columnDESIGNATION;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -459,7 +479,7 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public EmpDetailRow AddEmpDetailRow(string RefNo, string RequestDate, string Employee, string EmployeeId, string ContactDetail, string LastName, string MatrialStatus, string ReqStatus, string RequestId, string CompanyName, string EmployeeAddress) {
+            public EmpDetailRow AddEmpDetailRow(string RefNo, string RequestDate, string Employee, string EmployeeId, string ContactDetail, string LastName, string MatrialStatus, string ReqStatus, string RequestId, string CompanyName, string EmployeeAddress, string DEPRTMNT, string DESIGNATION) {
                 EmpDetailRow rowEmpDetailRow = ((EmpDetailRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         RefNo,
@@ -472,7 +492,9 @@ namespace ESS_Web_Application.Report {
                         ReqStatus,
                         RequestId,
                         CompanyName,
-                        EmployeeAddress};
+                        EmployeeAddress,
+                        DEPRTMNT,
+                        DESIGNATION};
                 rowEmpDetailRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowEmpDetailRow);
                 return rowEmpDetailRow;
@@ -506,6 +528,8 @@ namespace ESS_Web_Application.Report {
                 this.columnRequestId = base.Columns["RequestId"];
                 this.columnCompanyName = base.Columns["CompanyName"];
                 this.columnEmployeeAddress = base.Columns["EmployeeAddress"];
+                this.columnDEPRTMNT = base.Columns["DEPRTMNT"];
+                this.columnDESIGNATION = base.Columns["DESIGNATION"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -533,6 +557,10 @@ namespace ESS_Web_Application.Report {
                 base.Columns.Add(this.columnCompanyName);
                 this.columnEmployeeAddress = new global::System.Data.DataColumn("EmployeeAddress", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmployeeAddress);
+                this.columnDEPRTMNT = new global::System.Data.DataColumn("DEPRTMNT", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDEPRTMNT);
+                this.columnDESIGNATION = new global::System.Data.DataColumn("DESIGNATION", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESIGNATION);
                 this.columnRefNo.Caption = "Name";
                 this.columnRequestDate.Caption = "Address1";
                 this.columnEmployee.Caption = "Address2";
@@ -859,6 +887,38 @@ namespace ESS_Web_Application.Report {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DEPRTMNT {
+                get {
+                    try {
+                        return ((string)(this[this.tableEmpDetail.DEPRTMNTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DEPRTMNT\' in table \'EmpDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableEmpDetail.DEPRTMNTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DESIGNATION {
+                get {
+                    try {
+                        return ((string)(this[this.tableEmpDetail.DESIGNATIONColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DESIGNATION\' in table \'EmpDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableEmpDetail.DESIGNATIONColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsRefNoNull() {
                 return this.IsNull(this.tableEmpDetail.RefNoColumn);
             }
@@ -987,6 +1047,30 @@ namespace ESS_Web_Application.Report {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetEmployeeAddressNull() {
                 this[this.tableEmpDetail.EmployeeAddressColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDEPRTMNTNull() {
+                return this.IsNull(this.tableEmpDetail.DEPRTMNTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDEPRTMNTNull() {
+                this[this.tableEmpDetail.DEPRTMNTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDESIGNATIONNull() {
+                return this.IsNull(this.tableEmpDetail.DESIGNATIONColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDESIGNATIONNull() {
+                this[this.tableEmpDetail.DESIGNATIONColumn] = global::System.Convert.DBNull;
             }
         }
         

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LeaveDataSet" targetNamespace="http://tempuri.org/LeaveDataSet.xsd" xmlns:mstns="http://tempuri.org/LeaveDataSet.xsd" xmlns="http://tempuri.org/LeaveDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="LeaveDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="LeaveDataSet" msprop:Generator_UserDSName="LeaveDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LeaveDetail" msprop:Generator_TableClassName="LeaveDetailDataTable" msprop:Generator_TableVarName="tableLeaveDetail" msprop:Generator_TablePropName="LeaveDetail" msprop:Generator_RowDeletingName="LeaveDetailRowDeleting" msprop:Generator_RowChangingName="LeaveDetailRowChanging" msprop:Generator_RowEvHandlerName="LeaveDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="LeaveDetailRowDeleted" msprop:Generator_UserTableName="LeaveDetail" msprop:Generator_RowChangedName="LeaveDetailRowChanged" msprop:Generator_RowEvArgName="LeaveDetailRowChangeEvent" msprop:Generator_RowClassName="LeaveDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeId" msprop:Generator_ColumnVarNameInTable="columnEmployeeId" msprop:Generator_ColumnPropNameInRow="EmployeeId" msprop:Generator_ColumnPropNameInTable="EmployeeIdColumn" msprop:Generator_UserColumnName="EmployeeId" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeName" msprop:Generator_ColumnVarNameInTable="columnEmployeeName" msprop:Generator_ColumnPropNameInRow="EmployeeName" msprop:Generator_ColumnPropNameInTable="EmployeeNameColumn" msprop:Generator_UserColumnName="EmployeeName" type="xs:string" minOccurs="0" />
+              <xs:element name="DEPRTMNT" msprop:Generator_ColumnVarNameInTable="columnDEPRTMNT" msprop:Generator_ColumnPropNameInRow="DEPRTMNT" msprop:Generator_ColumnPropNameInTable="DEPRTMNTColumn" msprop:Generator_UserColumnName="DEPRTMNT" type="xs:string" minOccurs="0" />
+              <xs:element name="DESIGNATION" msprop:Generator_ColumnVarNameInTable="columnDESIGNATION" msprop:Generator_ColumnPropNameInRow="DESIGNATION" msprop:Generator_ColumnPropNameInTable="DESIGNATIONColumn" msprop:Generator_UserColumnName="DESIGNATION" type="xs:string" minOccurs="0" />
+              <xs:element name="LeaveType" msprop:Generator_ColumnVarNameInTable="columnLeaveType" msprop:Generator_ColumnPropNameInRow="LeaveType" msprop:Generator_ColumnPropNameInTable="LeaveTypeColumn" msprop:Generator_UserColumnName="LeaveType" type="xs:string" minOccurs="0" />
+              <xs:element name="TotalLeaves" msprop:Generator_ColumnVarNameInTable="columnTotalLeaves" msprop:Generator_ColumnPropNameInRow="TotalLeaves" msprop:Generator_ColumnPropNameInTable="TotalLeavesColumn" msprop:Generator_UserColumnName="TotalLeaves" type="xs:string" minOccurs="0" />
+              <xs:element name="AvailLeaves" msprop:Generator_ColumnVarNameInTable="columnAvailLeaves" msprop:Generator_ColumnPropNameInRow="AvailLeaves" msprop:Generator_ColumnPropNameInTable="AvailLeavesColumn" msprop:Generator_UserColumnName="AvailLeaves" type="xs:string" minOccurs="0" />
+              <xs:element name="RemainingLeaves" msprop:Generator_ColumnVarNameInTable="columnRemainingLeaves" msprop:Generator_ColumnPropNameInRow="RemainingLeaves" msprop:Generator_ColumnPropNameInTable="RemainingLeavesColumn" msprop:Generator_UserColumnName="RemainingLeaves" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

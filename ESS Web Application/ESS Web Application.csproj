@@ -266,6 +266,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmpDetailDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Report\LeaveDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaveDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Report\ReimbursementDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3791,6 +3796,17 @@
     <Content Include="Report\ReimbursementDataSet.xsc">
       <DependentUpon>ReimbursementDataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="Report\LeaveDataSet.xsc">
+      <DependentUpon>LeaveDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Report\LeaveDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LeaveDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Report\LeaveDataSet.xss">
+      <DependentUpon>LeaveDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Report\ReimbursementDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -4002,6 +4018,8 @@
     <Content Include="Views\Request\ReimbursementDetail.cshtml" />
     <Content Include="Views\Request\ReimbursementDetailReport.cshtml" />
     <Content Include="Views\Request\EmployeeDetailReport.cshtml" />
+    <Content Include="Views\Request\LeaveDetail.cshtml" />
+    <Content Include="Views\Request\LeaveDetailReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4018,6 +4036,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Report\EmpAttendanceReport.rdlc" />
     <EmbeddedResource Include="Report\EmpDetailReport.rdlc" />
+    <EmbeddedResource Include="Report\LeaveDetailReport.rdlc" />
     <EmbeddedResource Include="Report\ReimbursementReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>
