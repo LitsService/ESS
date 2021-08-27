@@ -43,6 +43,7 @@ namespace ESS_Web_Application.Services
         List<ReimbursementEditViewModel> GetEditDatabind(string Reqid, string UserId);
         string EditSaveReimbursement(string Type, List<ReimbursementSaveViewModel> RModle, string UserId, string Id, bool Recall);
         List<ReimbursementEditViewModel> GetDetails(string Reqid, string UserId);
+        List<ReimbursementEditViewModel> GetDetailReport(string Empid, string UserId);
         string GetApproval(string Id);
         string SaveApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks,string CompanyId);
 
@@ -53,7 +54,7 @@ namespace ESS_Web_Application.Services
         string saveLateandAnsenceEdit(string Reqid, int saveStatus, string Category,
             string Remarks, string PunchIn, string PunchOut, string SubCategory, string Date);
         string GetLateandAbsenceApproval(string Id);
-        string SaveLeaveandAbsenceApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks);
+        string SaveLeaveandAbsenceApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks,string CompanyId);
 
         List<DropDownBindViewModel> GetAllownceTypes();
         string SaveAllowanceRequest(string AtchGuid, int saveStatus, string Date, string Amount, string Type, string Remarks, string CopanyId, string UserId);

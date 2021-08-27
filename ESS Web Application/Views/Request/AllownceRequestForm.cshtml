@@ -157,8 +157,8 @@
 </div>
 @using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
 {
-    <input type="hidden" name="PrintId" />
-    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+    <input type="hidden" id="PrintId" name="DocName" />
+    <input type="submit" class="hidden" hidden id="btnSubmit" />
 }
 <div class="modal fade" id="EditAllowanceRequestModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="max-width: 60% !important">
@@ -336,8 +336,13 @@
         $("#file").click();
     }
     function Download(id) {
-        $("#PrintId").val(id);
-        $("#btnSubmit").click();
+        if (id == undefined) {
+            alert("No Attachement Found");
+        }
+        else {
+            $("#PrintId").val(id);
+            $("#btnSubmit").click();
+        }
     }
     function AllowanceRequestDataBinding() {
 
@@ -451,7 +456,7 @@
                             success: function (data) {
                                 if (data != "") {
                                     alert(data);
-                                }
+                                } location.reload(true);
                                 AllowanceRequestDataBinding();
                             }
                         });
@@ -469,7 +474,7 @@
                 success: function (data) {
                     if (data != "") {
                         alert(data);
-                    }
+                    } location.reload(true);
                     AllowanceRequestDataBinding();
                 }
             });
@@ -532,7 +537,7 @@
             success: function (data) {
                 if (data != "") {
                     alert(data);
-                }
+                } location.reload(true);
                 AllowanceRequestDataBinding();
             }
         });
@@ -560,7 +565,7 @@
             url: "/Request/SaveAllowanceRequestApprove_Reject",
             data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks: $("#RemarksApproval").val() },
             success: function (data) {
-                $("#Approve_RejectModal").modal('hide');
+                $("#Approve_RejectModal").modal('hide'); location.reload(true);
                 BindDataTable();
             }
         });
@@ -590,7 +595,7 @@
                         {
                             render: function (data, type, row) {
 
-                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                var html = '<button type="button" onclick="Download(\'' + row.DOCID + '\')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
                                 return html;
                             }
                         },

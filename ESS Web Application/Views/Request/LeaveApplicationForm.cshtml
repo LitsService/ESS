@@ -878,8 +878,9 @@
                                 if (data != "") {
                                     alert(data);
                                 }
+                                location.reload(true);
                                 LeaveApplicationDataBinding();
-                                location.reload();
+                                
                                 $("#User").val("");
                                 $("#LeaveType").val("");
                                 $("#Remarks").val("");
@@ -912,7 +913,7 @@
                 success: function (data) {
                     if (data != "") {
                         alert(data);
-                    }
+                    } location.reload(true);
                     LeaveApplicationDataBinding();
                 }
             });

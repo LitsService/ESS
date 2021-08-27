@@ -196,8 +196,8 @@
 </div>
 @using (Html.BeginForm("DownloadReport", "Request", FormMethod.Post))
 {
-    <input type="hidden" name="PrintId" />
-    <input type="submit" class="hidden" id="btnSubmit" hidden value="Export" />
+    <input type="hidden" id="PrintId" name="DocName" />
+    <input type="submit" class="hidden" hidden id="btnSubmit" />
 }
 <div class="modal fade" id="EditReqModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="max-width: 90% !important">
@@ -381,8 +381,13 @@
         $("#file").click();
     }
     function Download(id) {
-        $("#PrintId").val(id);
-        $("#btnSubmit").click();
+        if (id == undefined) {
+            alert("No Attachement Found");
+        }
+        else {
+            $("#PrintId").val(id);
+            $("#btnSubmit").click();
+        }
     }
     function BindDataTable() {
             $.ajax({
@@ -673,7 +678,8 @@
             url: '@Url.Action("SaveReimbursement", "Request")',
             data: { AtchGuid: response, Type: type, RModle: TableData },
             success: function (data) {
-                if (data=="") {
+                if (data == "") {
+                    location.reload(true);
                     BindDataTable();
                 }
                 else {
@@ -699,7 +705,8 @@
             url: '@Url.Action("SaveReimbursement", "Request")',
             data: {AtchGuid: '', Type:type,RModle: TableData },
             success: function (data) {
-                if (data=="") {
+                if (data == "") {
+                    location.reload(true);
                     BindDataTable();
                 }
                 else {
@@ -838,6 +845,7 @@
              data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
              success: function (data) {
                  $("#Approve_RejectModal").modal('hide');
+                 location.reload(true);
                  BindDataTable();
             }
         });
@@ -867,7 +875,7 @@
                         {
                             render: function (data, type, row) {
 
-                                var html = '<button type="button" onclick="Download(' + row.ID + ')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
+                                var html = '<button type="button" onclick="Download(\'' + row.DOCID + '\')" class="btn btn-sm btn-outline-secondary" title="Download"><i class="fa fa-download"></i></button>';
                                 return html;
                             }
                         },

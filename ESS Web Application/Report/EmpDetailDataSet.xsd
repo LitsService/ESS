@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EmpDetailDataSet" targetNamespace="http://tempuri.org/EmpDetailDataSet.xsd" xmlns:mstns="http://tempuri.org/EmpDetailDataSet.xsd" xmlns="http://tempuri.org/EmpDetailDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="EmpDetailDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="EmpDetailDataSet" msprop:Generator_UserDSName="EmpDetailDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EmpDetail" msprop:Generator_TableClassName="EmpDetailDataTable" msprop:Generator_TableVarName="tableEmpDetail" msprop:Generator_RowChangedName="EmpDetailRowChanged" msprop:Generator_TablePropName="EmpDetail" msprop:Generator_RowDeletingName="EmpDetailRowDeleting" msprop:Generator_RowChangingName="EmpDetailRowChanging" msprop:Generator_RowEvHandlerName="EmpDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="EmpDetailRowDeleted" msprop:Generator_RowClassName="EmpDetailRow" msprop:Generator_UserTableName="EmpDetail" msprop:Generator_RowEvArgName="EmpDetailRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RefNo" msdata:Caption="Name" msprop:Generator_ColumnVarNameInTable="columnRefNo" msprop:Generator_ColumnPropNameInRow="RefNo" msprop:Generator_ColumnPropNameInTable="RefNoColumn" msprop:Generator_UserColumnName="RefNo" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestDate" msdata:Caption="Address1" msprop:Generator_ColumnVarNameInTable="columnRequestDate" msprop:Generator_ColumnPropNameInRow="RequestDate" msprop:Generator_ColumnPropNameInTable="RequestDateColumn" msprop:Generator_UserColumnName="RequestDate" type="xs:string" minOccurs="0" />
+              <xs:element name="Employee" msdata:Caption="Address2" msprop:Generator_ColumnVarNameInTable="columnEmployee" msprop:Generator_ColumnPropNameInRow="Employee" msprop:Generator_ColumnPropNameInTable="EmployeeColumn" msprop:Generator_UserColumnName="Employee" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeId" msdata:Caption="Address3" msprop:Generator_ColumnVarNameInTable="columnEmployeeId" msprop:Generator_ColumnPropNameInRow="EmployeeId" msprop:Generator_ColumnPropNameInTable="EmployeeIdColumn" msprop:Generator_UserColumnName="EmployeeId" type="xs:string" minOccurs="0" />
+              <xs:element name="ContactDetail" msdata:Caption="Address4" msprop:Generator_ColumnVarNameInTable="columnContactDetail" msprop:Generator_ColumnPropNameInRow="ContactDetail" msprop:Generator_ColumnPropNameInTable="ContactDetailColumn" msprop:Generator_UserColumnName="ContactDetail" type="xs:string" minOccurs="0" />
+              <xs:element name="LastName" msdata:Caption="Address5" msprop:Generator_ColumnVarNameInTable="columnLastName" msprop:Generator_ColumnPropNameInRow="LastName" msprop:Generator_ColumnPropNameInTable="LastNameColumn" msprop:Generator_UserColumnName="LastName" type="xs:string" minOccurs="0" />
+              <xs:element name="MatrialStatus" msdata:Caption="Title" msprop:Generator_ColumnVarNameInTable="columnMatrialStatus" msprop:Generator_ColumnPropNameInRow="MatrialStatus" msprop:Generator_ColumnPropNameInTable="MatrialStatusColumn" msprop:Generator_UserColumnName="MatrialStatus" type="xs:string" minOccurs="0" />
+              <xs:element name="ReqStatus" msdata:Caption="Gender" msprop:Generator_ColumnVarNameInTable="columnReqStatus" msprop:Generator_ColumnPropNameInRow="ReqStatus" msprop:Generator_ColumnPropNameInTable="ReqStatusColumn" msprop:Generator_UserColumnName="ReqStatus" type="xs:string" minOccurs="0" />
+              <xs:element name="RequestId" msprop:Generator_ColumnVarNameInTable="columnRequestId" msprop:Generator_ColumnPropNameInRow="RequestId" msprop:Generator_ColumnPropNameInTable="RequestIdColumn" msprop:Generator_UserColumnName="RequestId" type="xs:string" minOccurs="0" />
+              <xs:element name="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" msprop:Generator_UserColumnName="CompanyName" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeAddress" msprop:Generator_ColumnVarNameInTable="columnEmployeeAddress" msprop:Generator_ColumnPropNameInRow="EmployeeAddress" msprop:Generator_ColumnPropNameInTable="EmployeeAddressColumn" msprop:Generator_UserColumnName="EmployeeAddress" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

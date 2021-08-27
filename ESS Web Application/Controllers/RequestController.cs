@@ -3,6 +3,7 @@ using ESS_Web_Application.Helper;
 using ESS_Web_Application.Infrastructure;
 using ESS_Web_Application.Services;
 using ESS_Web_Application.ViewModels;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace ESS_Web_Application.Controllers
 {
@@ -477,7 +480,8 @@ namespace ESS_Web_Application.Controllers
         }
         public ActionResult GetDetails(string Reqid)
         {
-            var data = _requestService.GetDetails(Reqid, Session["UserID"].ToString());
+            var data = _requestService.GetDetails(Reqid, Session["UserID"].ToString());           
+            
             return Json(data);
         }
         public ActionResult GetApproval(string Id)
@@ -831,7 +835,7 @@ namespace ESS_Web_Application.Controllers
         }
         public ActionResult SaveLeaveandAbsenceApprove_Reject(string Type, string Id, string StatusId, string Remarks)
         {
-            var data = _requestService.SaveLeaveandAbsenceApprove_Reject(Type, Id, StatusId, Session["UserID"].ToString(), Remarks);
+            var data = _requestService.SaveLeaveandAbsenceApprove_Reject(Type, Id, StatusId, Session["UserID"].ToString(), Remarks, Session["UserCompanyID"].ToString());
             return Json(data);
         }
 
@@ -976,7 +980,7 @@ namespace ESS_Web_Application.Controllers
         #endregion
 
         #region EmployeeAttendanceDeatils
-        public ActionResult EmployeeAttendanceDeatils()
+        public ActionResult EmployeeAttendanceDetail()
         {
             if (string.IsNullOrEmpty(Session["UserName"].ToString()))
             {
@@ -1023,6 +1027,140 @@ namespace ESS_Web_Application.Controllers
             return Json("");
         }
         #endregion
+        #region Rdlc Report
+
+        public ActionResult EmployeeAttendanceReport(FormCollection form)
+        {
+            ESS_Web_Application.Report.DataSet1 ds = new ESS_Web_Application.Report.DataSet1();
+            string StartDate = form["StartDate"].ToString();
+            string EndDate = form["EndDate"].ToString();
+            string Emp = form["EmpId"].ToString();
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(900);
+            reportViewer.Height = Unit.Percentage(900);
+
+            var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
+            var dt = new DataTable();
+            dt = ToDataTable(data);
+
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report\EmpAttendanceReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
+
+
+
+            ViewBag.ReportViewer = reportViewer;
+
+            return View();
+        }
+
+
+        public ActionResult EmployeeDetail()
+        {
+            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
+            {
+                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+        }
+
+        public ActionResult EmployeeDetailReport(FormCollection form)
+        {
+            ESS_Web_Application.Report.EmpDetailDataSet empds = new ESS_Web_Application.Report.EmpDetailDataSet();
+            string Emp = form["EmpId"].ToString();
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(900);
+            reportViewer.Height = Unit.Percentage(900);
+            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Session["UserCompanyID"].ToString());
+            var test = data.History.ToList();
+            var dt = new DataTable();
+            dt = ToDataTable(test);
+
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report\EmpDetailReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
+
+
+
+            ViewBag.ReportViewer = reportViewer;
+
+            return View();
+        }
+
+        public ActionResult ReimbursementDetail()
+        {
+            if (string.IsNullOrEmpty(Session["UserName"].ToString()))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (clsCommon.ValidatePageSecurity(Session["UserName"].ToString(), "EmployeeAttendanceReport"))
+            {
+                ViewBag.User = _requestService.GetLeaveAppUsers(Session["UserID"].ToString(), "EmployeeAttendanceReport", Session["UserCompanyID"].ToString());
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+        }
+
+        public ActionResult ReimbursementDetailReport(FormCollection form)
+        {
+            ESS_Web_Application.Report.ReimbursementDataSet Reimds = new ESS_Web_Application.Report.ReimbursementDataSet();
+            string EmpId = form["EmpId"].ToString();
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(900);
+            reportViewer.Height = Unit.Percentage(900);
+            var data = _requestService.GetDetailReport(EmpId, Session["UserID"].ToString());          
+            var dt = new DataTable();
+            dt = ToDataTable(data);
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report\ReimbursementReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", dt));
+            ViewBag.ReportViewer = reportViewer;
+            return View();
+        }
+
+        #endregion
+
+
+        public static DataTable ToDataTable<T>(List<T> items)
+        {
+            DataTable dataTable = new DataTable(typeof(T).Name);
+
+            //Get all the properties
+            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo prop in Props)
+            {
+                //Defining type of data column gives proper data table 
+                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
+                //Setting column names as Property names
+                dataTable.Columns.Add(prop.Name, type);
+            }
+            foreach (T item in items)
+            {
+                var values = new object[Props.Length];
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    //inserting property values to datatable rows
+                    values[i] = Props[i].GetValue(item, null);
+                }
+                dataTable.Rows.Add(values);
+            }
+            //put a breakpoint here and check datatable
+            return dataTable;
+        }
     }
 
     public class AttachmentModel
@@ -1032,4 +1170,5 @@ namespace ESS_Web_Application.Controllers
         public string Remarks { get; set; }
         public string DOCID { get; set; }
     }
+
 }

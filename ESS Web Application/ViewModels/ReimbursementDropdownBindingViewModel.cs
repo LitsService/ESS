@@ -57,6 +57,7 @@ namespace ESS_Web_Application.ViewModels
         public string Reciept { get; set; }
         public string Currency { get; set; }
         public string Amount { get; set; }
+        public string SubmittedBy { get; set; }
         public string Remarks { get; set; }
         public ReimbursementDropdownBindingViewModel dropdowns { get; set; }
     }

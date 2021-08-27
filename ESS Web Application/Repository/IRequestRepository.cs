@@ -61,6 +61,7 @@ namespace ESS_Web_Application.Repository
         DataTable GetReimbursementRequestInfo4Email(Hashtable ht);
         DataTable GetReimbursementList(Hashtable ht);
         DataTable GetReimbursementListForApproval(Hashtable ht);
+        DataTable GetReimbursementRequestDetailReport(Hashtable ht);
         DataTable GetReimbursementRequestDetail(Hashtable ht);
         string EditSaveReimbursementRequest(Hashtable ht);
         DataTable GetReimbursementRequestByID(Hashtable ht);

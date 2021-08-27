@@ -87,7 +87,8 @@ namespace ESS_Web_Application.Repository
         }
         public SqlDataReader GetLeaveTypes(string UserID)
         {
-            string qry = "select distinct ltype.LeaveType,ltype.ID from tbl_User u inner join tbl_Employee e on e.EMPLOYID = u.EmployeeID inner join tbl_EmployeeLeaveBalances balance on balance.EmployeeId = e.EMPLOYID inner join tbl_LeaveType ltype on ltype.LeaveType = balance.Type where u.ID = '" + UserID + "'";
+            string qry = "select * from tbl_LeaveType";
+                //"select distinct ltype.LeaveType,ltype.ID from tbl_User u inner join tbl_Employee e on e.EMPLOYID = u.EmployeeID inner join tbl_EmployeeLeaveBalances balance on balance.EmployeeId = e.EMPLOYID inner join tbl_LeaveType ltype on ltype.LeaveType = balance.Type where u.ID = '" + UserID + "'";
             return DBContext.ExecuteReaderWithCommand(qry);
         }
         public DataTable GetReplacementEmployee(Hashtable ht)
@@ -220,6 +221,11 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_User_Get_Reimbursement_Request_Detail", ht).Tables[0];
         }
+        public DataTable GetReimbursementRequestDetailReport(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_Reimbursement_Request_Detail_Report", ht).Tables[0];
+        }
+        
         public string EditSaveReimbursementRequest(Hashtable ht)
         {
             return DBContext.ExecuteNonQuery("sp_User_Update_Reimbursement_Request", ht, "@DBMessage", System.Data.SqlDbType.NVarChar, 255) as string;

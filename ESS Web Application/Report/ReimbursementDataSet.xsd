@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ReimbursementDataSet" targetNamespace="http://tempuri.org/ReimbursementDataSet.xsd" xmlns:mstns="http://tempuri.org/ReimbursementDataSet.xsd" xmlns="http://tempuri.org/ReimbursementDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ReimbursementDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ReimbursementDataSet" msprop:Generator_UserDSName="ReimbursementDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ReimbursementTable" msprop:Generator_TableClassName="ReimbursementTableDataTable" msprop:Generator_TableVarName="tableReimbursementTable" msprop:Generator_TablePropName="ReimbursementTable" msprop:Generator_RowDeletingName="ReimbursementTableRowDeleting" msprop:Generator_RowChangingName="ReimbursementTableRowChanging" msprop:Generator_RowEvHandlerName="ReimbursementTableRowChangeEventHandler" msprop:Generator_RowDeletedName="ReimbursementTableRowDeleted" msprop:Generator_UserTableName="ReimbursementTable" msprop:Generator_RowChangedName="ReimbursementTableRowChanged" msprop:Generator_RowEvArgName="ReimbursementTableRowChangeEvent" msprop:Generator_RowClassName="ReimbursementTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RMTYPE" msprop:Generator_ColumnVarNameInTable="columnRMTYPE" msprop:Generator_ColumnPropNameInRow="RMTYPE" msprop:Generator_ColumnPropNameInTable="RMTYPEColumn" msprop:Generator_UserColumnName="RMTYPE" type="xs:string" minOccurs="0" />
+              <xs:element name="From" msprop:Generator_ColumnVarNameInTable="columnFrom" msprop:Generator_ColumnPropNameInRow="From" msprop:Generator_ColumnPropNameInTable="FromColumn" msprop:Generator_UserColumnName="From" type="xs:string" minOccurs="0" />
+              <xs:element name="To" msprop:Generator_ColumnVarNameInTable="columnTo" msprop:Generator_ColumnPropNameInRow="To" msprop:Generator_ColumnPropNameInTable="ToColumn" msprop:Generator_UserColumnName="To" type="xs:string" minOccurs="0" />
+              <xs:element name="Country" msprop:Generator_ColumnVarNameInTable="columnCountry" msprop:Generator_ColumnPropNameInRow="Country" msprop:Generator_ColumnPropNameInTable="CountryColumn" msprop:Generator_UserColumnName="Country" type="xs:string" minOccurs="0" />
+              <xs:element name="SubmittedBy" msprop:Generator_ColumnVarNameInTable="columnSubmittedBy" msprop:Generator_ColumnPropNameInRow="SubmittedBy" msprop:Generator_ColumnPropNameInTable="SubmittedByColumn" msprop:Generator_UserColumnName="SubmittedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="ActivityType" msprop:Generator_ColumnVarNameInTable="columnActivityType" msprop:Generator_ColumnPropNameInRow="ActivityType" msprop:Generator_ColumnPropNameInTable="ActivityTypeColumn" msprop:Generator_UserColumnName="ActivityType" type="xs:string" minOccurs="0" />
+              <xs:element name="Reciept" msprop:Generator_ColumnVarNameInTable="columnReciept" msprop:Generator_ColumnPropNameInRow="Reciept" msprop:Generator_ColumnPropNameInTable="RecieptColumn" msprop:Generator_UserColumnName="Reciept" type="xs:string" minOccurs="0" />
+              <xs:element name="Currency" msprop:Generator_ColumnVarNameInTable="columnCurrency" msprop:Generator_ColumnPropNameInRow="Currency" msprop:Generator_ColumnPropNameInTable="CurrencyColumn" msprop:Generator_UserColumnName="Currency" type="xs:string" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:string" minOccurs="0" />
+              <xs:element name="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_UserColumnName="Remarks" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

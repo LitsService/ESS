@@ -524,7 +524,7 @@
                                     alert(data);
                                 }
                                 LeaveApplicationDataBinding();
-                                location.reload();
+                                location.reload(true);
                                 $("#User").val("");
                                $("#User option:selected").val("");
                                 $("#ContactDetail").val("");
@@ -548,7 +548,7 @@
                 success: function (data) {
                     if (data != "") {
                         alert(data);
-                    }
+                    } location.reload(true);
                     LeaveApplicationDataBinding();
                 }
             });
@@ -648,6 +648,7 @@
              data: { Type: Type, Id: $("#ReqIdApproval").val(), StatusId: $("#StatusId").val(), Remarks:$("#RemarksApproval").val() },
              success: function (data) {
                  $("#Approve_RejectModal").modal('hide');
+                 location.reload(true);
                  BindDataTable();
             }
         });
