@@ -54,15 +54,15 @@
                                                                 <label class="fancy-checkbox">
                                                                     @if (item.Allow[roleid] == true)
                                                                     {
-                                                                        <input id="Allow_@roleid" onchange="SaveACL(@item.UserActionID,@roleid)" checked type="checkbox" name="checkbox">
+                                                                        <input id="Allow_@roleid" onchange="SaveACL(@item.UserActionID,@roleid,this)" checked type="checkbox" name="checkbox">
                                                                     }
                                                                     else
                                                                     {
-                                                                        <input id="Allow_@roleid" onchange="SaveACL(@item.UserActionID,@roleid)" type="checkbox" name="checkbox">
+                                                                        <input id="Allow_@roleid" onchange="SaveACL(@item.UserActionID,@roleid,this)" type="checkbox" name="checkbox">
                                                                     }
                                                                     <span style="font-weight:bold">Allow</span>
                                                                 </label>
-                                                                <select id="Access_@roleid" class="form-control show-tick" onchange="SaveACL(@item.UserActionID,@roleid)">
+                                                                <select id="Access_@roleid" class="form-control show-tick" onchange="SaveACL(@item.UserActionID,@roleid,this)">
                                                                     @if (@item.DataAccessID[roleid] == 1)
                                                                     {
                                                                         <option selected value="1">Own data</option>
@@ -109,12 +109,14 @@
 <script>
     $(document).ready(function () {
     });
-    function SaveACL(UserActionID, roleid) {
+    function SaveACL(UserActionID, roleid, e) {
         var ActionId = UserActionID;
         var RoleId = roleid;
         var Allow = false;
         var Access = $("#Access_" + RoleId + " option:selected").val();
-        if ($("#Allow_" + RoleId).prop("checked") == true) { Allow = true }
+        if (e.checked) {
+            Allow = true;
+        }
         $.ajax({
             type: "Post",
             url: "/UserManaged/ACLInsertUpdate",

@@ -19,7 +19,13 @@ namespace ESS_Web_Application.Models
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
-
+    public class Menu
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string URL { get; set; }
+        public string type { get; set; }
+    }
     public class FactorViewModel
     {
         public string Purpose { get; set; }

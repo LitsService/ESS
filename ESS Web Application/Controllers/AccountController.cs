@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Data;
+using System.Collections;
 
 namespace ESS_Web_Application.Controllers
 {
@@ -155,8 +156,30 @@ namespace ESS_Web_Application.Controllers
             Session["UserCompanyID"] = "";
             Session["MyCulture"] = "";
             Session["FullName"] = "";
+            Session["MenuList"] = new List<Menu>();
             if (dt.Rows.Count > 0)
             {
+                Hashtable ht = new Hashtable();
+                ht.Add("@UserID", dt.Rows[0]["ID"].ToString());
+                var menylist = _accountService.GetAllMenu(ht);
+                List<ESS_Web_Application.Models.Menu> MenuList = new List<ESS_Web_Application.Models.Menu>();
+                foreach (DataRow item in menylist.Rows)
+                {
+                    var obj = new ESS_Web_Application.Models.Menu()
+                    {
+                        ID = item["ID"].ToString(),
+                        Name = item["Name"].ToString(),
+                        URL = item["URL"].ToString(),
+                        type = item["type"].ToString(),
+                    };
+                    MenuList.Add(obj);
+                }
+
+                Session["MenuList"] = MenuList.Where(a => a.type == "r").ToList();
+                Session["SecurityMenuList"] = MenuList.Where(a => a.type == "s").ToList();
+                Session["WorkflowMenuList"] = MenuList.Where(a => a.type == "w").ToList();
+                Session["RptMenuList"] = MenuList.Where(a => a.type == "rpt").ToList();
+
                 Session["UserID"] = dt.Rows[0]["ID"].ToString();
                 try { Session["MyCulture"] = dt.Rows[0]["selLanguage"].ToString(); } catch { }
                 try { Session["FullName"] = dt.Rows[0]["FullName"].ToString(); } catch { }

@@ -114,85 +114,7 @@
 
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav">
-                            @*<li><a href="app-events.html" class="icon-menu d-none d-sm-block d-md-none d-lg-block"><i class="icon-calendar"></i></a></li>*@
-                            @*<li><a href="app-chat.html" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a></li>
-                                <li><a href="app-inbox.html" class="icon-menu d-none d-sm-block"><i class="icon-envelope"></i><span class="notification-dot"></span></a></li>
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                                        <i class="icon-bell"></i>
-                                        <span class="notification-dot"></span>
-                                    </a>
-                                    <ul class="dropdown-menu notifications animated shake">
-                                        <li class="header"><strong>You have 4 new Notifications</strong></li>
-                                        <li>
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <i class="icon-info text-warning"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text">Campaign <strong>Holiday Sale</strong> is nearly reach budget limit.</p>
-                                                        <span class="timestamp">10:00 AM Today</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <i class="icon-like text-success"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text">Your New Campaign <strong>Holiday Sale</strong> is approved.</p>
-                                                        <span class="timestamp">11:30 AM Today</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <i class="icon-pie-chart text-info"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text">Website visits from Twitter is 27% higher than last week.</p>
-                                                        <span class="timestamp">04:00 PM Today</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <i class="icon-info text-danger"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text">Error on website analytics configurations</p>
-                                                        <span class="timestamp">Yesterday</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="footer"><a href="javascript:void(0);" class="more">See all notifications</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown"><i class="icon-equalizer"></i></a>
-                                    <ul class="dropdown-menu user-menu menu-icon animated bounceIn">
-                                        <li class="menu-heading">ACCOUNT SETTINGS</li>
-                                        <li><a href="javascript:void(0);"><i class="icon-note"></i> <span>Basic</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-equalizer"></i> <span>Preferences</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-lock"></i> <span>Privacy</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-bell"></i> <span>Notifications</span></a></li>
-                                        <li class="menu-heading">BILLING</li>
-                                        <li><a href="javascript:void(0);"><i class="icon-credit-card"></i> <span>Payments</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-printer"></i> <span>Invoices</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-refresh"></i> <span>Renewals</span></a></li>
-                                    </ul>
-                                </li>*@
+                          
                             <li><a href="/Account/Logout" class="icon-menu"><i class="icon-login"></i></a></li>
                         </ul>
                     </div>
@@ -213,37 +135,10 @@
                     }
                     <div class="dropdown">
                         <span>Welcome,</span>
-                        @*@if (Session["UserRole"].ToString() == "Admin")
-                            {*@
                         <a href="javascript:void(0);" class=" user-name" data-toggle="dropdown"><strong>@Session["FullName"].ToString()</strong></a>
-                        @*}
-                            else
-                            {
-                                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Haydar Perimbayi</strong></a>
-                            }*@
-                        @*<ul class="dropdown-menu dropdown-menu-right account animated flipInY">
-                                <li><a href="page-profile2.html"><i class="icon-user"></i>My Profile</a></li>
-                                <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                                <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
-                                <li class="divider"></li>
-                                <li><a href="page-login.html"><i class="icon-power"></i>Logout</a></li>
-                            </ul>*@
+                      
                     </div>
                     <hr>
-                    @*<div class="row">
-                            <div class="col-4">
-                                <h6>5+</h6>
-                                <small>Experience</small>
-                            </div>
-                            <div class="col-4">
-                                <h6>400+</h6>
-                                <small>Employees</small>
-                            </div>
-                            <div class="col-4">
-                                <h6>80+</h6>
-                                <small>Clients</small>
-                            </div>
-                        </div>*@
                 </div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
@@ -259,9 +154,7 @@
                     {
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#user_menu">HR</a></li>
                     }
-                    @*<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#project_menu">Project</a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>*@
+           
                 </ul>
 
                 <!-- Tab panes -->
@@ -275,24 +168,29 @@
                                     <li>
                                         <a href="#Security" class="has-arrow"><i class="icon-lock"></i><span>Security</span></a>
                                         <ul>
-                                            <li><a href="~/UserManaged/Users">Users</a></li>
-                                            <li><a href="~/UserManaged/Roles">Roles</a></li>
-                                            <li><a href="~/UserManaged/ACL">ACL</a></li>
+                                            @{
+                                                var list = Session["SecurityMenuList"] as List<ESS_Web_Application.Models.Menu>;
+                                                foreach (var item in list)
+                                                {
+                                                    <li><a href="@item.URL">@item.Name</a></li>
+
+                                                }
+                                            }
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#WorkFlow" class="has-arrow"><i class="icon-settings"></i><span>Workflows</span></a>
                                         <ul>
-                                            <li><a href="~/Workflows/ManageWorkFlow">Workflows</a></li>
-                                            <li><a href="~/Workflows/FormTypes">Form Type</a></li>
+                                            @{
+                                                var list1 = Session["WorkflowMenuList"] as List<ESS_Web_Application.Models.Menu>;
+                                                foreach (var item in list1)
+                                                {
+                                                    <li><a href="@item.URL">@item.Name</a></li>
+
+                                                }
+                                            }
                                         </ul>
                                     </li>
-                                    @*<li>
-                                            <a href="#AdminRequest" class="has-arrow"><i class="icon-question"></i><span>Request</span></a>
-                                            <ul>
-
-                                            </ul>
-                                        </li>*@
                                 </ul>
                             </nav>
                         </div>
@@ -305,34 +203,29 @@
                                     <li>
                                         <a href="#Request" class="has-arrow"><i class="icon-question"></i><span>Request</span></a>
                                         <ul>
-                                            <li><a id="LeaveApplicationForm" href="~/Request/LeaveApplicationForm">Leave Application Form</a></li>
-                                            <li><a id="ReimbursementForm" href="~/Request/ReimbursementForm">Reimbursement Form</a></li>
-                                            <li><a id="AllownceRequestForm" href="~/Request/AllownceRequestForm">Allownce Request</a></li>
-                                            <li><a id="LateandAbsenceJustApplicationForm" href="~/Request/LateandAbsenceJustApplicationForm">Late and Absence Justification Form</a></li>
-
-                                            @*<li><a id="AdvanceSalaryApplicationFrom" href="~/Request/AdvanceSalaryApplicationFrom">Advance Salary From</a></li>
-                                                <li><a id="LoanApplicationForm" href="~/Request/LoanApplicationForm">Loan Application Form</a></li>*@
-                                            <li><a id="EmployeeDetailRequestForm" href="~/Request/EmployeeDetailRequestForm">Employee Detail Update Form</a></li>
-
-
-
-                                            @*<li><a id="TicketRequestForm" href="~/Request/TicketRequestForm">Ticket Request Form</a></li>
-                                                <li><a id="MiscellaneousApplicationForm" href="~/Request/MiscellaneousApplicationForm">Miscellaneous Form</a></li>
-                                                <li><a id="LateandAbsenceJustApplicationForm" href="~/Request/LateandAbsenceJustApplicationForm">Late and Absence Justification Form</a></li>
-                                                <li><a id="AllownceRequestForm" href="~/Request/AllownceRequestForm">Allownce Request</a></li>
-                                                <li><a id="AssetManagementReqForm" href="~/Request/AssetManagementReqForm">Asset Management</a></li>
-                                                <li><a id="" href="">Overtime Submission Form</a></li>
-                                                <li><a id="" href="">Short Leave Request</a></li>
-                                                <li><a id="StaffExpenseForm" href="~/Request/StaffExpenseForm">Staff Expense Form</a></li>
-                                                <li><a id="" href="">Petty Cash Advance Form</a></li>*@
+                                            @{
+                                                var list = Session["MenuList"] as List<ESS_Web_Application.Models.Menu>;
+                                                foreach (var item in list)
+                                                {
+                                                    <li>
+                                                        <a id="@item.Name" href="@item.URL">@item.Name</a>
+                                                    </li>
+                                                }
+                                            }
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#User" class="has-arrow"><i class="icon-notebook"></i><span>Reports</span></a>
                                         <ul>
-                                            <li><a id="EmployeeAttendanceDeatils" href="~/Request/EmployeeAttendanceDetail">Employee Attendance Report</a></li>
-                                            <li><a id="EmployeeDeatils" href="~/Request/EmployeeDetail">Employee Detail Report</a></li>
-                                            <li><a id="ReimbursementDeatils" href="~/Request/ReimbursementDetail">Reimbursement Report</a></li>
+                                            @{
+                                                var Rptlist = Session["RptMenuList"] as List<ESS_Web_Application.Models.Menu>;
+                                                foreach (var item in Rptlist)
+                                                {
+                                                    <li>
+                                                        <a id="@item.Name" href="@item.URL">@item.Name</a>
+                                                    </li>
+                                                }
+                                            }
                                         </ul>
                                     </li>
                                 </ul>
@@ -340,33 +233,6 @@
                         </div>
                     }
                     <div class="tab-pane animated fadeIn" id="project_menu">
-                        @*<nav class="sidebar-nav">
-                                <ul class="main-menu metismenu">
-                                    <li><a href="index2.html"><i class="icon-speedometer"></i><span>Dashboard</span></a></li>
-                                    <li><a href="app-inbox.html"><i class="icon-envelope"></i>Inbox App</a></li>
-                                    <li><a href="app-chat.html"><i class="icon-bubbles"></i>Chat App</a></li>
-                                    <li>
-                                        <a href="#Projects" class="has-arrow"><i class="icon-list"></i><span>Projects</span></a>
-                                        <ul>
-                                            <li><a href="project-add.html">Add Projects</a></li>
-                                            <li><a href="project-list.html">Projects List</a></li>
-                                            <li><a href="project-grid.html">Projects Grid</a></li>
-                                            <li><a href="project-detail.html">Projects Detail</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#Clients" class="has-arrow"><i class="icon-user"></i><span>Clients</span></a>
-                                        <ul>
-                                            <li><a href="client-add.html">Add Clients</a></li>
-                                            <li><a href="client-list.html">Clients List</a></li>
-                                            <li><a href="client-detail.html">Clients Detail</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="project-team.html"><i class="icon-users"></i>Team</a></li>
-                                    <li><a href="app-taskboard.html"><i class="icon-tag"></i>Taskboard</a></li>
-                                    <li><a href="app-tickets.html"><i class="icon-screen-tablet"></i>Tickets</a></li>
-                                </ul>
-                            </nav>*@
                     </div>
                     <div class="tab-pane animated fadeIn" id="sub_menu">
                         <nav class="sidebar-nav">

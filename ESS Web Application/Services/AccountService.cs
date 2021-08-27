@@ -1,4 +1,5 @@
-﻿using ESS_Web_Application.Helper;
+﻿using ESS_Web_Application.Entity;
+using ESS_Web_Application.Helper;
 using ESS_Web_Application.Models;
 using ESS_Web_Application.Repository;
 using System;
@@ -24,6 +25,10 @@ namespace ESS_Web_Application.Services
             dt = _accountRepo.Login(ht);
             return dt;
 
+        }
+        public DataTable GetAllMenu(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_User_FormTypes", ht).Tables[0];
         }
     }
 }
