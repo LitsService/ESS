@@ -541,7 +541,7 @@ namespace ESS_Web_Application.Services
         }
 
         #region Employee Detail Update Request Form
-        public EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId)
+        public EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID,string Depid, string CompanyId)
         {
             EmployeeDetailRequestListViewModel list = new EmployeeDetailRequestListViewModel();
             Hashtable ht = new Hashtable();
@@ -2413,7 +2413,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
             }
             return list;
         }
-        public List<ReimbursementEditViewModel> GetDetailReport(string Empid, string UserId)
+        public List<ReimbursementEditViewModel> GetDetailReport(string Empid,string Depid, string UserId)
         {
             Hashtable ht = new Hashtable();
             //ht.Add("@ReimbustRequestID", Reqid);
@@ -5744,7 +5744,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
         #endregion
 
         #region EmployeeAttendanceDeatils
-        public List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate, string Emp, string CompanyId, string UserId)
+        public List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate,string Depid, string Emp, string CompanyId, string UserId)
         {
             bool isHR = false;
             List<EmployeeAttendanceViewModel> lvmm = new List<EmployeeAttendanceViewModel>();

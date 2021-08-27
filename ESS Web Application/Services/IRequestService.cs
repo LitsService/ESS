@@ -15,7 +15,7 @@ namespace ESS_Web_Application.Services
         List<DropDownBindViewModel> GetLeaveTypes(string UserID);
         List<DropDownBindViewModel> GetReplacementEmployee(string CompanyId);
         #region Employee Detail Update Request Form
-        EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId);
+        EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID,string Depid, string CompanyId);
         string SaveEmployeeDetail(string AtchGuid, string CompanyId, string UserId, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress);
         EmployeeDetailRequestViewModel GetEmployeeDetailEditData(string Reqid, string UserId);
         string SaveEditEmployeeDetail(int saveStatus, string Id, string EmployeeID, string ContactDetail, string LastName, string MatrialStatus, string EmployeeAddress, string UserId);
@@ -45,7 +45,7 @@ namespace ESS_Web_Application.Services
         List<ReimbursementEditViewModel> GetEditDatabind(string Reqid, string UserId);
         string EditSaveReimbursement(string Type, List<ReimbursementSaveViewModel> RModle, string UserId, string Id, bool Recall);
         List<ReimbursementEditViewModel> GetDetails(string Reqid, string UserId);
-        List<ReimbursementEditViewModel> GetDetailReport(string Empid, string UserId);
+        List<ReimbursementEditViewModel> GetDetailReport(string Empid,string Depid, string UserId);
         List<LeaveViewModel> GetLeaveDetailReport(string Empid, string UserId);
         
         string GetApproval(string Id);
@@ -116,7 +116,7 @@ namespace ESS_Web_Application.Services
         string SaveAssetApprove_Reject(string Type, string Id, string StatusId, string UserId, string Remarks,string CompanyId);
 
 
-        List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate, string Emp, string CompanyId, string UserId);
+        List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate,string Depid, string Emp, string CompanyId, string UserId);
 
         List<StaffExpenseViewModel> GetStaffExpenseList(string UserId, string CompanyId);
     }

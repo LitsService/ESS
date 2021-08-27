@@ -261,7 +261,7 @@ namespace ESS_Web_Application.Controllers
         }
         public JsonResult GetEmployeeDetailData()
         {
-            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Session["UserCompanyID"].ToString());
+            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(),"", Session["UserCompanyID"].ToString());
             byte[] bytes = GetImageFromDB(Session["UserID"].ToString());
             if (bytes.Length > 1)
             {
@@ -980,11 +980,11 @@ namespace ESS_Web_Application.Controllers
         #endregion
 
         #region EmployeeAttendanceDeatils        
-        public JsonResult GetAttendance(string StartDate, string EndDate, string Emp)
-        {
-            var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
-            return Json(data);
-        }
+        //public JsonResult GetAttendance(string StartDate, string EndDate, string Emp)
+        //{
+        //    var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
+        //    return Json(data);
+        //}
         #endregion
         #region StaffExpenseRequest
         public ActionResult StaffExpenseForm()
@@ -1045,7 +1045,7 @@ namespace ESS_Web_Application.Controllers
             reportViewer.Width = Unit.Percentage(900);
             reportViewer.Height = Unit.Percentage(900);
 
-            var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
+            var data = _requestService.GetEmployeeAttendance(StartDate, EndDate, Depid, Emp, Session["UserCompanyID"].ToString(), Session["UserID"].ToString());
             var dt = new DataTable();
             dt = ToDataTable(data);
 
@@ -1085,7 +1085,7 @@ namespace ESS_Web_Application.Controllers
             reportViewer.SizeToReportContent = true;
             reportViewer.Width = Unit.Percentage(900);
             reportViewer.Height = Unit.Percentage(900);
-            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Session["UserCompanyID"].ToString());
+            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Depid, Session["UserCompanyID"].ToString());
             var test = data.History.ToList();
             var dt = new DataTable();
             dt = ToDataTable(test);
@@ -1126,7 +1126,7 @@ namespace ESS_Web_Application.Controllers
             reportViewer.SizeToReportContent = true;
             reportViewer.Width = Unit.Percentage(900);
             reportViewer.Height = Unit.Percentage(900);
-            var data = _requestService.GetDetailReport(EmpId, Session["UserID"].ToString());          
+            var data = _requestService.GetDetailReport(EmpId, Depid, Session["UserID"].ToString());          
             var dt = new DataTable();
             dt = ToDataTable(data);
             reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report\ReimbursementReport.rdlc";
