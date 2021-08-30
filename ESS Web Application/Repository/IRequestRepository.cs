@@ -26,6 +26,7 @@ namespace ESS_Web_Application.Repository
         int spUserInsertLeaveRequest(Hashtable ht);
         #region Employee Detail Update Request Form
         DataTable Get_All_EmployeeDetail_Requests(Hashtable ht);
+        DataTable Get_All_EmployeeDetail_RequestsReport(Hashtable ht);
         DataTable Get_EmployeeDetail_Requests_For_Approval(Hashtable ht);
         int Insert_EmployeeDetail_Request(Hashtable ht);
         DataTable Get_EmployeeDetail_Request_Info_4_Email(Hashtable ht);

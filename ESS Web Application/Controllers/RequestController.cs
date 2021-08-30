@@ -261,7 +261,7 @@ namespace ESS_Web_Application.Controllers
         }
         public JsonResult GetEmployeeDetailData()
         {
-            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(),"", Session["UserCompanyID"].ToString());
+            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Session["UserCompanyID"].ToString());
             byte[] bytes = GetImageFromDB(Session["UserID"].ToString());
             if (bytes.Length > 1)
             {
@@ -1078,14 +1078,14 @@ namespace ESS_Web_Application.Controllers
         public ActionResult EmployeeDetailReport(FormCollection form)
         {
             ESS_Web_Application.Report.EmpDetailDataSet empds = new ESS_Web_Application.Report.EmpDetailDataSet();
-            string Emp = form["EmpId"].ToString();
+            string EmpId = form["EmpId"].ToString();
             string Depid = form["DepId"].ToString();
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.SizeToReportContent = true;
             reportViewer.Width = Unit.Percentage(900);
             reportViewer.Height = Unit.Percentage(900);
-            var data = _requestService.GetEmployeeDetailData(Session["UserID"].ToString(), Depid, Session["UserCompanyID"].ToString());
+            var data = _requestService.GetEmployeeDetailDataReport(Session["UserID"].ToString(), Depid, EmpId, Session["UserCompanyID"].ToString());
             var test = data.History.ToList();
             var dt = new DataTable();
             dt = ToDataTable(test);

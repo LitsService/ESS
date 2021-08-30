@@ -34,6 +34,11 @@ namespace ESS_Web_Application.Repository
         {
             return DBContext.GetDataSet("sp_User_Get_All_EmployeeDetail_Requests", ht).Tables[0];
         }
+        public DataTable Get_All_EmployeeDetail_RequestsReport(Hashtable ht)
+        {
+            return DBContext.GetDataSet("sp_User_Get_All_EmployeeDetail_RequestsReports", ht).Tables[0];
+        }
+        
         public DataTable Get_EmployeeDetail_Requests_For_Approval(Hashtable ht)
         {
             return DBContext.GetDataSet("sp_User_Get_EmployeeDetail_Requests_For_Approval", ht).Tables[0];

@@ -52,7 +52,7 @@ namespace ESS_Web_Application.Services
         }
         public List<DropDownBindViewModel> GetDepartmentTypes(string UserID)
         {
-        
+
             List<DropDownBindViewModel> UserDD = new List<DropDownBindViewModel>();
             Hashtable ht = new Hashtable();
             ht.Add("@UserID", int.Parse(UserID));
@@ -112,7 +112,7 @@ namespace ESS_Web_Application.Services
             return UserDD;
         }
 
-        
+
         public EmployeeDeatilViewModel GetEmployeeDeatils(string UserID)
         {
             Hashtable ht1 = new Hashtable();
@@ -541,7 +541,49 @@ namespace ESS_Web_Application.Services
         }
 
         #region Employee Detail Update Request Form
-        public EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID,string Depid, string CompanyId)
+
+        public EmployeeDetailRequestListViewModel GetEmployeeDetailDataReport(string UserID, string Depid, string EmpId, string CompanyId)
+        {
+            EmployeeDetailRequestListViewModel list = new EmployeeDetailRequestListViewModel();
+            Hashtable ht = new Hashtable();
+            int FormId = GetFormTypeID("EmployeeDetailForm");
+            ht.Add("@UserID", UserID);
+            ht.Add("@FormTypeID", FormId);
+            ht.Add("@CompanyId", CompanyId);
+            ht.Add("@Department", Depid);
+            ht.Add("@EmployeeID", EmpId);
+            DataTable dt = _requestRepo.Get_All_EmployeeDetail_RequestsReport(ht);
+            List<EmployeeDetailRequestViewModel> History = new List<EmployeeDetailRequestViewModel>();
+            foreach (DataRow item in dt.Rows)
+            {
+                EmployeeDetailRequestViewModel single = new EmployeeDetailRequestViewModel()
+                {
+                    RefNo = item["RequestID"].ToString(),
+                    RequestDate = item["RequestDate"].ToString(),
+                    ReqStatus = item["RequestStatus"].ToString(),
+                    Employee = item["UserFullName"].ToString(),
+                    EmployeeId = item["EMPLOYID"].ToString(),
+                    DEPRTMNT = item["DEPRTMNT"].ToString(),
+                    DESIGNATION = item["DESIGNATION"].ToString(),
+                    ContactDetail = item["ContactDetail"].ToString(),
+                    LastName = item["LastName"].ToString(),
+                    EmployeeAddress = item["EmployeeAddress"].ToString(),
+                    MatrialStatus = item["MatrialStatus"].ToString(),
+                    RequestId = item["Id"].ToString(),
+                    IsEditViisible = isEditVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isRecallVisible = isRecallVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isSubmitVisible = isSubmitVisible(item["Last_Status_ID"].ToString(), int.Parse(item["EmployeeUserID"].ToString())),
+                    isInProcessVisible = isInProcessVisible(item["Last_Status_ID"].ToString()),
+                    isCompletedVisible = isCompletedVisible(item["Last_Status_ID"].ToString()),
+                    AttachmentGuid = item["AtchGuid"].ToString(),
+
+                };
+                History.Add(single);
+                list.History = History;
+            }
+            return list;
+        }
+        public EmployeeDetailRequestListViewModel GetEmployeeDetailData(string UserID, string CompanyId)
         {
             EmployeeDetailRequestListViewModel list = new EmployeeDetailRequestListViewModel();
             Hashtable ht = new Hashtable();
@@ -2413,10 +2455,12 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
             }
             return list;
         }
-        public List<ReimbursementEditViewModel> GetDetailReport(string Empid,string Depid, string UserId)
+        public List<ReimbursementEditViewModel> GetDetailReport(string Empid, string Depid, string UserId)
         {
             Hashtable ht = new Hashtable();
-            //ht.Add("@ReimbustRequestID", Reqid);
+            ht.Add("@UserId", UserId);
+            ht.Add("@Department", Depid);
+            ht.Add("@EmployeeID", Empid);
 
             var dt = _requestRepo.GetReimbursementRequestDetailReport(ht);
 
@@ -5744,7 +5788,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
         #endregion
 
         #region EmployeeAttendanceDeatils
-        public List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate,string Depid, string Emp, string CompanyId, string UserId)
+        public List<EmployeeAttendanceViewModel> GetEmployeeAttendance(string StartDate, string EndDate, string Depid, string Emp, string CompanyId, string UserId)
         {
             bool isHR = false;
             List<EmployeeAttendanceViewModel> lvmm = new List<EmployeeAttendanceViewModel>();
@@ -5767,7 +5811,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
             selectedEmployeeValue = Emp;
             ht.Add("@UserId", string.IsNullOrEmpty(Emp) ? "" : Emp);
             ht.Add("@CompanyId", CompanyId);
-
+            ht.Add("@Department", string.IsNullOrEmpty(Depid) ? "" : Depid);
 
             dt = _requestRepo.EmployeeAttendDetails(ht);
 
@@ -5780,7 +5824,7 @@ inner join dbo.tbl_WorkFlowMaster wfm on wfm.ID = uwfm.WorkFlowMasterID
                     CheckOut = item["CheckOut"].ToString(),
                     Date = item["Date"].ToString(),
                     Department = item["Department"].ToString(),
-                    DESIGNATION=item["DESIGNATION"].ToString(),
+                    DESIGNATION = item["DESIGNATION"].ToString(),
                     EmployeeId = item["EMPLOYID"].ToString(),
                     Name = item["Name"].ToString(),
                     WorkingHours = item["WorkingTime"].ToString(),
